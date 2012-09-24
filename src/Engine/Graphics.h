@@ -7,6 +7,9 @@ class Graphics_Class
     enum Type {AUTO, OPENGL_ES_1_0, OPENGL_ES_2_0};
 
 public:
+    Graphics_Class();
+    virtual Graphics_Class();
+
     void init(Type type = AUTO);
 
     void (*prepareFrame)();

@@ -18,15 +18,15 @@ struct Texture
     float depth;
 };
 
-class ResourceManagerClass
+class ResourceManager_Class
 {
     // groups of names
     std::map<std::string,
              std::map<std::string, Texture> textures;
 
 public:
-    ResourceManagerClass();
-    virtual ~ResourceManagerClass();
+    ResourceManager_Class();
+    virtual ~ResourceManager_Class();
     
     void loadGroup(const char* group);
     const Texture* getTexture(const char* group, const char* name) const;
@@ -34,4 +34,4 @@ public:
     void freeGroups();
 };
 
-typedef Singleton<ResourceManagerClass> ResourceManager;
+typedef Singleton<ResourceManager_Class> ResourceManager;
