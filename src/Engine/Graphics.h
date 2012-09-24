@@ -1,41 +1,31 @@
 #pragma once
 
 #include "misc/Singleton"
-#include "GraphicsDevice.h"
-#include "Texture.h" ???
 
-class GraphicsClass
+class Graphics_Class
 {
-    GraphicsDevice* device;
+    enum Type {AUTO, OPENGL_ES_1_0, OPENGL_ES_2_0};
 
 public:
-    void init();
+    void init(Type type = AUTO);
 
-    void prepareFrame() const;
-    void endFrame() const;
-    void forceRedraw() const;
+    void (*prepareFrame)();
+    void (*endFrame)();
+    void (*forceRedraw)();
 
-    void drawTexture(const Texture* texture,
-                     float x, float y, float width, float height) const;
-    void drawTexture(const Texture* texture,
-                     float x, float y, float width, float height,
-                     float angle,
-                     float centerOffsetX, float centerOffsetY) const;
+    void (*drawTexture)(
+        const char* group, const char* name,
+        float x, float y, float width, float height,
+        bool alphaBlend = true,
+        float angle = 0.0f, float rotX = 0.5f, float rotY = 0.5f,
+        float scaleFactor = 1.0f, float scaleX = 0.5f, float scaleY = 0.5f
+    );
 
-    void drawTexture(const char* textureGroup,
-                     const char* textureName,
-                     float x, float y, float width, float height) const;
-    void drawTexture(const char* textureGroup,
-                     const char* textureName,
-                     float x, float y, float width, float height,
-                     float angle,
-                     float centerOffsetX, float centerOffsetY) const;
+    void (*setClip)(float x, float y, float width, float height);
+    void (*resetClip)();
 
-    void setClip(float x, float y, float width, float height) const;
-    void resetClip() const;
-
-    float getWidth() const;
-    float getHeight() const;
+    float (*getWidth)();
+    float (*getHeight)();
 };
 
-typedef Singleton<GraphicsClass> Graphics;
+typedef Singleton<Graphics_Class> Graphics;
