@@ -1,3 +1,5 @@
 #!/bin/sh
 
-./textureAtlasGen.py -r sprite -t png
+set -e
+cd ../bin
+../tools/AtlasGen/AtlasGen.py -r ../resources -m RGBA -t tga

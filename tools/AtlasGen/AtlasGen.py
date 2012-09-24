@@ -850,7 +850,8 @@ def Main():
         gParser.print_help()
         return (1)
 
-    atlasesPath=gCommandArgs['res_path'] + "/" + "atlases/"
+    #atlasesPath=gCommandArgs['res_path'] + "/" + "atlases/"
+    atlasesPath="atlases/"
 
     if(os.path.isdir(atlasesPath)):
         shutil.rmtree(atlasesPath)
