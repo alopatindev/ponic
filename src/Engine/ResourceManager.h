@@ -13,9 +13,11 @@ extern "C"
 struct Texture
 {
     GLuint id;
+    float x;
+    float y;
     float width;
     float height;
-    float depth;
+    int depth;
 };
 
 class ResourceManager_Class
@@ -29,6 +31,8 @@ public:
     virtual ~ResourceManager_Class();
     
     void loadGroup(const char* group);
+    void freeGroup(const char* group);
+
     const Texture* getTexture(const char* group, const char* name) const;
 
     void freeGroups();
