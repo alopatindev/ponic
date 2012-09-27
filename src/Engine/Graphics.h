@@ -27,6 +27,11 @@ public:
     float (*getCameraY)();
     float (*setZoom)(float zoom = 1.0f);
 
+    // TODO: where and how should we load the font? ResourceManager?
+    // how and where should we select font size for different display sizes?
+    void (*drawText)(float x, float y, const char* text,
+                     int size, const char* font);
+
     // the next functions are considering camera's coordinates and zoom
     void (*drawTexture)(
         const char* group, const char* name,
