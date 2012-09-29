@@ -1,4 +1,4 @@
-#include "ResourceManager.h"
+#include "ImageManager.h"
 #include <cstdlib>
 #include <GL/glu.h>
 
