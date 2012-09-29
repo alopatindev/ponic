@@ -643,7 +643,8 @@ def MakeAtlasOriginal(texMode, dirPath, texSize, atlasPath, dirName):
         print "Doing ", currPath, os.path.isdir(currPath)
         
         imgElement = gDoc.createElement("image")
-        imgElement.setAttribute("imagefile", currPath)
+        #imgElement.setAttribute("imagefile", currPath)
+        imgElement.setAttribute("name", os.path.splitext(currPath)[0])
         
         if (currPath.startswith(".") or os.path.isdir(os.path.join(dirPath, currPath))):
             continue
@@ -717,7 +718,8 @@ def MakeAtlas(texMode, dirPath, texSize, atlasPath, dirName):
         #print "Doing ", currPath, os.path.isdir(currPath)
         
         imgElement = gDoc.createElement("image")
-        imgElement.setAttribute("imagefile", currPath)
+        #imgElement.setAttribute("imagefile", currPath)
+        imgElement.setAttribute("name", os.path.splitext(currPath)[0])
         
         if (currPath.startswith(".") or os.path.isdir(os.path.join(dirPath, currPath))):
             continue

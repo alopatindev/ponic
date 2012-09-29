@@ -4,36 +4,31 @@
 
 class Graphics_Class
 {
-    enum Type {AUTO, OPENGL_ES_1_0, OPENGL_ES_2_0};
-
 public:
     Graphics_Class();
-    virtual Graphics_Class();
+    virtual ~Graphics_Class();
 
-    void init(Type type = AUTO);
+    void init();
 
-    void (*prepareFrame)();
-    void (*endFrame)();
-    void (*forceRedraw)();
+    void prepareFrame();
+    void endFrame();
+    void forceRedraw();
 
-    void (*setClip)(float x, float y, float width, float height);
-    void (*resetClip)();
+    void setClip(float x, float y, float width, float height);
+    void resetClip();
 
-    float (*getWidth)();
-    float (*getHeight)();
+    float getWidth();
+    float getHeight();
 
-    void (*lookAt)(float x, float y);
-    float (*getCameraX)();
-    float (*getCameraY)();
-    float (*setZoom)(float zoom = 1.0f);
+    void lookAt(float x, float y);
+    float getCameraX();
+    float getCameraY();
+    float setZoom(float zoom = 1.0f);
 
-    // TODO: where and how should we load the font? ResourceManager?
-    // how and where should we select font size for different display sizes?
-    void (*drawText)(float x, float y, const char* text,
-                     int size, const char* font);
+    void drawText(float x, float y, const char* text,
+                  int size, const char* font);
 
-    // the next functions are considering camera's coordinates and zoom
-    void (*drawTexture)(
+    void drawTexture(
         const char* group, const char* name,
         float x, float y, float width, float height,
         bool alphaBlend = true,
@@ -41,8 +36,7 @@ public:
         float scaleFactor = 1.0f, float sCenterX = 0.5f, float sCenterY = 0.5f
     );
 
-    bool (*isObjectInCamera)(float x, float y, float width, float height);
-
+    bool isObjectInCamera(float x, float y, float width, float height);
 };
 
 typedef Singleton<Graphics_Class> Graphics;
