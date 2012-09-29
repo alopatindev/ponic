@@ -1,4 +1,5 @@
 #include "ImageManager.h"
+#include "Log.h"
 #include <cstdlib>
 #include <GL/glu.h>
 
@@ -15,7 +16,7 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
     pugi::xml_document doc;
     if (!doc.load_file(filename))
     {
-        std::cerr << "can't load file '" << filename << "'" << std::endl;
+        LOGE("can't load file '%s'", filename);
         return -1;
     }
 
@@ -25,7 +26,7 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
          atlas = atlas.next_sibling())
     {
         std::string groupName = atlas.attribute("name").value();
-        std::cout << "group " << groupName << std::endl;
+        LOGI("group '%s'", groupName);
         GLenum mode = atlas.attribute("mode").value() == std::string("RGBA")
                       ? GL_RGBA
                       : GL_RGB;
@@ -43,7 +44,7 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
             std::string imageName = i.attribute("name").value();
             Image image;
             image.groupName = groupName;
-            std::cout << "image " << imageName << std::endl;
+            LOGI(" image '%s'", imageName);
             image.x = i.attribute("x").as_float();
             image.y = i.attribute("y").as_float();
             image.width = i.attribute("width").as_float();
@@ -100,10 +101,7 @@ const Image* getImage(const char* group, const char* name) const
 {
 #ifdef _DEBUG
     if (!groups[group].loaded)
-    {
-        std::cerr << "trying to get image " << name
-                  << " from unloaded group " << group << std::endl;
-    }
+        LOGI("trying to get image '%s' from unloaded group '%s'", name, group);
 #endif
     return groupsImages[group][name];
 }
