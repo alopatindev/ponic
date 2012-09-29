@@ -3,11 +3,12 @@
 #include <cstdlib>
 #include <GL/glu.h>
 
-ImageManager_Class::ResourceManagerClass()
+ImageManager_Class::ImageManager_Class()
+    : bindedTextureId(0)
 {
 }
 
-ImageManager_Class::~ResourceManagerClass()
+ImageManager_Class::~ImageManager_Class()
 {
 }
 
@@ -69,6 +70,7 @@ void ImageManager_Class::loadGroup(const char* group)
 
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    bindedTextureId = textureId;
 
     // uploading to video memory
     glTexImage2D(GL_TEXTURE_2D, 0, mode, width, height, 0, mode,
@@ -76,6 +78,8 @@ void ImageManager_Class::loadGroup(const char* group)
 
     std::free(tga->data);
     std::free(tga);
+
+    groups[group].textureId = textureId;
     groups[group].loaded = true;
 }
 
@@ -83,6 +87,7 @@ void ImageManager_Class::freeGroup(const char* group)
 {
     Group* g = groups[group];
     g->loaded = false;
+    g->textureId = 0;
     glDeleteTextures(1, g->textureId);
 }
 
@@ -93,6 +98,7 @@ void ImageManager_Class::freeAllGroups()
          ++it)
     {
         it->second.loaded = false;
+        it->second.textureId = 0;
         glDeleteTextures(1, &it->second.textureId);
     }
 }
@@ -101,7 +107,12 @@ const Image* getImage(const char* group, const char* name) const
 {
 #ifdef _DEBUG
     if (!groups[group].loaded)
-        LOGI("trying to get image '%s' from unloaded group '%s'", name, group);
+        LOGE("trying to get image '%s' from unloaded group '%s'", name, group);
 #endif
+
+    GLuint id = groups[group].textureId;
+    if (id != bindedTextureId)
+        glBindTexture(GL_TEXTURE_2D, id);
+
     return groupsImages[group][name];
 }

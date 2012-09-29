@@ -21,7 +21,7 @@ struct Group
 
 struct Image
 {
-    std::string groupName;
+    std::string groupName;  // deprecated member
     float x;
     float y;
     float width;
@@ -33,6 +33,8 @@ class ImageManager_Class
     std::map<std::string, Group> groups;
     std::map< std::string, std::map<std::string, Image> > groupsImages;
 
+    GLuint bindedTextureId;
+
 public:
     ImageManager_Class();
     virtual ~ImageManager_Class();
@@ -43,7 +45,7 @@ public:
     void freeGroup(const char* group);
     void freeAllGroups();
 
-    const Texture* getImage(const char* group, const char* name) const;
+    const Image* bindImage(const char* group, const char* name) const;
 };
 
 typedef Singleton<ImageManager_Class> ImageManager;

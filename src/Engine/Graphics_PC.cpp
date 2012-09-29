@@ -102,21 +102,19 @@ void drawText(float x, float y, const char* text,
 void Graphics_Class::drawTexture(
     const char* group, const char* name,
     float x, float y, float width, float height,
-    bool alphaBlend,
     float angle,
     float scaleFactor, float sCenterY
 )
 {
-    const Texture* texture = ResourceManager::getInstance().getTexture(textureName);
-
     glPushMatrix();
     glLoadIdentity();
     glTranslatef(x, y, 0.0f);
 
-    glBindTexture(GL_TEXTURE_2D, texture->id);
+    const Image* image = ResourceManager::getInstance().bindImage(group, name);
 
     glBegin(GL_QUADS);
 
+    // TODO: put real texture coordinates; rewrite with vertex array
     glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
     glTexCoord2f(0, 1); glVertex3f(0, height, 0);
     glTexCoord2f(1, 1); glVertex3f(width, height, 0);
