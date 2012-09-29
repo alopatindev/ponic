@@ -2,6 +2,7 @@
 #include "Log.h"
 #include <cstdlib>
 #include <GL/glu.h>
+#include "thirdparty/pugixml-1.2/pugixml.hpp"
 
 ImageManager_Class::ImageManager_Class()
     : bindedTextureId(0)
@@ -18,7 +19,6 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
     if (!doc.load_file(filename))
     {
         LOGE("can't load file '%s'", filename);
-        return -1;
     }
 
     pugi::xml_node atlases = doc.child("Root");
@@ -85,10 +85,10 @@ void ImageManager_Class::loadGroup(const char* group)
 
 void ImageManager_Class::freeGroup(const char* group)
 {
-    Group* g = groups[group];
+    Group* g = &groups[group];
     g->loaded = false;
     g->textureId = 0;
-    glDeleteTextures(1, g->textureId);
+    glDeleteTextures(1, &g->textureId);
 }
 
 void ImageManager_Class::freeAllGroups()
@@ -103,7 +103,8 @@ void ImageManager_Class::freeAllGroups()
     }
 }
 
-const Image* getImage(const char* group, const char* name) const
+Image*
+ImageManager_Class::bindImage(const char* group, const char* name)
 {
 #ifdef _DEBUG
     if (!groups[group].loaded)
@@ -114,5 +115,5 @@ const Image* getImage(const char* group, const char* name) const
     if (id != bindedTextureId)
         glBindTexture(GL_TEXTURE_2D, id);
 
-    return groupsImages[group][name];
+    return &groupsImages[group][name];
 }

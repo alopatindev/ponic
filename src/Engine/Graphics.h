@@ -1,6 +1,6 @@
 #pragma once
 
-#include "misc/Singleton"
+#include "misc/Singleton.h"
 
 class Graphics_Class
 {

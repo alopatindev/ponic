@@ -7,7 +7,7 @@
 
 extern "C"
 {
-    #include "thirdparty/tgaload.h"
+    #include "thirdparty/tgaload/tgaload.h"
 };
 
 struct Group
@@ -45,7 +45,7 @@ public:
     void freeGroup(const char* group);
     void freeAllGroups();
 
-    const Image* bindImage(const char* group, const char* name) const;
+    Image* bindImage(const char* group, const char* name);
 };
 
 typedef Singleton<ImageManager_Class> ImageManager;

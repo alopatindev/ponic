@@ -84,7 +84,8 @@ tga_data_t* tga_data_load(const char* fn)
 			{
 				uchar aux;
 
-				for (int i = 0; i < t; i+= md)
+				int i;
+				for (i = 0; i < t; i+= md)
 				{
 					aux = tga->data[i];
 					tga->data[i] = tga->data[i + 2];

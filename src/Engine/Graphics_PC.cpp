@@ -1,4 +1,6 @@
 #include "Graphics.h"
+#include "ImageManager.h"
+#include <GL/glut.h>
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -8,16 +10,16 @@ Graphics_Class::Graphics_Class()
 {
 }
 
-virtual Graphics_Class::~Graphics_Class()
+Graphics_Class::~Graphics_Class()
 {
 }
 
 void Graphics_Class::init()
 {
-    int argc = 1;
-    char argv[1][] = "";
-    glutInit(argc, argv);
-    glutCreateWindow(windowName);
+    int argc = 0;
+    char** argv = 0;
+    glutInit(&argc, argv);
+    glutCreateWindow(WINDOW_TITLE);
     glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
     glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_TEXTURE_2D);
@@ -54,7 +56,6 @@ void Graphics_Class::forceRedraw()
     glutPostRedisplay();
 }
 
-
 void Graphics_Class::setClip(float x, float y, float width, float height)
 {
     glViewport(x, y, width, height);
@@ -89,7 +90,7 @@ float Graphics_Class::getCameraY()
 {
 }
 
-float Graphics_Class::setZoom(float zoom = 1.0f)
+float Graphics_Class::setZoom(float zoom)
 {
 }
 
@@ -102,15 +103,15 @@ void drawText(float x, float y, const char* text,
 void Graphics_Class::drawTexture(
     const char* group, const char* name,
     float x, float y, float width, float height,
-    float angle,
-    float scaleFactor, float sCenterY
+    float angle, float rCenterX, float rCenterY,
+    float scaleFactor, float sCenterX, float sCenterY
 )
 {
     glPushMatrix();
     glLoadIdentity();
     glTranslatef(x, y, 0.0f);
 
-    const Image* image = ResourceManager::getInstance().bindImage(group, name);
+    Image* image = ImageManager::getInstance().bindImage(group, name);
 
     glBegin(GL_QUADS);
 
