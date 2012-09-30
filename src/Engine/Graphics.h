@@ -31,7 +31,7 @@ public:
                   int size, const char* font);
 
     // the next functions are considering camera's coordinates and zoom
-    void drawTexture(
+    void drawImage(
         const char* group, const char* name,
         float x, float y, float width, float height,
         float angle = 0.0f, float rCenterX = 0.5f, float rCenterY = 0.5f,
@@ -42,3 +42,5 @@ public:
 };
 
 typedef Singleton<Graphics_Class> Graphics;
+
+#define GRAPHICS (Graphics::getInstance())

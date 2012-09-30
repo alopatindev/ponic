@@ -1,6 +1,7 @@
 #include "Graphics.h"
 #include "ImageManager.h"
 #include <GL/glut.h>
+#include <Log.h>
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -25,7 +26,8 @@ void Graphics_Class::init()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 }
 
@@ -100,7 +102,7 @@ void drawText(float x, float y, const char* text,
     // TODO
 }
 
-void Graphics_Class::drawTexture(
+void Graphics_Class::drawImage(
     const char* group, const char* name,
     float x, float y, float width, float height,
     float angle, float rCenterX, float rCenterY,
@@ -115,11 +117,12 @@ void Graphics_Class::drawTexture(
 
     glBegin(GL_QUADS);
 
-    // TODO: put real texture coordinates; rewrite with vertex array
-    glTexCoord2f(0, 0); glVertex3f(0, 0, 0);
-    glTexCoord2f(0, 1); glVertex3f(0, height, 0);
-    glTexCoord2f(1, 1); glVertex3f(width, height, 0);
-    glTexCoord2f(1, 0); glVertex3f(width, 0, 0);
+    // rewrite with vertex array; fix the atlas script
+    glTexCoord2f(image->x, 1.0f - (image->height + image->y)); glVertex3f(0, 0, 0);
+    glTexCoord2f(image->x, 1.0f - image->y); glVertex3f(0, height, 0);
+    glTexCoord2f(image->width, 1.0f - image->y); glVertex3f(width, height, 0);
+    glTexCoord2f(image->width, 1.0f - (image->height + image->y)); glVertex3f(width, 0, 0);
+
 
     glEnd();
 
