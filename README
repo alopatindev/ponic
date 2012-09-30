@@ -1,2 +1,23 @@
 Open Source platformer game for GNU/Linux, PC/Window$ and OUYA/Android game console.
 This software licensed under the terms of BSD-2 (read COPYING for details).
+
+
+Building:
+
+It builds on Gentoo GNU/Linux (x86_64) with:
+    =sys-devel/gcc-4.5.4
+    =media-libs/freeglut-2.8.0
+    =x11-apps/mesa-progs-8.0.1
+    =dev-lang/python-2.7.2-r3
+    =dev-python/imaging-1.1.7 (PIL)
+
+In future will be also used:
+    =dev-java/sun-jdk-1.6.0.33 (jdk-6u33-linux-x64.bin)
+    =dev-util/android-ndk-8b
+    =dev-util/android-sdk-update-manager-20.0.3 with Android 4.0.3 (API 15)
+
+Other dependencies (already in repo):
+    pugixml-1.2 (MIT license)
+    sigslot (Public domain) http://sigslot.sourceforge.net/
+    TGA loader (?) http://www.dreamincode.net/code/snippet2076.htm
+    AtlasGenerator (MIT license) https://github.com/pjohalloran/texture-atlas-generator/blob/master/AtlasGenerator.py
