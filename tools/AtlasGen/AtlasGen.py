@@ -752,7 +752,7 @@ def MakeAtlas(texMode, dirPath, texSize, atlasPath, dirName):
         print "MakeAtlas(): ERROR - number of textures in Packer is different to number of images in dir", gTexturePacker.GetNumberTextures(), len(imagesPathList), len(imagesList)
         exit(1)
 
-    atlasTest=Image.new(texMode, (packResult[0], packResult[1]), (128, 128, 128))
+    atlasTest=Image.new(texMode, (packResult[0], packResult[1]), (128, 128, 128, 0))
     
     index = 0
     for tmp in imagesList:
