@@ -14,6 +14,8 @@ ImageManager_Class::~ImageManager_Class()
 
 void ImageManager_Class::loadGroup(const char* group)
 {
+    LOGI("loading group '%s'", group);
+
     GLuint textureId;
     glGenTextures(1, &textureId);
 
@@ -42,6 +44,8 @@ void ImageManager_Class::loadGroup(const char* group)
 
 void ImageManager_Class::freeGroup(const char* group)
 {
+    LOGI("freeing group '%s'", group);
+
     Group* g = &groups[group];
     g->loaded = false;
     g->textureId = 0;
@@ -50,6 +54,7 @@ void ImageManager_Class::freeGroup(const char* group)
 
 void ImageManager_Class::freeAllGroups()
 {
+    LOGI("freeing all groups");
     for (std::map<std::string, Group>::iterator it = groups.begin();
          it != groups.end();
          ++it)
