@@ -22,10 +22,10 @@ struct Group
 struct Image
 {
     std::string groupName;  // deprecated member
-    float x;
-    float y;
-    float width;
-    float height;
+    float left;
+    float top;
+    float right;
+    float bottom;
 };
 
 class ImageManager_Class

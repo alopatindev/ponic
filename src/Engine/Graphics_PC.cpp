@@ -117,12 +117,11 @@ void Graphics_Class::drawImage(
 
     glBegin(GL_QUADS);
 
-    // rewrite with vertex array; fix the atlas script
-    glTexCoord2f(image->x, 1.0f - (image->height + image->y)); glVertex3f(0, 0, 0);
-    glTexCoord2f(image->x, 1.0f - image->y); glVertex3f(0, height, 0);
-    glTexCoord2f(image->width, 1.0f - image->y); glVertex3f(width, height, 0);
-    glTexCoord2f(image->width, 1.0f - (image->height + image->y)); glVertex3f(width, 0, 0);
-
+    // rewrite with vertex array
+    glTexCoord2f(image->left, image->bottom); glVertex3f(0, 0, 0);
+    glTexCoord2f(image->left, image->top); glVertex3f(0, height, 0);
+    glTexCoord2f(image->right, image->top); glVertex3f(width, height, 0);
+    glTexCoord2f(image->right, image->bottom); glVertex3f(width, 0, 0);
 
     glEnd();
 

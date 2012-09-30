@@ -762,10 +762,10 @@ def MakeAtlas(texMode, dirPath, texSize, atlasPath, dirName):
         
         atlasTest.paste(img, (tex.GetX(), tex.GetY()))
         
-        imgElement.setAttribute("x", str(tex.GetX()/atlasWidth))
-        imgElement.setAttribute("y", str(tex.GetY()/atlasHeight))
-        imgElement.setAttribute("width", str(tex.GetWidth()/atlasWidth))
-        imgElement.setAttribute("height", str(tex.GetHeight()/atlasHeight))
+        imgElement.setAttribute("left", str(tex.GetX() / atlasWidth))
+        imgElement.setAttribute("top", str(1.0 - tex.GetY() / atlasHeight))
+        imgElement.setAttribute("right", str((tex.GetX() + tex.GetWidth()) / atlasWidth))
+        imgElement.setAttribute("bottom", str(1.0 - (tex.GetHeight() + tex.GetY()) / atlasHeight))
         imgElement.setAttribute("flipped", str(tex.IsFlipped()))
         
         atlasElement.appendChild(imgElement)

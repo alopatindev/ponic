@@ -36,10 +36,10 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
             Image image;
             image.groupName = groupName;
             LOGI("  image '%s'", imageName.c_str());
-            image.x = i.attribute("x").as_float();
-            image.y = i.attribute("y").as_float();
-            image.width = i.attribute("width").as_float();
-            image.height = i.attribute("height").as_float();
+            image.left = i.attribute("left").as_float();
+            image.top = i.attribute("top").as_float();
+            image.right = i.attribute("right").as_float();
+            image.bottom = i.attribute("bottom").as_float();
             groupsImages[groupName][imageName] = image;
         }
     }
