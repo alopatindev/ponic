@@ -115,15 +115,26 @@ void Graphics_Class::drawImage(
 
     Image* image = ImageManager::getInstance().bindImage(group, name);
 
-    glBegin(GL_QUADS);
+    GLfloat verts[] = {x,         y + height,
+                       x + width, y + height,
+                       x + width, y,
+                       x,         y};
 
-    // rewrite with vertex array
-    glTexCoord2f(image->left, image->bottom); glVertex3f(0, 0, 0);
-    glTexCoord2f(image->left, image->top); glVertex3f(0, height, 0);
-    glTexCoord2f(image->right, image->top); glVertex3f(width, height, 0);
-    glTexCoord2f(image->right, image->bottom); glVertex3f(width, 0, 0);
-
-    glEnd();
+    GLfloat uv[] = {image->left, image->top,
+                    image->right, image->top,
+                    image->right, image->bottom,
+                    image->left, image->bottom};
+ 
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+ 
+    glVertexPointer(2, GL_FLOAT, 0, verts);
+    glTexCoordPointer(2, GL_FLOAT, 0, uv);
+ 
+    glDrawArrays(GL_QUADS, 0, 4);
+ 
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
     glPopMatrix();
 }
