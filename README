@@ -14,7 +14,7 @@ It builds on Gentoo GNU/Linux (x86_64) with:
     =dev-python/imaging-1.1.7 (PIL)
 
 In future will be also used:
-    =dev-java/sun-jdk-1.6.0.33 (jdk-6u33-linux-x64.bin)
+    =dev-java/sun-jdk-1.6.0.33 (jdk-6u33-linux-x64.bin) (http://www.oracle.com/technetwork/java/javase/downloads/jdk6-downloads-1637591.html)
     =dev-util/android-ndk-8b
     =dev-util/android-sdk-update-manager-20.0.3 with Android 4.0.3 (API 15)
 

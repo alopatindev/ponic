@@ -1,3 +1,5 @@
+# vim: textwidth=0
+
 cmake_minimum_required(VERSION 2.8)
 
 project(ponic)
@@ -17,6 +19,8 @@ src/Engine/Input.h
 src/Engine/Log.h
 src/Engine/Log_PC.cpp
 src/Engine/misc/Singleton.h
+src/Engine/System.h
+src/Engine/System.cpp
 src/Engine/thirdparty/pugixml-1.2/pugiconfig.hpp
 src/Engine/thirdparty/pugixml-1.2/pugixml.cpp
 src/Engine/thirdparty/pugixml-1.2/pugixml.hpp

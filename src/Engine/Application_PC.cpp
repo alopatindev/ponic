@@ -1,6 +1,7 @@
 #include "Application.h"
-#include <GL/glut.h>
 #include "Log.h"
+#include "System.h"
+#include <GL/glut.h>
 
 MyApp* Application::app = 0;
 
@@ -27,7 +28,16 @@ void Application::run()
 
 void Application::update()
 {
+    static int timeBase = -1;
+
+    int time = glutGet(GLUT_ELAPSED_TIME);
+    if (timeBase < 0)
+        timeBase = time;
+
     app->update();
+
+    SYSTEM.setDt(time - timeBase);
+    timeBase = time;
 }
 
 void Application::render()
