@@ -35,7 +35,7 @@ public:
         const char* group, const char* name,
         float x, float y, float width, float height,
         float angle = 0.0f, float rCenterX = 0.5f, float rCenterY = 0.5f,
-        float scaleFactor = 1.0f, float sCenterX = 0.5f, float sCenterY = 0.5f
+        float scaleFactor = 1.0f
     );
 
     bool isObjectInCamera(float x, float y, float width, float height);

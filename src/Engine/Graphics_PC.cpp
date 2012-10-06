@@ -106,7 +106,7 @@ void Graphics_Class::drawImage(
     const char* group, const char* name,
     float x, float y, float width, float height,
     float angle, float rCenterX, float rCenterY,
-    float scaleFactor, float sCenterX, float sCenterY
+    float scaleFactor
 )
 {
     glPushMatrix();
@@ -133,9 +133,14 @@ void Graphics_Class::drawImage(
     glVertexPointer(2, GL_FLOAT, 0, verts);
     glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-    // TODO: scaleFactor, sCenterX, sCenterY
-    glTranslatef(x, y, 0.0f);
-    glRotatef(angle, 0.0f, 0.0f, 1.0f);
+    glTranslatef(x - xOffset, y - yOffset, 0.0f);
+
+    if (angle != 0.0f)
+        glRotatef(angle, 0.0f, 0.0f, 1.0f);
+
+    if (scaleFactor != 1.0f)
+        glScalef(scaleFactor, scaleFactor, 1.0f);
+
     glDrawArrays(GL_QUADS, 0, 4);
  
     glDisableClientState(GL_VERTEX_ARRAY);
