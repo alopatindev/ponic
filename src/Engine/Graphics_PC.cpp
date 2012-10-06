@@ -36,8 +36,8 @@ void Graphics_Class::prepareFrame()
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    glOrtho(0.0, glutGet(GLUT_WINDOW_WIDTH),
-            0.0, glutGet(GLUT_WINDOW_HEIGHT),
+    glOrtho(0.0, 1.0,
+            0.0, 1.0,
             -1.0,
             1.0);
     glMatrixMode(GL_MODELVIEW);

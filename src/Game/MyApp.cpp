@@ -3,9 +3,6 @@
 #include <ImageManager.h>
 #include <System.h>
 
-#include <iostream>
-using namespace std;
-
 MyApp::MyApp()
 {
     m_angle = 0.0f;
@@ -51,24 +48,19 @@ void MyApp::render() const
     GRAPHICS.drawImage(
         "game_common",
         "horse_runs01",
-        0.0f,
-        0.0f,
-        GRAPHICS.getWidth(),
-        GRAPHICS.getHeight()
+        0.0f, 0.0f,
+        1.0f, 1.0f
     );
 
     GRAPHICS.drawImage(
         "game_common",
         //"horse_runs01",
         "horse_stands",
-        GRAPHICS.getWidth() / 2,
-        GRAPHICS.getHeight() / 2,
-        GRAPHICS.getWidth() / 2,
-        GRAPHICS.getHeight() / 2,
+        0.5f, 0.5f,
+        0.5f, 0.5f,
         255 / 2,
         m_angle,
-        0.0f,
-        0.0f,
+        0.0f, 0.0f,
         m_scale
     );
     GRAPHICS.endFrame();
