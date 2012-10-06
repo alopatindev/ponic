@@ -34,7 +34,8 @@ public:
     void drawImage(
         const char* group, const char* name,
         float x, float y, float width, float height,
-        float angle = 0.0f, float rCenterX = 0.5f, float rCenterY = 0.5f,
+        int alpha = 255,
+        float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f
     );
 

@@ -22,7 +22,7 @@ void Graphics_Class::init()
     glutInit(&argc, argv);
     glutCreateWindow(WINDOW_TITLE);
     glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
-    glEnable(GL_COLOR_MATERIAL);
+    //glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -47,9 +47,7 @@ void Graphics_Class::prepareFrame()
 
 void Graphics_Class::endFrame()
 {
-    glMatrixMode(GL_PROJECTION);
     glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
     glutSwapBuffers();
 }
 
@@ -60,14 +58,14 @@ void Graphics_Class::forceRedraw()
 
 void Graphics_Class::setClip(float x, float y, float width, float height)
 {
-    glViewport(x, y, width, height);
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(x, y, width, height);
 }
 
 void Graphics_Class::resetClip()
 {
-    glViewport(0, 0, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
+    glDisable(GL_SCISSOR_TEST);
 }
-
 
 float Graphics_Class::getWidth()
 {
@@ -78,7 +76,6 @@ float Graphics_Class::getHeight()
 {
     return glutGet(GLUT_WINDOW_HEIGHT);
 }
-
 
 void Graphics_Class::lookAt(float x, float y)
 {
@@ -105,7 +102,8 @@ void drawText(float x, float y, const char* text,
 void Graphics_Class::drawImage(
     const char* group, const char* name,
     float x, float y, float width, float height,
-    float angle, float rCenterX, float rCenterY,
+    int alpha,
+    float angle, float centerX, float centerY,
     float scaleFactor
 )
 {
@@ -114,8 +112,8 @@ void Graphics_Class::drawImage(
 
     Image* image = ImageManager::getInstance().bindImage(group, name);
 
-    GLfloat xOffset = -rCenterX * width;
-    GLfloat yOffset = -rCenterY * height;
+    GLfloat xOffset = -centerX * width;
+    GLfloat yOffset = -centerY * height;
 
     GLfloat verts[] = {0.0f + xOffset,  height + yOffset,
                        width + xOffset, height + yOffset,
@@ -141,7 +139,17 @@ void Graphics_Class::drawImage(
     if (scaleFactor != 1.0f)
         glScalef(scaleFactor, scaleFactor, 1.0f);
 
+    if (alpha != 0xFF)
+    {
+        // FIXME: looks like a hack; maybe use glColor4i?
+        float a = (float)alpha / 255.0f;
+        glColor4f(1.0f, 1.0f, 1.0f, a);
+    }
+
     glDrawArrays(GL_QUADS, 0, 4);
+
+    if (alpha != 0xFF)
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
  
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);

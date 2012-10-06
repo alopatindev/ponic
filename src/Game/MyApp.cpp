@@ -65,12 +65,12 @@ void MyApp::render() const
         GRAPHICS.getHeight() / 2,
         GRAPHICS.getWidth() / 2,
         GRAPHICS.getHeight() / 2,
+        255 / 2,
         m_angle,
         0.0f,
         0.0f,
         m_scale
     );
-    cout << m_scale << ' ' << m_angle << endl;
     GRAPHICS.endFrame();
     GRAPHICS.forceRedraw();
 }
