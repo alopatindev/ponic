@@ -15,12 +15,6 @@ public:
     void startFrame();
     void endFrame();
 
-    void start2D();
-    void end2D();
-
-    void start3D();
-    void end3D();
-
     void forceRedraw();
 
     void setClip(float x, float y, float width, float height);
@@ -30,11 +24,6 @@ public:
 
     float getWidth();
     float getHeight();
-
-    void lookAt(float x, float y);
-    float getCameraX();
-    float getCameraY();
-    float setZoom(float zoom = 1.0f);
 
     // TODO: where and how should we load the font? ResourceManager?
     // how and where should we select font size for different display sizes?

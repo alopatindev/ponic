@@ -1,7 +1,8 @@
 #include "Graphics.h"
 #include "ImageManager.h"
+#include "Log.h"
+#include "Camera.h"
 #include <GL/glut.h>
-#include <Log.h>
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -43,39 +44,16 @@ void Graphics_Class::startFrame()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
-}
 
-void Graphics_Class::start2D()
-{
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0.0, 1.0,
-            0.0, 1.0,
-            -1.0,
-            1.0);
-    glMatrixMode(GL_MODELVIEW);
-}
-
-void Graphics_Class::end2D()
-{
-    glPopMatrix();
-}
-
-void Graphics_Class::start3D()
-{
     glPushMatrix();
     glLoadIdentity();
     gluPerspective(45.0f, m_aspect, 0.1f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
 }
 
-void Graphics_Class::end3D()
-{
-    glPopMatrix();
-}
-
 void Graphics_Class::endFrame()
 {
+    glPopMatrix();
     glutSwapBuffers();
 }
 
@@ -108,23 +86,6 @@ float Graphics_Class::getWidth()
 float Graphics_Class::getHeight()
 {
     return glutGet(GLUT_WINDOW_HEIGHT);
-}
-
-void Graphics_Class::lookAt(float x, float y)
-{
-    //gluLookAt
-}
-
-float Graphics_Class::getCameraX()
-{
-}
-
-float Graphics_Class::getCameraY()
-{
-}
-
-float Graphics_Class::setZoom(float zoom)
-{
 }
 
 void drawText(float x, float y, const char* text,
@@ -212,7 +173,9 @@ void Graphics_Class::drawImage3D(
     glVertexPointer(3, GL_FLOAT, 0, verts);
     glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-    glTranslatef(x - xOffset, y - yOffset, 0.0f);
+    glTranslatef(x - xOffset - CAMERA.getX(),
+                 y - yOffset - CAMERA.getY(),
+                 CAMERA.getZoom());
 
     if (angle != 0.0f)
         glRotatef(angle, 0.0f, 0.0f, 1.0f);

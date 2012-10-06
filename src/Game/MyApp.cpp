@@ -2,6 +2,7 @@
 #include <Graphics.h>
 #include <ImageManager.h>
 #include <System.h>
+#include <Camera.h>
 
 MyApp::MyApp()
 {
@@ -44,37 +45,26 @@ void MyApp::update()
 void MyApp::render() const
 {
     GRAPHICS.startFrame();
-
-        GRAPHICS.start3D();
-
-            GRAPHICS.drawImage3D(
-                "game_common",
-                //"horse_runs01",
-                "horse_stands",
-                -0.5f, -0.5f, -1.8f,
-                0.5f, 0.5f,
-                m_angle,
-                0.5f, 0.5f,
-                m_scale
-            );
-
-            GRAPHICS.drawImage3D(
-                "game_common",
-                "horse_runs01",
-                -0.5f, -0.5f, -1.4f,
-                1.0f, 1.0f
-            );
-        GRAPHICS.end3D();
-
-        /*GRAPHICS.start2D();
-        GRAPHICS.drawImage2D(
+        GRAPHICS.drawImage3D(
             "game_common",
+            //"horse_runs01",
             "horse_stands",
-            0.0f, 0.0f,
-            1.0f/2, 1.0f/2
+            -0.5f, -0.5f, -1.8f,
+            0.5f, 0.5f,
+            m_angle,
+            0.5f, 0.5f,
+            m_scale
         );
-        GRAPHICS.end2D();*/
 
+        GRAPHICS.drawImage3D(
+            "game_common",
+            "horse_runs01",
+            -0.5f, -0.5f, -1.4f,
+            1.0f, 1.0f
+        );
+
+        CAMERA.lookAt(0.0f, 0.0f);
+        CAMERA.setZoom(-5.0f);
     GRAPHICS.endFrame();
     GRAPHICS.forceRedraw();
 }
