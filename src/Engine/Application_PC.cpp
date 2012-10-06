@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Log.h"
 #include "System.h"
+#include "Graphics.h"
 #include <GL/glut.h>
 
 MyApp* Application::m_app = 0;
@@ -10,9 +11,11 @@ void Application::init()
     std::atexit(Application::destroy);
     m_app = new MyApp();
     m_app->init();
-    glutDisplayFunc(Application::render);
-    glutIdleFunc(Application::update);
-    glutReshapeFunc(Application::reshape);
+    glutDisplayFunc(Application::onRender);
+    glutIdleFunc(Application::onUpdate);
+    glutReshapeFunc(Application::onReshape);
+    Application::onReshape(glutGet(GLUT_WINDOW_WIDTH),
+                           glutGet(GLUT_WINDOW_HEIGHT));
 }
 
 void Application::destroy()
@@ -27,7 +30,7 @@ void Application::run()
     glutMainLoop();
 }
 
-void Application::update()
+void Application::onUpdate()
 {
     static int timeBase = -1;
 
@@ -41,12 +44,12 @@ void Application::update()
     timeBase = time;
 }
 
-void Application::render()
+void Application::onRender()
 {
     m_app->render();
 }
 
-void Application::reshape(int width, int height)
+void Application::onReshape(int width, int height)
 {
-    glViewport(0, 0, width, height);
+    GRAPHICS.onReshape(width, height);
 }

@@ -9,6 +9,7 @@ const char WINDOW_TITLE[] = "Ponic";
 
 Graphics_Class::Graphics_Class()
 {
+    m_aspect = 1.0f;
 }
 
 Graphics_Class::~Graphics_Class()
@@ -22,18 +23,30 @@ void Graphics_Class::init()
     glutInit(&argc, argv);
     glutCreateWindow(WINDOW_TITLE);
     glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
+
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
+    glEnable(GL_DEPTH_TEST);
+
+    glClearDepth(1.0);
+    glDepthFunc(GL_NICEST);
+
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
+    glEnable(GL_BLEND);
+    glAlphaFunc(GL_GREATER, 0.01);
+    glEnable(GL_ALPHA_TEST);
+
+    glClearColor(0.0f, 0.3f, 0.2f, 1.0f);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 }
 
-void Graphics_Class::prepareFrame()
+void Graphics_Class::startFrame()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
+}
+
+void Graphics_Class::start2D()
+{
     glPushMatrix();
     glLoadIdentity();
     glOrtho(0.0, 1.0,
@@ -43,9 +56,26 @@ void Graphics_Class::prepareFrame()
     glMatrixMode(GL_MODELVIEW);
 }
 
-void Graphics_Class::endFrame()
+void Graphics_Class::end2D()
 {
     glPopMatrix();
+}
+
+void Graphics_Class::start3D()
+{
+    glPushMatrix();
+    glLoadIdentity();
+    gluPerspective(45.0f, m_aspect, 0.1f, 100.0f);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void Graphics_Class::end3D()
+{
+    glPopMatrix();
+}
+
+void Graphics_Class::endFrame()
+{
     glutSwapBuffers();
 }
 
@@ -63,6 +93,11 @@ void Graphics_Class::setClip(float x, float y, float width, float height)
 void Graphics_Class::resetClip()
 {
     glDisable(GL_SCISSOR_TEST);
+}
+
+void Graphics_Class::onReshape(int width, int height)
+{
+    glViewport(0, 0, width, height);
 }
 
 float Graphics_Class::getWidth()
@@ -98,10 +133,9 @@ void drawText(float x, float y, const char* text,
     // TODO
 }
 
-void Graphics_Class::drawImage(
+void Graphics_Class::drawImage2D(
     const char* group, const char* name,
     float x, float y, float width, float height,
-    int alpha,
     float angle, float centerX, float centerY,
     float scaleFactor
 )
@@ -138,18 +172,56 @@ void Graphics_Class::drawImage(
     if (scaleFactor != 1.0f)
         glScalef(scaleFactor, scaleFactor, 1.0f);
 
-    if (alpha != 0xFF)
-    {
-        // FIXME: looks like a hack; maybe use glColor4i?
-        float a = (float)alpha / 255.0f;
-        glColor4f(1.0f, 1.0f, 1.0f, a);
-    }
+    glDrawArrays(GL_QUADS, 0, 4);
+ 
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glPopMatrix();
+}
+
+void Graphics_Class::drawImage3D(
+    const char* group, const char* name,
+    float x, float y, float z,
+    float width, float height,
+    float angle, float centerX, float centerY,
+    float scaleFactor
+)
+{
+    glPushMatrix();
+    glLoadIdentity();
+
+    Image* image = ImageManager::getInstance().bindImage(group, name);
+
+    GLfloat xOffset = -centerX * width;
+    GLfloat yOffset = -centerY * height;
+
+    GLfloat verts[] = {0.0f + xOffset,  height + yOffset, z,
+                       width + xOffset, height + yOffset, z,
+                       width + xOffset, 0.0f + yOffset, z,
+                       0.0f + xOffset,  0.0f + yOffset, z};
+
+    GLfloat uv[] = {image->left, image->top,
+                    image->right, image->top,
+                    image->right, image->bottom,
+                    image->left, image->bottom};
+ 
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+ 
+    glVertexPointer(3, GL_FLOAT, 0, verts);
+    glTexCoordPointer(2, GL_FLOAT, 0, uv);
+
+    glTranslatef(x - xOffset, y - yOffset, 0.0f);
+
+    if (angle != 0.0f)
+        glRotatef(angle, 0.0f, 0.0f, 1.0f);
+
+    if (scaleFactor != 1.0f)
+        glScalef(scaleFactor, scaleFactor, 1.0f);
 
     glDrawArrays(GL_QUADS, 0, 4);
 
-    if (alpha != 0xFF)
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
- 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 

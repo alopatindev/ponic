@@ -4,18 +4,29 @@
 
 class Graphics_Class
 {
+    float m_aspect;
+
 public:
     Graphics_Class();
     virtual ~Graphics_Class();
 
     void init();
 
-    void prepareFrame();
+    void startFrame();
     void endFrame();
+
+    void start2D();
+    void end2D();
+
+    void start3D();
+    void end3D();
+
     void forceRedraw();
 
     void setClip(float x, float y, float width, float height);
     void resetClip();
+
+    void onReshape(int width, int height);
 
     float getWidth();
     float getHeight();
@@ -30,11 +41,18 @@ public:
     void drawText(float x, float y, const char* text,
                   int size, const char* font);
 
-    // the next functions are considering camera's coordinates and zoom
-    void drawImage(
+    void drawImage2D(
         const char* group, const char* name,
         float x, float y, float width, float height,
-        int alpha = 255,
+        float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
+        float scaleFactor = 1.0f
+    );
+
+    // the next functions are considering camera's coordinates and zoom
+    void drawImage3D(
+        const char* group, const char* name,
+        float x, float y, float z,
+        float width, float height,
         float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f
     );

@@ -43,26 +43,38 @@ void MyApp::update()
 
 void MyApp::render() const
 {
-    GRAPHICS.prepareFrame();
+    GRAPHICS.startFrame();
 
-    GRAPHICS.drawImage(
-        "game_common",
-        "horse_runs01",
-        0.0f, 0.0f,
-        1.0f, 1.0f
-    );
+        GRAPHICS.start3D();
 
-    GRAPHICS.drawImage(
-        "game_common",
-        //"horse_runs01",
-        "horse_stands",
-        0.5f, 0.5f,
-        0.5f, 0.5f,
-        255 / 2,
-        m_angle,
-        0.0f, 0.0f,
-        m_scale
-    );
+            GRAPHICS.drawImage3D(
+                "game_common",
+                //"horse_runs01",
+                "horse_stands",
+                -0.5f, -0.5f, -1.8f,
+                0.5f, 0.5f,
+                m_angle,
+                0.5f, 0.5f,
+                m_scale
+            );
+
+            GRAPHICS.drawImage3D(
+                "game_common",
+                "horse_runs01",
+                -0.5f, -0.5f, -1.4f,
+                1.0f, 1.0f
+            );
+        GRAPHICS.end3D();
+
+        /*GRAPHICS.start2D();
+        GRAPHICS.drawImage2D(
+            "game_common",
+            "horse_stands",
+            0.0f, 0.0f,
+            1.0f/2, 1.0f/2
+        );
+        GRAPHICS.end2D();*/
+
     GRAPHICS.endFrame();
     GRAPHICS.forceRedraw();
 }
