@@ -111,14 +111,16 @@ void Graphics_Class::drawImage(
 {
     glPushMatrix();
     glLoadIdentity();
-    glTranslatef(x, y, 0.0f);
 
     Image* image = ImageManager::getInstance().bindImage(group, name);
 
-    GLfloat verts[] = {x,         y + height,
-                       x + width, y + height,
-                       x + width, y,
-                       x,         y};
+    GLfloat xOffset = -rCenterX * width;
+    GLfloat yOffset = -rCenterY * height;
+
+    GLfloat verts[] = {0.0f + xOffset,  height + yOffset,
+                       width + xOffset, height + yOffset,
+                       width + xOffset, 0.0f + yOffset,
+                       0.0f + xOffset,  0.0f + yOffset};
 
     GLfloat uv[] = {image->left, image->top,
                     image->right, image->top,
@@ -130,7 +132,10 @@ void Graphics_Class::drawImage(
  
     glVertexPointer(2, GL_FLOAT, 0, verts);
     glTexCoordPointer(2, GL_FLOAT, 0, uv);
- 
+
+    // TODO: scaleFactor, sCenterX, sCenterY
+    glTranslatef(x, y, 0.0f);
+    glRotatef(angle, 0.0f, 0.0f, 1.0f);
     glDrawArrays(GL_QUADS, 0, 4);
  
     glDisableClientState(GL_VERTEX_ARRAY);
