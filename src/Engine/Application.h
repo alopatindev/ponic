@@ -15,4 +15,5 @@ public:
     static void run();
     static void update();
     static void render();
+    static void reshape(int width, int height);
 };

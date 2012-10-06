@@ -22,7 +22,6 @@ void Graphics_Class::init()
     glutInit(&argc, argv);
     glutCreateWindow(WINDOW_TITLE);
     glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
-    //glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -41,7 +40,6 @@ void Graphics_Class::prepareFrame()
             0.0, glutGet(GLUT_WINDOW_HEIGHT),
             -1.0,
             1.0);
-    glViewport(0, 0, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -79,6 +77,7 @@ float Graphics_Class::getHeight()
 
 void Graphics_Class::lookAt(float x, float y)
 {
+    //gluLookAt
 }
 
 float Graphics_Class::getCameraX()

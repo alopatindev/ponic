@@ -12,6 +12,7 @@ void Application::init()
     m_app->init();
     glutDisplayFunc(Application::render);
     glutIdleFunc(Application::update);
+    glutReshapeFunc(Application::reshape);
 }
 
 void Application::destroy()
@@ -43,4 +44,9 @@ void Application::update()
 void Application::render()
 {
     m_app->render();
+}
+
+void Application::reshape(int width, int height)
+{
+    glViewport(0, 0, width, height);
 }
