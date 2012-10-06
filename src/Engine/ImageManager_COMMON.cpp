@@ -22,11 +22,11 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
                       ? GL_RGBA
                       : GL_RGB;
 
-        groups[groupName].textureId = 0;
-        groups[groupName].mode = mode;
-        groups[groupName].loaded = false;
-        groups[groupName].width = atlas.attribute("width").as_float();
-        groups[groupName].height = atlas.attribute("height").as_float();
+        m_groups[groupName].textureId = 0;
+        m_groups[groupName].mode = mode;
+        m_groups[groupName].loaded = false;
+        m_groups[groupName].width = atlas.attribute("width").as_float();
+        m_groups[groupName].height = atlas.attribute("height").as_float();
 
         for(pugi::xml_node i = atlas.first_child();
             i;
@@ -40,7 +40,7 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
             image.top = i.attribute("top").as_float();
             image.right = i.attribute("right").as_float();
             image.bottom = i.attribute("bottom").as_float();
-            groupsImages[groupName][imageName] = image;
+            m_groupsImages[groupName][imageName] = image;
         }
     }
 }

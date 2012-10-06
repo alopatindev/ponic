@@ -30,10 +30,10 @@ struct Image
 
 class ImageManager_Class
 {
-    std::map<std::string, Group> groups;
-    std::map< std::string, std::map<std::string, Image> > groupsImages;
+    std::map<std::string, Group> m_groups;
+    std::map< std::string, std::map<std::string, Image> > m_groupsImages;
 
-    GLuint bindedTextureId;
+    GLuint m_bindedTextureId;
 
 public:
     ImageManager_Class();

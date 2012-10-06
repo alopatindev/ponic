@@ -4,7 +4,7 @@
 
 class System_Class
 {
-    int dt;
+    int m_dt;
 
 public:
     System_Class();

@@ -3,13 +3,13 @@
 #include "System.h"
 #include <GL/glut.h>
 
-MyApp* Application::app = 0;
+MyApp* Application::m_app = 0;
 
 void Application::init()
 {
     std::atexit(Application::destroy);
-    app = new MyApp();
-    app->init();
+    m_app = new MyApp();
+    m_app->init();
     glutDisplayFunc(Application::render);
     glutIdleFunc(Application::update);
 }
@@ -17,8 +17,8 @@ void Application::init()
 void Application::destroy()
 {
     LOGI("exiting app");
-    app->destroy();
-    delete app;
+    m_app->destroy();
+    delete m_app;
 }
 
 void Application::run()
@@ -34,7 +34,7 @@ void Application::update()
     if (timeBase < 0)
         timeBase = time;
 
-    app->update();
+    m_app->update();
 
     SYSTEM.setDt(time - timeBase);
     timeBase = time;
@@ -42,5 +42,5 @@ void Application::update()
 
 void Application::render()
 {
-    app->render();
+    m_app->render();
 }

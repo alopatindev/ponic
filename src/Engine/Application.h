@@ -6,7 +6,8 @@ class MyApp;
 
 class Application
 {
-    static MyApp* app;  // virtual functions are so slow, I won't use them here
+    static MyApp* m_app;  // virtual functions are so slow,
+                          // I won't use them here
 
 public:
     static void init();

@@ -4,7 +4,7 @@
 #include <GL/glu.h>
 
 ImageManager_Class::ImageManager_Class()
-    : bindedTextureId(0)
+    : m_bindedTextureId(0)
 {
 }
 
@@ -23,13 +23,13 @@ void ImageManager_Class::loadGroup(const char* group)
         ("atlases/" + std::string(group) + ".tga").c_str()
     );
 
-    float width = groups[group].width;
-    float height = groups[group].height;
-    GLenum mode = groups[group].mode;
+    float width = m_groups[group].width;
+    float height = m_groups[group].height;
+    GLenum mode = m_groups[group].mode;
 
     glBindTexture(GL_TEXTURE_2D, textureId);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    bindedTextureId = textureId;
+    m_bindedTextureId = textureId;
 
     // uploading to video memory
     glTexImage2D(GL_TEXTURE_2D, 0, mode, width, height, 0, mode,
@@ -38,15 +38,15 @@ void ImageManager_Class::loadGroup(const char* group)
     std::free(tga->data);
     std::free(tga);
 
-    groups[group].textureId = textureId;
-    groups[group].loaded = true;
+    m_groups[group].textureId = textureId;
+    m_groups[group].loaded = true;
 }
 
 void ImageManager_Class::freeGroup(const char* group)
 {
     LOGI("freeing group '%s'", group);
 
-    Group* g = &groups[group];
+    Group* g = &m_groups[group];
     g->loaded = false;
     g->textureId = 0;
     glDeleteTextures(1, &g->textureId);
@@ -55,8 +55,8 @@ void ImageManager_Class::freeGroup(const char* group)
 void ImageManager_Class::freeAllGroups()
 {
     LOGI("freeing all groups");
-    for (std::map<std::string, Group>::iterator it = groups.begin();
-         it != groups.end();
+    for (std::map<std::string, Group>::iterator it = m_groups.begin();
+         it != m_groups.end();
          ++it)
     {
         it->second.loaded = false;
@@ -69,13 +69,13 @@ Image*
 ImageManager_Class::bindImage(const char* group, const char* name)
 {
 #ifdef _DEBUG
-    if (!groups[group].loaded)
+    if (!m_groups[group].loaded)
         LOGE("trying to get image '%s' from unloaded group '%s'", name, group);
 #endif
 
-    GLuint id = groups[group].textureId;
-    if (id != bindedTextureId)
+    GLuint id = m_groups[group].textureId;
+    if (id != m_bindedTextureId)
         glBindTexture(GL_TEXTURE_2D, id);
 
-    return &groupsImages[group][name];
+    return &m_groupsImages[group][name];
 }
