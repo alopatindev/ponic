@@ -715,6 +715,8 @@ def MakeAtlas(texMode, dirPath, texSize, atlasPath, dirName):
     
     # Open all images in the directory and add to the packer.
     for currPath in childDirs:
+        if os.path.splitext(currPath)[1].lower() != '.png':
+            continue
         #print "Doing ", currPath, os.path.isdir(currPath)
         
         imgElement = gDoc.createElement("image")

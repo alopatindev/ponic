@@ -29,5 +29,6 @@ src/Engine/thirdparty/tgaload/tgaload.h
 )
 
 target_link_libraries(bin/ponic
-    -lglut -lGLESv2
+#    -lglut -lGLESv2 -lGLU
+    -lglut -lGLU
 )
