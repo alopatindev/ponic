@@ -8,8 +8,12 @@ add_definitions(-O0 -g -rdynamic -Wall -Isrc/engine -D_DEBUG)
 
 add_executable(bin/ponic
 src/game/main_PC.cpp
+src/game/Effects.cpp
+src/game/Effects.h
 src/game/MyApp.cpp
 src/engine/Application_PC.cpp
+src/engine/FontManager_PC.cpp
+src/engine/FontManager.h
 src/engine/Graphics.h
 src/engine/Graphics_PC.cpp
 src/engine/ImageManager_COMMON.cpp

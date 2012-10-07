@@ -42,8 +42,11 @@ public:
 
     // TODO: where and how should we load the font? ResourceManager?
     // how and where should we select font size for different display sizes?
-    void drawText(float x, float y, const char* text,
-                  int size, const char* font);
+    void drawText2D(const char* fontName, int size,
+                    const char* text,
+                    float x, float y,
+                    float r, float g, float b,
+                    bool outline = false);
 
     void drawImage2D(
         const char* group, const char* name,

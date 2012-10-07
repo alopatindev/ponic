@@ -2,6 +2,7 @@
 #include "ImageManager.h"
 #include "Log.h"
 #include "Camera.h"
+#include "FontManager.h"
 #include <GL/glut.h>
 
 const int SCREEN_WIDTH = 800;
@@ -91,10 +92,14 @@ float Graphics_Class::getHeight()
     return glutGet(GLUT_WINDOW_HEIGHT);
 }
 
-void drawText(float x, float y, const char* text,
-              int size, const char* font)
+void Graphics_Class::drawText2D(const char* fontName, int size,
+                                const char* text,
+                                float x, float y,
+                                float r, float g, float b,
+                                bool outline)
 {
     // TODO
+    //FontManager::getInstance().bindFont(fontName, size);
 }
 
 void Graphics_Class::drawImage2D(
