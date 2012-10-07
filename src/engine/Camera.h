@@ -4,15 +4,15 @@
 
 class Camera_Class
 {
-    float x;
-    float y;
-    float z;
+    float m_x;
+    float m_y;
+    float m_z;
 
 public:
     Camera_Class()
-        : x(0.0f),
-          y(0.0f),
-          z(-1.0f)
+        : m_x(0.0f),
+          m_y(0.0f),
+          m_z(-1.0f)
     {
     }
 
@@ -22,28 +22,28 @@ public:
 
     float getX()
     {
-        return x;
+        return m_x;
     }
 
     float getY()
     {
-        return y;
+        return m_y;
     }
 
     float getZoom()
     {
-        return z;
+        return m_z;
     }
 
     void lookAt(float x, float y)
     {
-        this->x = x;
-        this->y = y;
+        m_x = x;
+        m_y = y;
     }
 
     void setZoom(float zoom = -1.0f)
     {
-        z = zoom;
+        m_z = zoom;
     }
 
     bool isVisible(float x, float y, float width, float height)

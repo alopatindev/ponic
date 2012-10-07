@@ -5,6 +5,7 @@
 class Graphics_Class
 {
     float m_aspect;
+    float m_color;
 
 public:
     Graphics_Class();
@@ -16,6 +17,20 @@ public:
     void endFrame();
 
     void forceRedraw();
+
+    void setColor(float color)
+    {
+        if (color <= 0.0f)
+            color = 0.0f;
+        else if (color >= 1.0f)
+            color = 1.0f;
+        m_color = color;
+    }
+
+    float getColor()
+    {
+        return m_color;
+    }
 
     void setClip(float x, float y, float width, float height);
     void resetClip();

@@ -11,6 +11,7 @@ const char WINDOW_TITLE[] = "Ponic";
 Graphics_Class::Graphics_Class()
 {
     m_aspect = 1.0f;
+    m_color = 1.0f;
 }
 
 Graphics_Class::~Graphics_Class()
@@ -49,6 +50,8 @@ void Graphics_Class::startFrame()
     glLoadIdentity();
     gluPerspective(45.0f, m_aspect, 0.1f, 100.0f);
     glMatrixMode(GL_MODELVIEW);
+
+    glColor3f(m_color, m_color, m_color);
 }
 
 void Graphics_Class::endFrame()

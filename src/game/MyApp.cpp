@@ -3,6 +3,8 @@
 #include <ImageManager.h>
 #include <System.h>
 #include <Camera.h>
+#include <Log.h>
+#include "Effects.h"
 
 MyApp::MyApp()
 {
@@ -30,6 +32,8 @@ void MyApp::destroy()
 void MyApp::update()
 {
     m_timer += SYSTEM.getDt();
+
+    EFFECTS.update(SYSTEM.getDt());
     
     static float sign = 1;
     if (m_timer >= 10)
