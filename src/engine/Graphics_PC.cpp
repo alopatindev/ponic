@@ -22,8 +22,9 @@ void Graphics_Class::init()
     int argc = 0;
     char** argv = 0;
     glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
-    glutReshapeWindow(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_DEPTH_TEST);
@@ -37,7 +38,6 @@ void Graphics_Class::init()
     glEnable(GL_ALPHA_TEST);
 
     glClearColor(0.0f, 0.3f, 0.2f, 1.0f);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 }
 
 void Graphics_Class::startFrame()
