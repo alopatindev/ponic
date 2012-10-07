@@ -45,8 +45,6 @@ public:
         float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f
     );
-
-    bool isObjectInCamera(float x, float y, float width, float height);
 };
 
 typedef Singleton<Graphics_Class> Graphics;

@@ -45,6 +45,10 @@ public:
     {
         z = zoom;
     }
+
+    bool isVisible(float x, float y, float width, float height)
+    {
+    }
 };
 
 typedef Singleton<Camera_Class> Camera;

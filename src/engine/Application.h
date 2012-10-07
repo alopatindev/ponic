@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Game/MyApp.h"
+#include "../game/MyApp.h"
 
 class MyApp;
 

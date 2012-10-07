@@ -190,8 +190,3 @@ void Graphics_Class::drawImage3D(
 
     glPopMatrix();
 }
-
-bool Graphics_Class::isObjectInCamera(float x, float y,
-                                      float width, float height)
-{
-}
