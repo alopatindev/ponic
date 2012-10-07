@@ -1,10 +1,11 @@
 #include "MyApp.h"
+#include "Effects.h"
 #include <Graphics.h>
 #include <ImageManager.h>
+#include <FontManager.h>
 #include <System.h>
 #include <Camera.h>
 #include <Log.h>
-#include "Effects.h"
 
 MyApp::MyApp()
 {
@@ -22,6 +23,7 @@ void MyApp::init()
     GRAPHICS.init();
     ImageManager::getInstance().parseAtlasXML("atlases/atlasDictionary.xml");
     ImageManager::getInstance().loadGroup("game_common");
+    FontManager::getInstance().loadFont("font.ttf", 16, 24, 38, 0);
 }
 
 void MyApp::destroy()
