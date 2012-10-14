@@ -6,10 +6,7 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
 {
     LOGI("parsing '%s'", filename);
     pugi::xml_document doc;
-    if (!doc.load_file(filename))
-    {
-        LOGE("can't load file '%s'", filename);
-    }
+    ASSERT(doc.load_file(filename), "")
 
     pugi::xml_node atlases = doc.child("Root");
     for (pugi::xml_node atlas = atlases.first_child();

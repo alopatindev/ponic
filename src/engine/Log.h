@@ -1,6 +1,7 @@
 #pragma once
 
 #include "misc/Singleton.h"
+#include "Assert.h"
 #include <cstdlib>
 
 class Log_Class
@@ -15,11 +16,11 @@ public:
 typedef Singleton<Log_Class> Log;
 
 #ifdef _DEBUG
-    #define LOGI(...) Log::getInstance().info(__VA_ARGS__);
-    #define LOGW(...) Log::getInstance().warn(__VA_ARGS__);
-    #define LOGE(...) Log::getInstance().err(__VA_ARGS__);
+    #define LOGI(...) Log::getInstance().info(__VA_ARGS__)
+    #define LOGW(...) Log::getInstance().warn(__VA_ARGS__)
+    #define LOGE(...) Log::getInstance().err(__VA_ARGS__)
 #else
-    #define LOGI(...) if (false)
-    #define LOGW(...) if (false)
-    #define LOGE(...) if (false)
+    #define LOGI(...) {}
+    #define LOGW(...) {}
+    #define LOGE(...) {}
 #endif

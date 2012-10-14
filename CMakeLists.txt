@@ -22,6 +22,7 @@ src/game/main_PC.cpp
 src/game/Effects.cpp
 src/game/Effects.h
 src/game/MyApp.cpp
+src/engine/Assert.h
 src/engine/Application_PC.cpp
 src/engine/FontManager_PC.cpp
 src/engine/FontManager.h

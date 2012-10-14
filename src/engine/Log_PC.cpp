@@ -1,6 +1,7 @@
 #include "Log.h"
 #include <cstdio>
 #include <cstdarg>
+#include <string>
 
 #ifdef __linux__
 extern "C"
@@ -47,9 +48,6 @@ void Log_Class::err(const char* format, ...)
     printf("\033[01;31m%s\n", buffer);  // red
     std::fflush(stdout);
     va_end(args);
-
-    // TODO: print stack only on ASSERT
-    //printStack(2);
 }
 
 void Log_Class::printStack(size_t skip, size_t depth)
@@ -61,7 +59,13 @@ void Log_Class::printStack(size_t skip, size_t depth)
     char** btext = backtrace_symbols(bbuffer, bsize);
     for (size_t i = skip; i < bsize; ++i)
     {
-        printf("\033[01;31m%s\n", btext[i]);
+        size_t offset = std::string(btext[i]).find("/ponic(");
+        if (offset == std::string::npos)
+            offset = 0;
+        else
+            offset += 6;
+
+        printf("\033[01;31m%s\n", btext[i] + offset);
         std::fflush(stdout);
     }
     printf("\033[00m\n\n");

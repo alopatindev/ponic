@@ -7,6 +7,7 @@
 #include "Camera.h"
 #include "FontManager.h"
 #include "Utils.h"
+#include "Assert.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -49,11 +50,8 @@ void Graphics_Class::init()
     glutCreateWindow(WINDOW_TITLE);
 
     glewInit();
-    if (!(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader))
-    {
-        LOGE("no GLSL support\n");
-        exit(1);
-    }
+    ASSERT(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader,
+           "no GLSL support")
 
     initShaders();
 
