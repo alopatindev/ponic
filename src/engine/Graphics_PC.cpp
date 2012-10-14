@@ -87,7 +87,10 @@ void Graphics_Class::forceRedraw()
 void Graphics_Class::setClip(float x, float y, float width, float height)
 {
     glEnable(GL_SCISSOR_TEST);
-    glScissor(x, y, width, height);
+    glScissor(x * getWidth(),
+              1.0f - y * getHeight(),
+              width * getWidth(),
+              height * getHeight());
 }
 
 void Graphics_Class::resetClip()
