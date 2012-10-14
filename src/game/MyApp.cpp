@@ -35,11 +35,13 @@ void MyApp::update()
 {
     m_timer += SYSTEM.getDt();
 
+    EFFECTS.startFadeIn();
     EFFECTS.update(SYSTEM.getDt());
     
     static float sign = 1;
     if (m_timer >= 10)
     {
+        //CAMERA.lookAt(CAMERA.getX() + 0.01f, 0.0f);
         m_timer = 0;
         m_angle += 5.0f;
         m_scale += 0.1f * sign;
@@ -65,12 +67,20 @@ void MyApp::render() const
         GRAPHICS.drawImage3D(
             "game_common",
             "horse_runs01",
-            -0.5f, -0.5f, -1.4f,
+            -0.5f, -0.5f, -5.0f,
             1.0f, 1.0f
         );
 
-        CAMERA.lookAt(0.0f, 0.0f);
-        CAMERA.setZoom(-5.0f);
+        GRAPHICS.drawImage2D(
+            "game_common",
+            "horse_runs01",
+            -1.0f, -0.5f,
+            1.0f, 1.0f
+        );
+
+        //CAMERA.lookAt(0.2f, 0.0f);
+        //CAMERA.setZoom(-5.0f);
+        CAMERA.update();
     GRAPHICS.endFrame();
     GRAPHICS.forceRedraw();
 }

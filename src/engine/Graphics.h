@@ -1,6 +1,7 @@
 #pragma once
 
 #include "misc/Singleton.h"
+#include "Log.h"
 
 class Graphics_Class
 {
@@ -24,6 +25,7 @@ public:
             color = 0.0f;
         else if (color >= 1.0f)
             color = 1.0f;
+        //LOGI("setColor(%3.3f)", color);
         m_color = color;
     }
 

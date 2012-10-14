@@ -36,6 +36,8 @@ src/engine/Log_PC.cpp
 src/engine/misc/Singleton.h
 src/engine/System.h
 src/engine/System.cpp
+src/engine/Utils.h
+src/engine/Utils.cpp
 src/engine/thirdparty/freetype-gl/freetype-gl.h
 src/engine/thirdparty/freetype-gl/opengl.h
 src/engine/thirdparty/freetype-gl/texture-atlas.c
@@ -58,6 +60,6 @@ src/engine/thirdparty/tgaload/tgaload.h
 
 target_link_libraries(bin/ponic
 #    -lglut -lGLESv2 -lGLU
-    -lglut -lGLU
+    -lglut -lGLU -lGLEW
     ${FREETYPE2_LIBRARIES}
 )

@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <GL/glew.h>
 #include "Log.h"
 #include "System.h"
 #include "Graphics.h"

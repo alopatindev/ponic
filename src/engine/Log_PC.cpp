@@ -48,7 +48,8 @@ void Log_Class::err(const char* format, ...)
     std::fflush(stdout);
     va_end(args);
 
-    printStack(2);
+    // TODO: print stack only on ASSERT
+    //printStack(2);
 }
 
 void Log_Class::printStack(size_t skip, size_t depth)

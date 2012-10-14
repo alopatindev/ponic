@@ -8,11 +8,18 @@ class Camera_Class
     float m_y;
     float m_z;
 
+    float m_tx;
+    float m_ty;
+    float m_tz;
+
 public:
     Camera_Class()
         : m_x(0.0f),
           m_y(0.0f),
-          m_z(-1.0f)
+          m_z(0.0f),
+          m_tx(0.0f),
+          m_ty(0.0f),
+          m_tz(0.0f)
     {
     }
 
@@ -37,13 +44,20 @@ public:
 
     void lookAt(float x, float y)
     {
-        m_x = x;
-        m_y = y;
+        m_tx = x;
+        m_ty = y;
     }
 
-    void setZoom(float zoom = -1.0f)
+    void setZoom(float zoom = 0.0f)
     {
-        m_z = zoom;
+        m_tz = zoom;
+    }
+
+    void update()
+    {
+        m_x = m_tx;
+        m_y = m_ty;
+        m_z = m_tz;
     }
 
     bool isVisible(float x, float y, float width, float height)
