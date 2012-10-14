@@ -54,7 +54,8 @@ public:
         const char* group, const char* name,
         float x, float y, float width, float height,
         float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
-        float scaleFactor = 1.0f
+        float scaleFactor = 1.0f,
+        float opacity = 1.0f
     );
 
     // the next functions are considering camera's coordinates and zoom
@@ -63,7 +64,8 @@ public:
         float x, float y, float z,
         float width, float height,
         float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
-        float scaleFactor = 1.0f
+        float scaleFactor = 1.0f,
+        float opacity = 1.0f
     );
 };
 

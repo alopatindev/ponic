@@ -20,6 +20,7 @@ GLhandleARB uniformOrtho,
             uniformAngle,
             uniformScale,
             uniformPosition,
+            uniformOpacity,
             uniformPerspProjMat;
 
 void initShaders();
@@ -42,7 +43,8 @@ void Graphics_Class::init()
     int argc = 0;
     char** argv = 0;
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    //glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGB | GLUT_ALPHA | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
 
@@ -133,7 +135,8 @@ void Graphics_Class::drawImage2D(
     const char* group, const char* name,
     float x, float y, float width, float height,
     float angle, float centerX, float centerY,
-    float scaleFactor
+    float scaleFactor,
+    float opacity
 )
 {
     Image* image = ImageManager::getInstance().bindImage(group, name);
@@ -150,12 +153,6 @@ void Graphics_Class::drawImage2D(
                     image->right, image->top,
                     image->right, image->bottom,
                     image->left, image->bottom};
- 
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
- 
-    glVertexPointer(2, GL_FLOAT, 0, verts);
-    glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
     glUniform1fARB(uniformOrtho, true);
 
@@ -170,8 +167,16 @@ void Graphics_Class::drawImage2D(
 
     glUniform1fARB(uniformScale, scaleFactor);
 
+    glUniform1fARB(uniformOpacity, opacity);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, 0, verts);
+    glTexCoordPointer(2, GL_FLOAT, 0, uv);
+
     glDrawArrays(GL_QUADS, 0, 4);
- 
+
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
@@ -181,7 +186,8 @@ void Graphics_Class::drawImage3D(
     float x, float y, float z,
     float width, float height,
     float angle, float centerX, float centerY,
-    float scaleFactor
+    float scaleFactor,
+    float opacity
 )
 {
     Image* image = ImageManager::getInstance().bindImage(group, name);
@@ -198,12 +204,6 @@ void Graphics_Class::drawImage3D(
                     image->right, image->top,
                     image->right, image->bottom,
                     image->left, image->bottom};
- 
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
- 
-    glVertexPointer(3, GL_FLOAT, 0, verts);
-    glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
     glUniform1fARB(uniformOrtho, false);
 
@@ -217,6 +217,14 @@ void Graphics_Class::drawImage3D(
     glUniform1fARB(uniformAngle, angle);
 
     glUniform1fARB(uniformScale, scaleFactor);
+
+    glUniform1fARB(uniformOpacity, opacity);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(3, GL_FLOAT, 0, verts);
+    glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
     glDrawArrays(GL_QUADS, 0, 4);
 
@@ -261,6 +269,7 @@ void initShaders()
     uniformAngle = glGetUniformLocationARB(shaderProgram, "angle");
     uniformScale = glGetUniformLocationARB(shaderProgram, "scale");
     uniformPosition = glGetUniformLocationARB(shaderProgram, "position");
+    uniformOpacity = glGetUniformLocationARB(shaderProgram, "opacity");
     uniformPerspProjMat = glGetUniformLocationARB(
         shaderProgram, "perspProjMat"
     );

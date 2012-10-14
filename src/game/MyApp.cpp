@@ -55,20 +55,21 @@ void MyApp::render() const
     GRAPHICS.startFrame();
         GRAPHICS.drawImage3D(
             "game_common",
+            "horse_runs01",
+            -0.5f, -0.5f, -5.0f,
+            1.0f, 1.0f
+        );
+
+        GRAPHICS.drawImage3D(
+            "game_common",
             //"horse_runs01",
             "horse_stands",
             -0.5f, -0.5f, -1.8f,
             0.5f, 0.5f,
             m_angle,
             0.5f, 0.5f,
-            m_scale
-        );
-
-        GRAPHICS.drawImage3D(
-            "game_common",
-            "horse_runs01",
-            -0.5f, -0.5f, -5.0f,
-            1.0f, 1.0f
+            m_scale,
+            0.5f
         );
 
         GRAPHICS.drawImage2D(
