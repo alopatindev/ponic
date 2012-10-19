@@ -2,11 +2,34 @@
 
 #include "misc/Singleton.h"
 #include "Log.h"
+#include <map>
+#include <queue>
+#include <string>
 
 class Graphics_Class
 {
-    float m_aspect;
-    float m_color;
+    float m_color;  // FIXME: deprecated
+
+    struct Command
+    {
+        enum {Image2D, Image3D} type;
+        std::string group;
+        std::string name;
+        float x;
+        float y;
+        float z;
+        float width;
+        float height;
+        float angle;
+        float centerX;
+        float centerY;
+        float scaleFactor;
+        float opacity;
+    };
+
+    typedef std::map< float, std::queue<Command*> > BufferType;
+    BufferType m_imagesBuffer;
+    BufferType m_imagesBufferTransparent;
 
 public:
     Graphics_Class();
@@ -67,6 +90,11 @@ public:
         float scaleFactor = 1.0f,
         float opacity = 1.0f
     );
+
+private:
+    inline void flushImage2D(const Command* command);
+    inline void flushImage3D(const Command* command);
+    inline void flushGeomerty(BufferType & buffer);
 };
 
 typedef Singleton<Graphics_Class> Graphics;

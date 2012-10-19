@@ -31,7 +31,6 @@ void buildPerspProjMat(float *m, float fov,
 
 Graphics_Class::Graphics_Class()
 {
-    m_aspect = 1.0f;
     m_color = 1.0f;
 }
 
@@ -76,7 +75,37 @@ void Graphics_Class::startFrame()
 
 void Graphics_Class::endFrame()
 {
+    flushGeomerty(m_imagesBuffer);
+    flushGeomerty(m_imagesBufferTransparent);
     glutSwapBuffers();
+}
+
+inline void Graphics_Class::flushGeomerty(BufferType & buffer)
+{
+    for (BufferType::iterator it = buffer.begin();
+         it != buffer.end();
+         ++it)
+    {
+        while (!it->second.empty())
+        {
+            Command* c = it->second.front();
+
+            switch (c->type)
+            {
+            case Command::Image2D:
+                flushImage2D(c);
+                break;
+            case Command::Image3D:
+                flushImage3D(c);
+                break;
+            default:
+                break;
+            }
+
+            delete c;
+            it->second.pop();
+        }
+    }
 }
 
 void Graphics_Class::forceRedraw()
@@ -100,10 +129,9 @@ void Graphics_Class::resetClip()
 
 void Graphics_Class::onReshape(int width, int height)
 {
-    m_aspect = (float)width / (float)height;
-
     float perspMatrix[16];
-    buildPerspProjMat(perspMatrix, 45.0f, m_aspect, 0.1f, 100.0f);
+    float aspect = (float)width / (float)height;
+    buildPerspProjMat(perspMatrix, 45.0f, aspect, 0.1f, 100.0f);
     glUniformMatrix4fvARB(uniformPerspProjMat, 1, GL_FALSE, perspMatrix);
 
     glViewport(0, 0, width, height);
@@ -137,14 +165,71 @@ void Graphics_Class::drawImage2D(
     float opacity
 )
 {
-    Image* image = ImageManager::getInstance().bindImage(group, name);
+    float z = 0.0f;
+    Command* c = new Command;
 
-    GLfloat xOffset = -centerX * width;
-    GLfloat yOffset = -centerY * height;
+    c->type = Command::Image2D;
+    c->group = std::string(group);
+    c->name = std::string(name);
+    c->x = x;
+    c->y = y;
+    c->z = z;
+    c->width = width;
+    c->height = height;
+    c->angle = angle;
+    c->centerX = centerX;
+    c->centerY = centerY;
+    c->scaleFactor = scaleFactor;
+    c->opacity = opacity;
 
-    GLfloat verts[] = {0.0f + xOffset,  height + yOffset,
-                       width + xOffset, height + yOffset,
-                       width + xOffset, 0.0f + yOffset,
+    if (opacity != 1.0f)
+        m_imagesBufferTransparent[-z].push(c);
+    else
+        m_imagesBuffer[z].push(c);
+}
+
+void Graphics_Class::drawImage3D(
+    const char* group, const char* name,
+    float x, float y, float z,
+    float width, float height,
+    float angle, float centerX, float centerY,
+    float scaleFactor,
+    float opacity
+)
+{
+    Command* c = new Command;
+
+    c->type = Command::Image2D;
+    c->group = std::string(group);
+    c->name = std::string(name);
+    c->x = x;
+    c->y = y;
+    c->z = z;
+    c->width = width;
+    c->height = height;
+    c->angle = angle;
+    c->centerX = centerX;
+    c->centerY = centerY;
+    c->scaleFactor = scaleFactor;
+    c->opacity = opacity;
+
+    if (opacity != 1.0f)
+        m_imagesBufferTransparent[-z].push(c);
+    else
+        m_imagesBuffer[z].push(c);
+}
+
+inline void Graphics_Class::flushImage2D(const Command* c)
+{
+    Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
+                                                         c->name.c_str());
+
+    GLfloat xOffset = -c->centerX * c->width;
+    GLfloat yOffset = -c->centerY * c->height;
+
+    GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset,
+                       c->width + xOffset, c->height + yOffset,
+                       c->width + xOffset, 0.0f + yOffset,
                        0.0f + xOffset,  0.0f + yOffset};
 
     GLfloat uv[] = {image->left, image->top,
@@ -155,17 +240,17 @@ void Graphics_Class::drawImage2D(
     glUniform1fARB(uniformOrtho, true);
 
     float position[4];
-    position[0] = x - xOffset;
-    position[1] = y - yOffset;
+    position[0] = c->x - xOffset;
+    position[1] = c->y - yOffset;
     position[2] = 0.0f;
     position[3] = 0.0f;
     glUniform4fvARB(uniformPosition, 1, position);
 
-    glUniform1fARB(uniformAngle, angle);
+    glUniform1fARB(uniformAngle, c->angle);
 
-    glUniform1fARB(uniformScale, scaleFactor);
+    glUniform1fARB(uniformScale, c->scaleFactor);
 
-    glUniform1fARB(uniformOpacity, opacity);
+    glUniform1fARB(uniformOpacity, c->opacity);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -179,24 +264,18 @@ void Graphics_Class::drawImage2D(
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void Graphics_Class::drawImage3D(
-    const char* group, const char* name,
-    float x, float y, float z,
-    float width, float height,
-    float angle, float centerX, float centerY,
-    float scaleFactor,
-    float opacity
-)
+inline void Graphics_Class::flushImage3D(const Command* c)
 {
-    Image* image = ImageManager::getInstance().bindImage(group, name);
+    Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
+                                                         c->name.c_str());
 
-    GLfloat xOffset = -centerX * width;
-    GLfloat yOffset = -centerY * height;
+    GLfloat xOffset = -c->centerX * c->width;
+    GLfloat yOffset = -c->centerY * c->height;
 
-    GLfloat verts[] = {0.0f + xOffset,  height + yOffset, z,
-                       width + xOffset, height + yOffset, z,
-                       width + xOffset, 0.0f + yOffset, z,
-                       0.0f + xOffset,  0.0f + yOffset, z};
+    GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset, c->z,
+                       c->width + xOffset, c->height + yOffset, c->z,
+                       c->width + xOffset, 0.0f + yOffset, c->z,
+                       0.0f + xOffset,  0.0f + yOffset, c->z};
 
     GLfloat uv[] = {image->left, image->top,
                     image->right, image->top,
@@ -206,17 +285,17 @@ void Graphics_Class::drawImage3D(
     glUniform1fARB(uniformOrtho, false);
 
     float position[4];
-    position[0] = x - xOffset - CAMERA.getX();
-    position[1] = y - yOffset - CAMERA.getY();
+    position[0] = c->x - xOffset - CAMERA.getX();
+    position[1] = c->y - yOffset - CAMERA.getY();
     position[2] = CAMERA.getZoom();
     position[3] = 0.0f;
     glUniform4fvARB(uniformPosition, 1, position);
 
-    glUniform1fARB(uniformAngle, angle);
+    glUniform1fARB(uniformAngle, c->angle);
 
-    glUniform1fARB(uniformScale, scaleFactor);
+    glUniform1fARB(uniformScale, c->scaleFactor);
 
-    glUniform1fARB(uniformOpacity, opacity);
+    glUniform1fARB(uniformOpacity, c->opacity);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
