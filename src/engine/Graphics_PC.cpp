@@ -183,7 +183,7 @@ void Graphics_Class::drawImage2D(
     c->opacity = opacity;
 
     if (opacity != 1.0f)
-        m_imagesBufferTransparent[-z].push(c);
+        m_imagesBufferTransparent[z].push(c);
     else
         m_imagesBuffer[z].push(c);
 }
@@ -199,7 +199,7 @@ void Graphics_Class::drawImage3D(
 {
     Command* c = new Command;
 
-    c->type = Command::Image2D;
+    c->type = Command::Image3D;
     c->group = std::string(group);
     c->name = std::string(name);
     c->x = x;
@@ -214,7 +214,7 @@ void Graphics_Class::drawImage3D(
     c->opacity = opacity;
 
     if (opacity != 1.0f)
-        m_imagesBufferTransparent[-z].push(c);
+        m_imagesBufferTransparent[z].push(c);
     else
         m_imagesBuffer[z].push(c);
 }
