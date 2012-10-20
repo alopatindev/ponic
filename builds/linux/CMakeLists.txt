@@ -18,24 +18,24 @@ include_directories(
 add_definitions(-O0 -g -rdynamic -Wall -D_DEBUG)
 
 add_executable(bin/ponic
-../../src/game/main_PC.cpp
 ../../src/game/Effects.cpp
 ../../src/game/Effects.h
 ../../src/game/MyApp.cpp
 ../../src/engine/Assert.h
 ../../src/engine/Application.h
-../../src/engine/Application_PC.cpp
-../../src/engine/FontManager_PC.cpp
+../../src/engine/platforms/linux/Application.cpp
+../../src/engine/platforms/linux/FontManager.cpp
 ../../src/engine/FontManager.h
 ../../src/engine/Graphics.h
-../../src/engine/Graphics_PC.cpp
-../../src/engine/ImageManager_COMMON.cpp
-../../src/engine/ImageManager_PC.cpp
 ../../src/engine/ImageManager.h
 ../../src/engine/Input.h
 ../../src/engine/Log.h
-../../src/engine/Log_PC.cpp
 ../../src/engine/misc/Singleton.h
+../../src/engine/platforms/common/ImageManager.cpp
+../../src/engine/platforms/linux/Graphics.cpp
+../../src/engine/platforms/linux/ImageManager.cpp
+../../src/engine/platforms/linux/Log.cpp
+../../src/engine/platforms/linux/main.cpp
 ../../src/engine/System.h
 ../../src/engine/System.cpp
 ../../src/engine/Utils.h
