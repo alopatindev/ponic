@@ -4,10 +4,13 @@
 #include <GLES2/gl2ext.h>
 
 #include "Log.h"
+#include "ImageManager.h"
 
 bool setupGraphics(int w, int h) {
     LOGI("setupGraphics(%d, %d)", w, h);
     glViewport(0, 0, w, h);
+    ImageManager::getInstance().parseAtlasXML("atlases/atlasDictionary.xml");
+    //ImageManager::getInstance().loadGroup("game_common");
     return true;
 }
 

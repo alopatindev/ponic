@@ -1,10 +1,10 @@
 #include "Log.h"
 #include <cstdio>
+#include <cstdarg>
 
 extern "C"
 {
     #include <android/log.h>
-    #include <stdarg.h>
 }
 
 // TODO: print to graphic screen if ready

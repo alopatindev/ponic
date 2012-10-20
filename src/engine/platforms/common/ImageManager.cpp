@@ -2,6 +2,15 @@
 #include "thirdparty/pugixml-1.2/pugixml.hpp"
 #include "Log.h"
 
+ImageManager_Class::ImageManager_Class()
+    : m_bindedTextureId(0)
+{
+}
+
+ImageManager_Class::~ImageManager_Class()
+{
+}
+
 void ImageManager_Class::parseAtlasXML(const char* filename)
 {
     LOGI("parsing '%s'", filename);

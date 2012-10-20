@@ -3,15 +3,6 @@
 #include <cstdlib>
 #include <GL/glu.h>
 
-ImageManager_Class::ImageManager_Class()
-    : m_bindedTextureId(0)
-{
-}
-
-ImageManager_Class::~ImageManager_Class()
-{
-}
-
 void ImageManager_Class::loadGroup(const char* group)
 {
     LOGI("loading group '%s'", group);

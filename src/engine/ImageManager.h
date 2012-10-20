@@ -3,7 +3,13 @@
 #include "misc/Singleton.h"
 #include <map>
 #include <string>
-#include <GL/glut.h>
+
+#ifdef ANDROID
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>
+#else
+    #include <GL/glut.h>
+#endif
 
 extern "C"
 {

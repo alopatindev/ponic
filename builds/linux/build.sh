@@ -7,7 +7,7 @@ cd ~/coding/github/ponic/builds/linux
 
 mkdir -p bin
 cmake CMakeLists.txt
-make
+make -j4
 
 cd bin
 ln -sf ../../../src/engine/shaders
