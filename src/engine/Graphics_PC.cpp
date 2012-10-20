@@ -21,7 +21,9 @@ GLhandleARB uniformOrtho,
             uniformAngle,
             uniformScale,
             uniformPosition,
+            uniformColor,
             uniformOpacity,
+            uniformWithTexture,
             uniformPerspProjMat;
 
 void initShaders();
@@ -31,7 +33,6 @@ void buildPerspProjMat(float *m, float fov,
 
 Graphics_Class::Graphics_Class()
 {
-    m_color = 1.0f;
 }
 
 Graphics_Class::~Graphics_Class()
@@ -92,6 +93,9 @@ inline void Graphics_Class::flushGeomerty(BufferType & buffer)
 
             switch (c->type)
             {
+            case Command::Rectangle2D:
+                flushRectangle2D(c);
+                break;
             case Command::Image2D:
                 flushImage2D(c);
                 break;
@@ -157,6 +161,39 @@ void Graphics_Class::drawText2D(const char* fontName, int size,
     //FontManager::getInstance().bindFont(fontName, size);
 }
 
+void Graphics_Class::drawRectangle2D(float x, float y,
+                                     float width, float height,
+                                     float r, float g, float b, float opacity)
+{
+    if (opacity == 0.0f)
+        return;
+
+    float z = 0.0f;
+    Command* c = new Command;
+
+    c->type = Command::Rectangle2D;
+    c->group = "";
+    c->name = "";
+    c->x = x;
+    c->y = y;
+    c->z = z;
+    c->width = width;
+    c->height = height;
+    c->angle = 0.0f;
+    c->centerX = 0.5f;
+    c->centerY = 0.5f;
+    c->scaleFactor = 1.0f;
+    c->color[0] = r;
+    c->color[1] = g;
+    c->color[2] = b;
+    c->opacity = opacity;
+
+    if (opacity != 1.0f)
+        m_imagesBufferTransparent[z].push(c);
+    else
+        m_imagesBuffer[z].push(c);
+}
+
 void Graphics_Class::drawImage2D(
     const char* group, const char* name,
     float x, float y, float width, float height,
@@ -165,6 +202,9 @@ void Graphics_Class::drawImage2D(
     float opacity
 )
 {
+    if (opacity == 0.0f)
+        return;
+
     float z = 0.0f;
     Command* c = new Command;
 
@@ -180,6 +220,9 @@ void Graphics_Class::drawImage2D(
     c->centerX = centerX;
     c->centerY = centerY;
     c->scaleFactor = scaleFactor;
+    c->color[0] = 0.0f;
+    c->color[1] = 0.0f;
+    c->color[2] = 0.0f;
     c->opacity = opacity;
 
     if (opacity != 1.0f)
@@ -197,6 +240,9 @@ void Graphics_Class::drawImage3D(
     float opacity
 )
 {
+    if (opacity == 0.0f)
+        return;
+
     Command* c = new Command;
 
     c->type = Command::Image3D;
@@ -211,12 +257,54 @@ void Graphics_Class::drawImage3D(
     c->centerX = centerX;
     c->centerY = centerY;
     c->scaleFactor = scaleFactor;
+    c->color[0] = 0.0f;
+    c->color[1] = 0.0f;
+    c->color[2] = 0.0f;
     c->opacity = opacity;
 
     if (opacity != 1.0f)
         m_imagesBufferTransparent[z].push(c);
     else
         m_imagesBuffer[z].push(c);
+}
+
+inline void Graphics_Class::flushRectangle2D(const Command* c)
+{
+    GLfloat xOffset = -c->centerX * c->width;
+    GLfloat yOffset = -c->centerY * c->height;
+
+    GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset,
+                       c->width + xOffset, c->height + yOffset,
+                       c->width + xOffset, 0.0f + yOffset,
+                       0.0f + xOffset,  0.0f + yOffset};
+
+    glUniform1fARB(uniformOrtho, true);
+
+    float position[4];
+    position[0] = c->x - xOffset;
+    position[1] = c->y - yOffset;
+    position[2] = 0.0f;
+    position[3] = 0.0f;
+    glUniform4fvARB(uniformPosition, 1, position);
+
+    glUniform1fARB(uniformAngle, c->angle);
+
+    glUniform1fARB(uniformScale, c->scaleFactor);
+
+    glUniform3fvARB(uniformColor, 1, c->color);
+
+    glUniform1fARB(uniformOpacity, c->opacity);
+
+    glUniform1fARB(uniformWithTexture, false);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, 0, verts);
+
+    glDrawArrays(GL_QUADS, 0, 4);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 inline void Graphics_Class::flushImage2D(const Command* c)
@@ -251,6 +339,8 @@ inline void Graphics_Class::flushImage2D(const Command* c)
     glUniform1fARB(uniformScale, c->scaleFactor);
 
     glUniform1fARB(uniformOpacity, c->opacity);
+
+    glUniform1fARB(uniformWithTexture, true);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -296,6 +386,8 @@ inline void Graphics_Class::flushImage3D(const Command* c)
     glUniform1fARB(uniformScale, c->scaleFactor);
 
     glUniform1fARB(uniformOpacity, c->opacity);
+
+    glUniform1fARB(uniformWithTexture, true);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -346,7 +438,9 @@ void initShaders()
     uniformAngle = glGetUniformLocationARB(shaderProgram, "angle");
     uniformScale = glGetUniformLocationARB(shaderProgram, "scale");
     uniformPosition = glGetUniformLocationARB(shaderProgram, "position");
+    uniformColor = glGetUniformLocationARB(shaderProgram, "color");
     uniformOpacity = glGetUniformLocationARB(shaderProgram, "opacity");
+    uniformWithTexture = glGetUniformLocationARB(shaderProgram, "withTexture");
     uniformPerspProjMat = glGetUniformLocationARB(
         shaderProgram, "perspProjMat"
     );

@@ -5,17 +5,19 @@
 class Effects_Class
 {
     int m_fadeSign;
-    int m_fadeFreq;
+    int m_fadeTime;
     int m_fadeTimer;
+    float m_fadeColor;
 
 public:
     Effects_Class();
     virtual ~Effects_Class();
 
-    void startFadeIn(int freq = 500);
-    void startFadeOut(int freq = 500);
+    void startFadeIn(int time = 3000);
+    void startFadeOut(int time = 3000);
 
     void update(int dt);
+    void render() const;
 };
 
 typedef Singleton<Effects_Class> Effects;

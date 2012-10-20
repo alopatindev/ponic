@@ -8,11 +8,9 @@
 
 class Graphics_Class
 {
-    float m_color;  // FIXME: deprecated
-
     struct Command
     {
-        enum {Image2D, Image3D} type;
+        enum {Rectangle2D, Image2D, Image3D} type;
         std::string group;
         std::string name;
         float x;
@@ -24,6 +22,7 @@ class Graphics_Class
         float centerX;
         float centerY;
         float scaleFactor;
+        float color[3];
         float opacity;
     };
 
@@ -42,21 +41,6 @@ public:
 
     void forceRedraw();
 
-    void setColor(float color)
-    {
-        if (color <= 0.0f)
-            color = 0.0f;
-        else if (color >= 1.0f)
-            color = 1.0f;
-        //LOGI("setColor(%3.3f)", color);
-        m_color = color;
-    }
-
-    float getColor()
-    {
-        return m_color;
-    }
-
     void setClip(float x, float y, float width, float height);
     void resetClip();
 
@@ -72,6 +56,9 @@ public:
                     float x, float y,
                     float r, float g, float b,
                     bool outline = false);
+
+    void drawRectangle2D(float x, float y, float width, float height,
+                         float r, float g, float b, float opacity);
 
     void drawImage2D(
         const char* group, const char* name,
@@ -92,6 +79,7 @@ public:
     );
 
 private:
+    inline void flushRectangle2D(const Command* command);
     inline void flushImage2D(const Command* command);
     inline void flushImage3D(const Command* command);
     inline void flushGeomerty(BufferType & buffer);
