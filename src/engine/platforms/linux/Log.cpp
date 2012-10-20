@@ -12,9 +12,6 @@ extern "C"
 
 #define BUFFER_SIZE 256
 
-// TODO: Android: run it's ndk log function and
-// print to graphic screen if ready
-
 // TODO: write to log file
 
 void Log_Class::info(const char* format, ...)
