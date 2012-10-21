@@ -1,5 +1,6 @@
 #include "ImageManager.h"
 #include "Log.h"
+#include "System.h"
 #include <cstdlib>
 #include <GL/glu.h>
 
@@ -10,9 +11,11 @@ void ImageManager_Class::loadGroup(const char* group)
     GLuint textureId;
     glGenTextures(1, &textureId);
 
-    tga_data_t* tga = tga_data_load(
-        ("atlases/" + std::string(group) + ".tga").c_str()
-    );
+    std::string fn(SYSTEM.getResourcesPath() +
+                   "atlases/" +
+                   std::string(group) +
+                   ".tga");
+    tga_data_t* tga = tga_data_load(fn.c_str());
 
     float width = m_groups[group].width;
     float height = m_groups[group].height;

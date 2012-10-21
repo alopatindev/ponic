@@ -1,6 +1,7 @@
 #include "ImageManager.h"
 #include "thirdparty/pugixml-1.2/pugixml.hpp"
 #include "Log.h"
+#include "System.h"
 
 ImageManager_Class::ImageManager_Class()
     : m_bindedTextureId(0)
@@ -13,9 +14,10 @@ ImageManager_Class::~ImageManager_Class()
 
 void ImageManager_Class::parseAtlasXML(const char* filename)
 {
-    LOGI("parsing '%s'", filename);
+    std::string fn(SYSTEM.getResourcesPath() + filename);
+    LOGI("parsing '%s'", fn.c_str());
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(filename);
+    pugi::xml_parse_result result = doc.load_file(fn.c_str());
     if (!result)
         LOGE("xml_parse_result: status=%d description='%s'",
              (int)result.status,

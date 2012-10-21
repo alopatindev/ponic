@@ -52,9 +52,7 @@ JNIEXPORT void JNICALL Java_org_ponicteam_ponic_Platform_onCreateJNI(
 {
     const char *loc = env->functions->GetStringUTFChars(env, resourcesLocation, NULL);
     SYSTEM.setResourcesPath(loc);
-    ImageManager::getInstance().parseAtlasXML(
-        (SYSTEM.getResourcesPath() + "atlases/atlasDictionary.xml").c_str()
-    );
+    ImageManager::getInstance().parseAtlasXML("atlases/atlasDictionary.xml");
     //ImageManager::getInstance().loadGroup("game_common");
 
     //FIXME: ReleaseStringUTFChars
