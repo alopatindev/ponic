@@ -1,14 +1,19 @@
 #pragma once
 
 #include "misc/Singleton.h"
+#include <string>
 
 class System_Class
 {
     int m_dt;
+    std::string m_resourcesPath;
 
 public:
     System_Class();
     virtual ~System_Class();
+
+    std::string getResourcesPath();
+    void setResourcesPath(const char* resourcesPath);
 
     int getDt();
     void setDt(int dt);

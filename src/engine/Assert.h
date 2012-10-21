@@ -17,7 +17,7 @@
                     ##__VA_ARGS__ \
                 ); \
                 Log::getInstance().printStack(); \
-                exit(1);\
+                /*exit(1);*/\
             } \
         }
 #else

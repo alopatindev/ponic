@@ -16,5 +16,15 @@ int System_Class::getDt()
 
 void System_Class::setDt(int dt)
 {
-    this->m_dt = dt;
+    m_dt = dt;
+}
+
+std::string System_Class::getResourcesPath()
+{
+    return m_resourcesPath;
+}
+
+void System_Class::setResourcesPath(const char* resourcesPath)
+{
+    m_resourcesPath = resourcesPath;
 }

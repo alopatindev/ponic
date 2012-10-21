@@ -8,4 +8,5 @@ public class Platform {
 
      public static native void init(int width, int height);
      public static native void step();
+     public static native void onCreateJNI(String resourcesLocation);
 }
