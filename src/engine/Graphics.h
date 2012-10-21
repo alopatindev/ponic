@@ -8,6 +8,9 @@
 
 class Graphics_Class
 {
+    float m_width;
+    float m_height;
+
     struct Command
     {
         enum {Rectangle2D, Image2D, Image3D} type;
@@ -79,10 +82,12 @@ public:
     );
 
 private:
-    inline void flushRectangle2D(const Command* command);
-    inline void flushImage2D(const Command* command);
-    inline void flushImage3D(const Command* command);
-    inline void flushGeomerty(BufferType & buffer);
+    void flushRectangle2D(const Command* command);
+    void flushImage2D(const Command* command);
+    void flushImage3D(const Command* command);
+    void flushGeomerty(BufferType & buffer);
+    void buildPerspProjMat(float *m, float fov,
+                           float aspect, float znear, float zfar);
 };
 
 typedef Singleton<Graphics_Class> Graphics;

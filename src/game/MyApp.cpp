@@ -35,7 +35,7 @@ void MyApp::update()
 {
     m_timer += SYSTEM.getDt();
 
-    //EFFECTS.startFadeIn();
+    EFFECTS.startFadeIn();
     //EFFECTS.startFadeOut();
     EFFECTS.update(SYSTEM.getDt());
     

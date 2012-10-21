@@ -1,12 +1,11 @@
 #include "Graphics.h"
 #include <GL/glew.h>
 #include <GL/glut.h>
-#include <cmath>
 #include "ImageManager.h"
 #include "Log.h"
 #include "Camera.h"
 #include "FontManager.h"
-#include "Utils.h"
+#include "misc/Utils.h"
 #include "Assert.h"
 
 const int SCREEN_WIDTH = 800;
@@ -28,16 +27,6 @@ GLhandleARB uniformOrtho,
 
 void initShaders();
 void logShader(const char* tag, GLhandleARB i);
-void buildPerspProjMat(float *m, float fov,
-                       float aspect, float znear, float zfar);
-
-Graphics_Class::Graphics_Class()
-{
-}
-
-Graphics_Class::~Graphics_Class()
-{
-}
 
 void Graphics_Class::init()
 {
@@ -81,37 +70,6 @@ void Graphics_Class::endFrame()
     glutSwapBuffers();
 }
 
-inline void Graphics_Class::flushGeomerty(BufferType & buffer)
-{
-    for (BufferType::iterator it = buffer.begin();
-         it != buffer.end();
-         ++it)
-    {
-        while (!it->second.empty())
-        {
-            Command* c = it->second.front();
-
-            switch (c->type)
-            {
-            case Command::Rectangle2D:
-                flushRectangle2D(c);
-                break;
-            case Command::Image2D:
-                flushImage2D(c);
-                break;
-            case Command::Image3D:
-                flushImage3D(c);
-                break;
-            default:
-                break;
-            }
-
-            delete c;
-            it->second.pop();
-        }
-    }
-}
-
 void Graphics_Class::forceRedraw()
 {
     glutPostRedisplay();
@@ -133,142 +91,18 @@ void Graphics_Class::resetClip()
 
 void Graphics_Class::onReshape(int width, int height)
 {
+    m_width = (float)width;
+    m_height = (float)height;
+
     float perspMatrix[16];
-    float aspect = (float)width / (float)height;
+    float aspect = m_width / m_height;
     buildPerspProjMat(perspMatrix, 45.0f, aspect, 0.1f, 100.0f);
     glUniformMatrix4fvARB(uniformPerspProjMat, 1, GL_FALSE, perspMatrix);
 
     glViewport(0, 0, width, height);
 }
 
-float Graphics_Class::getWidth()
-{
-    return glutGet(GLUT_WINDOW_WIDTH);
-}
-
-float Graphics_Class::getHeight()
-{
-    return glutGet(GLUT_WINDOW_HEIGHT);
-}
-
-void Graphics_Class::drawText2D(const char* fontName, int size,
-                                const char* text,
-                                float x, float y,
-                                float r, float g, float b,
-                                bool outline)
-{
-    // TODO
-    //FontManager::getInstance().bindFont(fontName, size);
-}
-
-void Graphics_Class::drawRectangle2D(float x, float y,
-                                     float width, float height,
-                                     float r, float g, float b, float opacity)
-{
-    if (opacity == 0.0f)
-        return;
-
-    float z = 0.0f;
-    Command* c = new Command;
-
-    c->type = Command::Rectangle2D;
-    c->group = "";
-    c->name = "";
-    c->x = x;
-    c->y = y;
-    c->z = z;
-    c->width = width;
-    c->height = height;
-    c->angle = 0.0f;
-    c->centerX = 0.5f;
-    c->centerY = 0.5f;
-    c->scaleFactor = 1.0f;
-    c->color[0] = r;
-    c->color[1] = g;
-    c->color[2] = b;
-    c->opacity = opacity;
-
-    if (opacity != 1.0f)
-        m_imagesBufferTransparent[z].push(c);
-    else
-        m_imagesBuffer[z].push(c);
-}
-
-void Graphics_Class::drawImage2D(
-    const char* group, const char* name,
-    float x, float y, float width, float height,
-    float angle, float centerX, float centerY,
-    float scaleFactor,
-    float opacity
-)
-{
-    if (opacity == 0.0f)
-        return;
-
-    float z = 0.0f;
-    Command* c = new Command;
-
-    c->type = Command::Image2D;
-    c->group = std::string(group);
-    c->name = std::string(name);
-    c->x = x;
-    c->y = y;
-    c->z = z;
-    c->width = width;
-    c->height = height;
-    c->angle = angle;
-    c->centerX = centerX;
-    c->centerY = centerY;
-    c->scaleFactor = scaleFactor;
-    c->color[0] = 0.0f;
-    c->color[1] = 0.0f;
-    c->color[2] = 0.0f;
-    c->opacity = opacity;
-
-    if (opacity != 1.0f)
-        m_imagesBufferTransparent[z].push(c);
-    else
-        m_imagesBuffer[z].push(c);
-}
-
-void Graphics_Class::drawImage3D(
-    const char* group, const char* name,
-    float x, float y, float z,
-    float width, float height,
-    float angle, float centerX, float centerY,
-    float scaleFactor,
-    float opacity
-)
-{
-    if (opacity == 0.0f)
-        return;
-
-    Command* c = new Command;
-
-    c->type = Command::Image3D;
-    c->group = std::string(group);
-    c->name = std::string(name);
-    c->x = x;
-    c->y = y;
-    c->z = z;
-    c->width = width;
-    c->height = height;
-    c->angle = angle;
-    c->centerX = centerX;
-    c->centerY = centerY;
-    c->scaleFactor = scaleFactor;
-    c->color[0] = 0.0f;
-    c->color[1] = 0.0f;
-    c->color[2] = 0.0f;
-    c->opacity = opacity;
-
-    if (opacity != 1.0f)
-        m_imagesBufferTransparent[z].push(c);
-    else
-        m_imagesBuffer[z].push(c);
-}
-
-inline void Graphics_Class::flushRectangle2D(const Command* c)
+void Graphics_Class::flushRectangle2D(const Command* c)
 {
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;
@@ -276,7 +110,10 @@ inline void Graphics_Class::flushRectangle2D(const Command* c)
     GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset,
                        c->width + xOffset, c->height + yOffset,
                        c->width + xOffset, 0.0f + yOffset,
-                       0.0f + xOffset,  0.0f + yOffset};
+
+                       0.0f + xOffset,  c->height + yOffset,
+                       0.0f + xOffset,  0.0f + yOffset,
+                       c->width + xOffset, 0.0f + yOffset};
 
     glUniform1fARB(uniformOrtho, true);
 
@@ -298,16 +135,15 @@ inline void Graphics_Class::flushRectangle2D(const Command* c)
     glUniform1fARB(uniformWithTexture, false);
 
     glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
     glVertexPointer(2, GL_FLOAT, 0, verts);
 
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-inline void Graphics_Class::flushImage2D(const Command* c)
+void Graphics_Class::flushImage2D(const Command* c)
 {
     Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
                                                          c->name.c_str());
@@ -318,12 +154,18 @@ inline void Graphics_Class::flushImage2D(const Command* c)
     GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset,
                        c->width + xOffset, c->height + yOffset,
                        c->width + xOffset, 0.0f + yOffset,
-                       0.0f + xOffset,  0.0f + yOffset};
+
+                       0.0f + xOffset,  c->height + yOffset,
+                       0.0f + xOffset,  0.0f + yOffset,
+                       c->width + xOffset, 0.0f + yOffset};
 
     GLfloat uv[] = {image->left, image->top,
                     image->right, image->top,
                     image->right, image->bottom,
-                    image->left, image->bottom};
+                    
+                    image->left, image->top,
+                    image->left, image->bottom,
+                    image->right, image->bottom};
 
     glUniform1fARB(uniformOrtho, true);
 
@@ -348,13 +190,13 @@ inline void Graphics_Class::flushImage2D(const Command* c)
     glVertexPointer(2, GL_FLOAT, 0, verts);
     glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-inline void Graphics_Class::flushImage3D(const Command* c)
+void Graphics_Class::flushImage3D(const Command* c)
 {
     Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
                                                          c->name.c_str());
@@ -365,12 +207,18 @@ inline void Graphics_Class::flushImage3D(const Command* c)
     GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset, c->z,
                        c->width + xOffset, c->height + yOffset, c->z,
                        c->width + xOffset, 0.0f + yOffset, c->z,
-                       0.0f + xOffset,  0.0f + yOffset, c->z};
+
+                       0.0f + xOffset,  c->height + yOffset, c->z,
+                       0.0f + xOffset,  0.0f + yOffset, c->z,
+                       c->width + xOffset, 0.0f + yOffset, c->z};
 
     GLfloat uv[] = {image->left, image->top,
                     image->right, image->top,
                     image->right, image->bottom,
-                    image->left, image->bottom};
+                    
+                    image->left, image->top,
+                    image->left, image->bottom,
+                    image->right, image->bottom};
 
     glUniform1fARB(uniformOrtho, false);
 
@@ -395,7 +243,7 @@ inline void Graphics_Class::flushImage3D(const Command* c)
     glVertexPointer(3, GL_FLOAT, 0, verts);
     glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -448,43 +296,4 @@ void initShaders()
     logShader("vertex shader", shaderVertex);
     logShader("fragment shader", shaderFragment);
     logShader("program", shaderProgram);
-}
-
-void buildPerspProjMat(float *m, float fov,
-                       float aspect, float znear, float zfar)
-{
-    float xymax = znear * std::tan((fov * M_PI) / 180.0);
-    float ymin = -xymax;
-    float xmin = -xymax;
-
-    float width = xymax - xmin;
-    float height = xymax - ymin;
-
-    float depth = zfar - znear;
-    float q = -(zfar + znear) / depth;
-    float qn = -2 * (zfar * znear) / depth;
-
-    float w = 2 * znear / width;
-    w = w / aspect;
-    float h = 2 * znear / height;
-
-    m[0]  = w;
-    m[1]  = 0;
-    m[2]  = 0;
-    m[3]  = 0;
-
-    m[4]  = 0;
-    m[5]  = h;
-    m[6]  = 0;
-    m[7]  = 0;
-
-    m[8]  = 0;
-    m[9]  = 0;
-    m[10] = q;
-    m[11] = -1;
-
-    m[12] = 0;
-    m[13] = 0;
-    m[14] = qn;
-    m[15] = 0;
 }

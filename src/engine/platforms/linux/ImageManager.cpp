@@ -2,7 +2,13 @@
 #include "Log.h"
 #include "System.h"
 #include <cstdlib>
-#include <GL/glu.h>
+
+#ifdef ANDROID
+    #include <GLES2/gl2.h>
+    #include <GLES2/gl2ext.h>
+#else
+    #include <GL/glu.h>
+#endif
 
 void ImageManager_Class::loadGroup(const char* group)
 {
