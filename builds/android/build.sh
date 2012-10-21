@@ -12,13 +12,15 @@ RES_DIR='res/raw'
 # FIXME
 cd ~/coding/github/ponic/builds/android
 
-cp -r ../../src/* jni/
-rm -fr jni/platforms/linux/
+cd jni
+ln -sf ../../../src/* .
+cd ..
+ln -sf jni/engine/platforms/android/java src
 
 if [[ $BUILD_RESOURCES == 1 ]]; then
     rm -fr $RES_DIR
     mkdir -p $RES_DIR
-    mv jni/engine/shaders $RES_DIR/shaders
+    cp -rv jni/engine/shaders $RES_DIR/shaders
     cd $RES_DIR
     ../../../../tools/AtlasGen/AtlasGen.py -r ../../../../resources \
         -m RGBA -t tga
