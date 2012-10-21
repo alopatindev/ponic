@@ -20,7 +20,7 @@ ln -sf jni/engine/platforms/android/java src
 if [[ $BUILD_RESOURCES == 1 ]]; then
     rm -fr $RES_DIR
     mkdir -p $RES_DIR
-    cp -rv jni/engine/shaders $RES_DIR/shaders
+    cp -rv jni/engine/platforms/android/shaders $RES_DIR/shaders
     cd $RES_DIR
     ../../../../tools/AtlasGen/AtlasGen.py -r ../../../../resources \
         -m RGBA -t tga

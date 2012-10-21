@@ -10,7 +10,7 @@ cmake CMakeLists.txt
 make -j4
 
 cd bin
-ln -sf ../../../src/engine/shaders
+ln -sf ../../../src/engine/platforms/linux/shaders
 ../../../tools/AtlasGen/AtlasGen.py -r ../../../resources -m RGBA -t tga
 
 gdb ./ponic
