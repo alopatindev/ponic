@@ -15,6 +15,7 @@ cd ~/coding/github/ponic/builds/android
 cd jni
 ln -sf ../../../src/* .
 cd ..
+rm -f src
 ln -sf jni/engine/platforms/android/java src
 
 if [[ $BUILD_RESOURCES == 1 ]]; then

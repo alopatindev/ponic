@@ -49,6 +49,8 @@ public class MainActivity extends Activity {
     }
 
     public static void LOGI(final String text) { Log.i(LOG_TAG, text); }
+    public static void LOGE(final String text) { Log.e(LOG_TAG, text); }
+    public static void LOGW(final String text) { Log.w(LOG_TAG, text); }
 
     public String getResourcesLocation()
     {

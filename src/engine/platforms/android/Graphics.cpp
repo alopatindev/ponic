@@ -97,6 +97,8 @@ void Graphics_Class::flushRectangle2D(const Command* c)
     glEnableVertexAttribArray(attribVertex);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
+    glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_SHORT, verts); // FIXME
+    glDrawElements(GL_LINES, 12, GL_UNSIGNED_SHORT, verts);
 }
 
 void Graphics_Class::flushImage2D(const Command* c)
@@ -226,11 +228,6 @@ void initShaders()
     std::string vshader = Utils::fileToString("shaders/common.vert");
     std::string fshader = Utils::fileToString("shaders/common.frag");
 
-    LOGW("vshader: %s", vshader.c_str());
-
-    // FIXME: separate shaders by platforms
-    vshader = "attribute vec4 gl_Vertex;\n" + vshader;
-
     const char* v = vshader.c_str();
     const char* f = fshader.c_str();
 
@@ -257,11 +254,9 @@ void initShaders()
     uniformPerspProjMat = glGetUniformLocation(
         shaderProgram, "perspProjMat"
     );
-    attribVertex = glGetAttribLocation(shaderProgram, "gl_Vertex");
+    attribVertex = glGetAttribLocation(shaderProgram, "vPosition");
 
     logShader("vertex shader", shaderVertex);
     logShader("fragment shader", shaderFragment);
     logShader("program", shaderProgram);
-
-    LOGW("shaders init done");
 }
