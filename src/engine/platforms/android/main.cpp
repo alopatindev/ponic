@@ -8,6 +8,7 @@ extern "C" {
 #include "Log.h"
 #include "System.h"
 #include "ImageManager.h"
+#include "Graphics.h"
 
 bool setupGraphics(int w, int h) {
     LOGI("setupGraphics(%d, %d)", w, h);
@@ -17,7 +18,14 @@ bool setupGraphics(int w, int h) {
 
 void renderFrame() {
     glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
-    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+
+
+    GRAPHICS.startFrame();
+    GRAPHICS.drawRectangle2D(0.0f, 0.0f,
+                             1.0f, 1.0f,
+                             0.0f, 0.5f, 0.5f, 0.7f);
+    GRAPHICS.endFrame();
 }
 
 extern "C" {
@@ -54,6 +62,8 @@ JNIEXPORT void JNICALL Java_org_ponicteam_ponic_Platform_onCreateJNI(
     SYSTEM.setResourcesPath(loc);
     ImageManager::getInstance().parseAtlasXML("atlases/atlasDictionary.xml");
     ImageManager::getInstance().loadGroup("game_common");
+
+    GRAPHICS.init();
 
     //FIXME: ReleaseStringUTFChars
 }

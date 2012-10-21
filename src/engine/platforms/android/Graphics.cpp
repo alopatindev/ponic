@@ -20,13 +20,15 @@ GLuint uniformOrtho,
        uniformColor,
        uniformOpacity,
        uniformWithTexture,
-       uniformPerspProjMat;
+       uniformPerspProjMat,
+       attribVertex;
 
 void initShaders();
 void logShader(const char* tag, GLuint i);
 
 void Graphics_Class::init()
 {
+    initShaders();
 }
 
 void Graphics_Class::startFrame()
@@ -59,7 +61,7 @@ void Graphics_Class::onReshape(int width, int height)
     glViewport(0, 0, width, height);
 }
 
-inline void Graphics_Class::flushRectangle2D(const Command* c)
+void Graphics_Class::flushRectangle2D(const Command* c)
 {
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;
@@ -91,17 +93,13 @@ inline void Graphics_Class::flushRectangle2D(const Command* c)
 
     glUniform1f(uniformWithTexture, false);
 
-//    glEnableClientState(GL_VERTEX_ARRAY);
-//    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glVertexAttribPointer(attribVertex, 2, GL_FLOAT, GL_FALSE, 0, verts);
+    glEnableVertexAttribArray(attribVertex);
 
-    glVertexPointer(2, GL_FLOAT, 0, verts);
-
-    glDrawArrays(GL_TRIANGLES, 0, 4);
-
-//    glDisableClientState(GL_VERTEX_ARRAY);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-inline void Graphics_Class::flushImage2D(const Command* c)
+void Graphics_Class::flushImage2D(const Command* c)
 {
     Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
                                                          c->name.c_str());
@@ -145,16 +143,16 @@ inline void Graphics_Class::flushImage2D(const Command* c)
 //    glEnableClientState(GL_VERTEX_ARRAY);
 //    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glVertexPointer(2, GL_FLOAT, 0, verts);
-    glTexCoordPointer(2, GL_FLOAT, 0, uv);
+//    glVertexPointer(2, GL_FLOAT, 0, verts);
+//    glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-    glDrawArrays(GL_TRIANGLES, 0, 4);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
 
 //    glDisableClientState(GL_VERTEX_ARRAY);
 //    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-inline void Graphics_Class::flushImage3D(const Command* c)
+void Graphics_Class::flushImage3D(const Command* c)
 {
     Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
                                                          c->name.c_str());
@@ -198,10 +196,10 @@ inline void Graphics_Class::flushImage3D(const Command* c)
 //    glEnableClientState(GL_VERTEX_ARRAY);
 //    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glVertexPointer(3, GL_FLOAT, 0, verts);
-    glTexCoordPointer(2, GL_FLOAT, 0, uv);
+//    glVertexPointer(3, GL_FLOAT, 0, verts);
+//    glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-    glDrawArrays(GL_TRIANGLES, 0, 4);
+    //glDrawArrays(GL_TRIANGLES, 0, 6);
 
 //    glDisableClientState(GL_VERTEX_ARRAY);
 //    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -227,6 +225,12 @@ void initShaders()
 
     std::string vshader = Utils::fileToString("shaders/common.vert");
     std::string fshader = Utils::fileToString("shaders/common.frag");
+
+    LOGW("vshader: %s", vshader.c_str());
+
+    // FIXME: separate shaders by platforms
+    vshader = "attribute vec4 gl_Vertex;\n" + vshader;
+
     const char* v = vshader.c_str();
     const char* f = fshader.c_str();
 
@@ -253,8 +257,11 @@ void initShaders()
     uniformPerspProjMat = glGetUniformLocation(
         shaderProgram, "perspProjMat"
     );
+    attribVertex = glGetAttribLocation(shaderProgram, "gl_Vertex");
 
     logShader("vertex shader", shaderVertex);
     logShader("fragment shader", shaderFragment);
     logShader("program", shaderProgram);
+
+    LOGW("shaders init done");
 }
