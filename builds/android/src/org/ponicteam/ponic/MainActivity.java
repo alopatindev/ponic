@@ -68,15 +68,18 @@ public class MainActivity extends Activity {
 
             while ((ze = zis.getNextEntry()) != null) {
                 String filename = location + "/" + ze.getName();
-                LOGI(filename);
                 if (ze.isDirectory()) {
                     (new File(filename)).mkdirs();
                 } else {
-                    FileOutputStream fout = new FileOutputStream(filename);
-                    int count;
-                    while ((count = zis.read(buffer)) != -1)
-                        fout.write(buffer, 0, count);
-                    fout.close();
+                    File f = new File(filename);
+                    if (f.length() != ze.getSize()) {
+                        LOGI("unpacking " + filename);
+                        FileOutputStream fout = new FileOutputStream(filename);
+                        int count;
+                        while ((count = zis.read(buffer)) != -1)
+                            fout.write(buffer, 0, count);
+                        fout.close();
+                    }
                 }
                 zis.closeEntry();
             }
