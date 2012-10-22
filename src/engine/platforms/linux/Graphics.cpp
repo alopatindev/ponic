@@ -96,7 +96,7 @@ void Graphics_Class::onReshape(int width, int height)
 
     float perspMatrix[16];
     float aspect = m_width / m_height;
-    buildPerspProjMat(perspMatrix, 45.0f, aspect, 0.1f, 100.0f);
+    buildPerspProjMat(perspMatrix, 45.0f, aspect, ZNEAR, ZFAR);
     glUniformMatrix4fvARB(uniformPerspProjMat, 1, GL_FALSE, perspMatrix);
 
     glViewport(0, 0, width, height);

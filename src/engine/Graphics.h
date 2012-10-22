@@ -11,6 +11,9 @@ class Graphics_Class
     float m_width;
     float m_height;
 
+    static const float ZNEAR = 0.1f;
+    static const float ZFAR = 100.0f;
+
     struct Command
     {
         enum {Rectangle2D, Image2D, Image3D} type;
