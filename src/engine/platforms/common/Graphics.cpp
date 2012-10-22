@@ -54,7 +54,8 @@ float Graphics_Class::getHeight()
 
 void Graphics_Class::drawRectangle2D(float x, float y,
                                      float width, float height,
-                                     float r, float g, float b, float opacity)
+                                     float r, float g, float b, float opacity,
+                                     bool onTop)
 {
     if (opacity == 0.0f)
         return;
@@ -78,6 +79,7 @@ void Graphics_Class::drawRectangle2D(float x, float y,
     c->color[1] = g;
     c->color[2] = b;
     c->opacity = opacity;
+    c->depth = !onTop;
 
     if (opacity != 1.0f)
         m_imagesBufferTransparent[z].push(c);
@@ -90,7 +92,8 @@ void Graphics_Class::drawImage2D(
     float x, float y, float width, float height,
     float angle, float centerX, float centerY,
     float scaleFactor,
-    float opacity
+    float opacity,
+    bool onTop
 )
 {
     if (opacity == 0.0f)
@@ -115,6 +118,7 @@ void Graphics_Class::drawImage2D(
     c->color[1] = 0.0f;
     c->color[2] = 0.0f;
     c->opacity = opacity;
+    c->depth = !onTop;
 
     if (opacity != 1.0f)
         m_imagesBufferTransparent[z].push(c);
@@ -152,6 +156,7 @@ void Graphics_Class::drawImage3D(
     c->color[1] = 0.0f;
     c->color[2] = 0.0f;
     c->opacity = opacity;
+    c->depth = true;
 
     if (opacity != 1.0f)
         m_imagesBufferTransparent[z].push(c);

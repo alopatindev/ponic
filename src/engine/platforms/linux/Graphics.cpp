@@ -138,7 +138,13 @@ void Graphics_Class::flushRectangle2D(const Command* c)
 
     glVertexPointer(2, GL_FLOAT, 0, verts);
 
+    if (!c->depth)
+        glDisable(GL_DEPTH_TEST);
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    if (!c->depth)
+        glEnable(GL_DEPTH_TEST);
 
     glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -190,7 +196,13 @@ void Graphics_Class::flushImage2D(const Command* c)
     glVertexPointer(2, GL_FLOAT, 0, verts);
     glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
+    if (!c->depth)
+        glDisable(GL_DEPTH_TEST);
+
     glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    if (!c->depth)
+        glEnable(GL_DEPTH_TEST);
 
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);

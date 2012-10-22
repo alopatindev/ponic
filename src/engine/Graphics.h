@@ -27,6 +27,7 @@ class Graphics_Class
         float scaleFactor;
         float color[3];
         float opacity;
+        bool depth;
     };
 
     typedef std::map< float, std::queue<Command*> > BufferType;
@@ -61,14 +62,16 @@ public:
                     bool outline = false);
 
     void drawRectangle2D(float x, float y, float width, float height,
-                         float r, float g, float b, float opacity);
+                         float r, float g, float b, float opacity,
+                         bool onTop = false);
 
     void drawImage2D(
         const char* group, const char* name,
         float x, float y, float width, float height,
         float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f,
-        float opacity = 1.0f
+        float opacity = 1.0f,
+        bool onTop = false
     );
 
     // the next functions are considering camera's coordinates and zoom

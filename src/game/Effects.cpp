@@ -60,5 +60,6 @@ void Effects_Class::update(int dt)
 void Effects_Class::render() const
 {
     GRAPHICS.drawRectangle2D(-1.0f, -1.0f, 2.0f, 2.0f,
-                             0.0f, 0.0f, 0.0f, 1.0f - m_fadeColor);
+                             0.0f, 0.0f, 0.0f, 1.0f - m_fadeColor,
+                             true);
 }
