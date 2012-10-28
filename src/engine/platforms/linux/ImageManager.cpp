@@ -76,7 +76,10 @@ ImageManager_Class::bindImage(const char* group, const char* name)
 
     GLuint id = m_groups[group].textureId;
     if (id != m_bindedTextureId)
+    {
         glBindTexture(GL_TEXTURE_2D, id);
+        m_bindedTextureId = id;
+    }
 
     return &m_groupsImages[group][name];
 }
