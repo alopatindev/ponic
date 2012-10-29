@@ -15,7 +15,8 @@ include_directories(
     ../../src/engine
 )
 
-add_definitions(-O0 -g -rdynamic -Wall -D_DEBUG -DPUGIXML_NO_EXCEPTIONS)
+add_definitions(-O0 -g -rdynamic -fno-exceptions -Wall
+                -D_DEBUG -DPUGIXML_NO_EXCEPTIONS)
 
 add_executable(bin/ponic
 ../../src/game/Effects.cpp
