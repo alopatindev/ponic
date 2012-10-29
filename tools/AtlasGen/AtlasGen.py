@@ -495,9 +495,9 @@ class TexturePacker:
             
             if (edgeCount == 0):
                 if (tex.GetLongestEdge() <= bestFitNode.GetRect().GetWidth()):
-                    if (tex.GetHeight() > tex.GetWidth()):
-                        tex.FlipDimensions()
-                        tex.SetFlipped(True)
+                    #if (tex.GetHeight() > tex.GetWidth()):
+                    #    tex.FlipDimensions()
+                    #    tex.SetFlipped(True)
 
                     tex.Place(bestFitNode.GetX(), bestFitNode.GetY(), tex.IsFlipped())
 
@@ -512,9 +512,9 @@ class TexturePacker:
                         print("TexturePacker::PackTexture() ERROR - Current textures longest edge is less than the BestFitNodes Height!!!")
                         exit(1)
 
-                    if (tex.GetHeight() < tex.GetWidth()):
-                        tex.FlipDimensions()
-                        tex.SetFlipped(True)
+                    #if (tex.GetHeight() < tex.GetWidth()):
+                    #    tex.FlipDimensions()
+                    #    tex.SetFlipped(True)
 
                     tex.Place(bestFitNode.GetX(), bestFitNode.GetY(), tex.IsFlipped())
                     self.AddNode(bestFitNode.GetX(), bestFitNode.GetY() + tex.GetHeight(), bestFitNode.GetRect().GetWidth(), bestFitNode.GetRect().GetHeight() - tex.GetHeight())
@@ -768,7 +768,7 @@ def MakeAtlas(texMode, dirPath, texSize, atlasPath, dirName):
         imgElement.setAttribute("top", str(1.0 - tex.GetY() / atlasHeight))
         imgElement.setAttribute("right", str((tex.GetX() + tex.GetWidth()) / atlasWidth))
         imgElement.setAttribute("bottom", str(1.0 - (tex.GetHeight() + tex.GetY()) / atlasHeight))
-        imgElement.setAttribute("flipped", str(tex.IsFlipped()))
+        #imgElement.setAttribute("flipped", str(tex.IsFlipped()))
         
         atlasElement.appendChild(imgElement)
 
