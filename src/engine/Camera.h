@@ -1,6 +1,7 @@
 #pragma once
 
 #include "misc/Singleton.h"
+#include "Graphics.h"
 
 class Camera_Class
 {
@@ -62,6 +63,16 @@ public:
 
     bool isVisible(float x, float y, float width, float height)
     {
+        float wfar = GRAPHICS.getWfar();
+        float hfar = GRAPHICS.getHfar();
+        float xx = x + m_x;
+        float yy = y + m_y;
+
+        if ((xx + width) >= -wfar && (xx - width) <= wfar &&
+            (yy + height) >= -hfar && (yy - height) <= hfar)
+            return true;
+
+        return false;
     }
 };
 

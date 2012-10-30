@@ -1,10 +1,15 @@
 #include "Graphics.h"
 #include <cmath>
+#include <cstring>
+#include "Camera.h"
 
 Graphics_Class::Graphics_Class()
     : m_width(0),
-      m_height(0)
+      m_height(0),
+      m_hfar(0),
+      m_wfar(0)
 {
+    std::memset(m_perspMatrix, 0, sizeof(m_perspMatrix));
 }
 
 Graphics_Class::~Graphics_Class()
@@ -135,6 +140,9 @@ void Graphics_Class::drawImage3D(
     float opacity
 )
 {
+    if (!CAMERA.isVisible(x, y, width, height))
+        return;
+
     if (opacity == 0.0f)
         return;
 

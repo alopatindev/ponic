@@ -12,7 +12,11 @@ class Graphics_Class
     float m_height;
 
     static const float ZNEAR = 0.1f;
-    static const float ZFAR = 100.0f;
+    static const float ZFAR = 10.0f;
+
+    float m_perspMatrix[16];
+    float m_hfar;
+    float m_wfar;
 
     struct Command
     {
@@ -55,6 +59,9 @@ public:
 
     float getWidth();
     float getHeight();
+
+    float getHfar() { return m_hfar; }
+    float getWfar() { return m_wfar; }
 
     // TODO: where and how should we load the font? ResourceManager?
     // how and where should we select font size for different display sizes?
