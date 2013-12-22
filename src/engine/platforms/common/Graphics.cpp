@@ -36,6 +36,9 @@ void Graphics_Class::flushGeomerty(BufferType & buffer)
             case Command::Image2D:
                 flushImage2D(c);
                 break;
+            case Command::Rectangle3D:
+                flushRectangle3D(c);
+                break;
             case Command::Image3D:
                 flushImage3D(c);
                 break;
@@ -59,6 +62,11 @@ float Graphics_Class::getHeight()
     return m_height;
 }
 
+float Graphics_Class::getAspect()
+{
+    return m_width / m_height;
+}
+
 void Graphics_Class::drawRectangle2D(float x, float y,
                                      float width, float height,
                                      float r, float g, float b, float opacity,
@@ -71,8 +79,8 @@ void Graphics_Class::drawRectangle2D(float x, float y,
     Command* c = new Command;
 
     c->type = Command::Rectangle2D;
-    c->group = "";
-    c->name = "";
+    //c->group = "";
+    //c->name = "";
     c->x = x;
     c->y = y;
     c->z = z;
@@ -127,6 +135,42 @@ void Graphics_Class::drawImage2D(
     c->color[2] = 0.0f;
     c->opacity = opacity;
     c->depth = !onTop;
+
+    if (opacity != 1.0f)
+        m_imagesBufferTransparent[z].push(c);
+    else
+        m_imagesBuffer[z].push(c);
+}
+
+
+void Graphics_Class::drawRectangle3D(
+    float x, float y, float z,
+    float width, float height,
+    float r, float g, float b,
+    float opacity)
+{
+    if (opacity == 0.0f)
+        return;
+
+    Command* c = new Command;
+
+    c->type = Command::Rectangle3D;
+    //c->group = "";
+    //c->name = "";
+    c->x = x;
+    c->y = y;
+    c->z = z;
+    c->width = width;
+    c->height = height;
+    c->angle = 0.0f;
+    c->centerX = 0.5f;
+    c->centerY = 0.5f;
+    c->scaleFactor = 1.0f;
+    c->color[0] = r;
+    c->color[1] = g;
+    c->color[2] = b;
+    c->opacity = opacity;
+    c->depth = true;
 
     if (opacity != 1.0f)
         m_imagesBufferTransparent[z].push(c);

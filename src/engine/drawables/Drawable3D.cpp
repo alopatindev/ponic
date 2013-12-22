@@ -3,7 +3,7 @@
 
 Drawable3D::Drawable3D()
     : m_pos(glm::vec3(0.0f, 0.0f, 0.0f))
-    , m_size(glm::vec2(0.0f, 0.0f))
+    , m_size(glm::vec2(1.0f, 1.0f))
     , m_angle(0.0f)
     , m_center(glm::vec2(0.0f, 0.0f))
     , m_scaleFactor(1.0f)

@@ -8,6 +8,7 @@
 #include <Log.h>
 
 #include "Player.h"
+#include <engine/physics/Drawable3DGrid.h>
 
 MyApp::MyApp()
 {
@@ -57,8 +58,11 @@ void MyApp::update()
 void MyApp::render() const
 {
     static Player player;
+    static Drawable3DGrid grid;
+
     GRAPHICS.startFrame();
         player.render();
+        grid.render();
         /*GRAPHICS.drawImage3D(
             "game_common",
             "back",

@@ -95,7 +95,7 @@ void Graphics_Class::onReshape(int width, int height)
     m_width = (float)width;
     m_height = (float)height;
 
-    float aspect = m_width / m_height;
+    float aspect = getAspect();
     float fov = 45.0f;
     buildPerspProjMat(m_perspMatrix, fov, aspect, ZNEAR, ZFAR);
     glUniformMatrix4fvARB(uniformPerspProjMat, 1, GL_FALSE, m_perspMatrix);
@@ -156,8 +156,7 @@ void Graphics_Class::flushRectangle2D(const Command* c)
 
 void Graphics_Class::flushImage2D(const Command* c)
 {
-    Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
-                                                         c->name.c_str());
+    Image* image = ImageManager::getInstance().bindImage(c->group, c->name);
 
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;
@@ -213,10 +212,56 @@ void Graphics_Class::flushImage2D(const Command* c)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
+void Graphics_Class::flushRectangle3D(const Command* c)
+{
+    GLfloat xOffset = -c->centerX * c->width;
+    GLfloat yOffset = -c->centerY * c->height;
+
+    GLfloat verts[] = {0.0f + xOffset,  c->height + yOffset, c->z,
+                       c->width + xOffset, c->height + yOffset, c->z,
+                       c->width + xOffset, 0.0f + yOffset, c->z,
+
+                       0.0f + xOffset,  c->height + yOffset, c->z,
+                       0.0f + xOffset,  0.0f + yOffset, c->z,
+                       c->width + xOffset, 0.0f + yOffset, c->z};
+
+    glUniform1fARB(uniformOrtho, false);
+
+    float position[4];
+    position[0] = c->x - xOffset - CAMERA.getX();
+    position[1] = c->y - yOffset - CAMERA.getY();
+    position[2] = CAMERA.getZoom();
+    position[3] = 0.0f;
+    glUniform4fvARB(uniformPosition, 1, position);
+
+    glUniform1fARB(uniformAngle, c->angle);
+
+    glUniform1fARB(uniformScale, c->scaleFactor);
+
+    glUniform3fvARB(uniformColor, 1, c->color);
+
+    glUniform1fARB(uniformOpacity, c->opacity);
+
+    glUniform1fARB(uniformWithTexture, false);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glVertexPointer(3, GL_FLOAT, 0, verts);
+
+    if (!c->depth)
+        glDisable(GL_DEPTH_TEST);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    if (!c->depth)
+        glEnable(GL_DEPTH_TEST);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+}
+
 void Graphics_Class::flushImage3D(const Command* c)
 {
-    Image* image = ImageManager::getInstance().bindImage(c->group.c_str(),
-                                                         c->name.c_str());
+    Image* image = ImageManager::getInstance().bindImage(c->group, c->name);
 
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;

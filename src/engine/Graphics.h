@@ -20,7 +20,7 @@ class Graphics_Class
 
     struct Command
     {
-        enum {Rectangle2D, Image2D, Image3D} type;
+        enum {Rectangle2D, Image2D, Rectangle3D, Image3D} type;
         std::string group;
         std::string name;
         float x;
@@ -59,6 +59,7 @@ public:
 
     float getWidth();
     float getHeight();
+    float getAspect();
 
     float getHfar() { return m_hfar; }
     float getWfar() { return m_wfar; }
@@ -85,6 +86,11 @@ public:
         bool onTop = false
     );
 
+    void drawRectangle3D(float x, float y, float z,
+                         float width, float height,
+                         float r, float g, float b,
+                         float opacity);
+
     // the next functions are considering camera's coordinates and zoom
     void drawImage3D(
         const std::string& group, const std::string& name,
@@ -99,6 +105,7 @@ public:
 private:
     void flushRectangle2D(const Command* command);
     void flushImage2D(const Command* command);
+    void flushRectangle3D(const Command* command);
     void flushImage3D(const Command* command);
     void flushGeomerty(BufferType& buffer);
     void buildPerspProjMat(float *m, float fov,
