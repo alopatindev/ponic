@@ -1,6 +1,6 @@
 #pragma once
 
-#include "misc/IVisible.h"
+#include <engine/misc/IVisible.h>
 #include <glm/glm.hpp>
 
 class Drawable3D : virtual public IVisible

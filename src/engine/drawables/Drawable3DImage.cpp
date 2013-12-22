@@ -1,5 +1,5 @@
 #include "Drawable3DImage.h"
-#include "Graphics.h"
+#include <engine/Graphics.h>
 
 Drawable3DImage::Drawable3DImage()
 {

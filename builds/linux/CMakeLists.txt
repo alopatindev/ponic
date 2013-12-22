@@ -14,6 +14,7 @@ link_directories(
 )
 include_directories(
     ${FREETYPE2_INCLUDE_DIRS}
+    ../../src
     ../../src/engine
     ../../src/engine/thirdparty/glm
 )
@@ -25,22 +26,20 @@ add_definitions(
 add_executable(bin/${APP_NAME}
 ../../src/game/Effects.cpp
 ../../src/game/MyApp.cpp
-../../src/engine/platforms/linux/Application.cpp
-../../src/engine/platforms/linux/FontManager.cpp
-../../src/engine/misc/Utils.cpp
-../../src/engine/Drawable3D.cpp
-../../src/engine/Drawable3DImage.cpp
 ../../src/game/Player.cpp
+../../src/engine/drawables/Drawable3D.cpp
+../../src/engine/drawables/Drawable3DImage.cpp
+../../src/engine/misc/Utils.cpp
 ../../src/engine/platforms/common/ImageManager.cpp
 ../../src/engine/platforms/common/Graphics.cpp
+../../src/engine/platforms/linux/Application.cpp
+../../src/engine/platforms/linux/FontManager.cpp
 ../../src/engine/platforms/linux/Graphics.cpp
 ../../src/engine/platforms/linux/ImageManager.cpp
 ../../src/engine/platforms/linux/Log.cpp
 ../../src/engine/platforms/linux/main.cpp
 ../../src/engine/System.cpp
-../../src/engine/thirdparty/pugixml-1.2/pugiconfig.hpp
 ../../src/engine/thirdparty/pugixml-1.2/pugixml.cpp
-../../src/engine/thirdparty/pugixml-1.2/pugixml.hpp
 ../../src/engine/thirdparty/tgaload/tgaload.c
 )
 

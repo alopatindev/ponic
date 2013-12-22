@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include "Drawable3D.h"
+#include <string>
 
 class Drawable3DImage : public Drawable3D
 {
