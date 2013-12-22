@@ -26,5 +26,5 @@ const std::string& System_Class::getResourcesPath()
 
 void System_Class::setResourcesPath(const std::string& resourcesPath)
 {
-    m_resourcesPath = resourcesPath;
+    m_resourcesPath = resourcesPath + "/";
 }

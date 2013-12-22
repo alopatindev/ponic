@@ -1,19 +1,10 @@
 #include "Drawable3DGrid.h"
-//#include <engine/Log.h>
-#include <engine/Graphics.h>
-#include <cstring>
-#include <fstream>
-#include <sstream>
-#include <string>
-#include <glm/glm.hpp>
-#include <engine/System.h>
 
 Drawable3DGrid::Drawable3DGrid()
 {
-    std::memset(m_tiles, Empty, 1);
+    std::memset(m_tiles, GridManager_Class::Empty, 1);
     setPosition(-0.7f, -0.5f, -0.6f);
     setSize(GRAPHICS.getAspect(), 1.0f);
-    loadGrid("level1");
 }
 
 Drawable3DGrid::~Drawable3DGrid()
@@ -36,13 +27,13 @@ void Drawable3DGrid::render() const
         {
             switch (m_tiles[x][y])
             {
-            case Empty:
+            case GridManager_Class::Empty:
                 color = glm::vec3(0.0f, 0.0f, 0.2f);
                 break;
-            case Surface:
+            case GridManager_Class::Surface:
                 color = glm::vec3(0.0f, 0.4f, 0.0f);
                 break;
-            case Player:
+            case GridManager_Class::Player:
                 color = glm::vec3(0.4f, 0.0f, 0.0f);
                 break;
             }
@@ -67,37 +58,4 @@ void Drawable3DGrid::render() const
 
 void Drawable3DGrid::update()
 {
-}
-
-void Drawable3DGrid::loadGrid(const std::string& grid)
-{
-    clearGrid();
-
-    /*std::string fn(SYSTEM.getResourcesPath() + "/grids/" + grid);
-    std::ifstream file(fn);
-
-    if (file.fail())
-    {
-        LOGE("file %s cannot be open", fn.c_str());
-    }
-
-    size_t width = 0;
-    size_t height = 0;
-
-    file >> width >> height;
-
-    m_grid.resize(width);
-    for (size_t x = 0; x < width; ++x)
-    {
-        m_grid[x].resize(height);
-        for (size_t y = 0; y < height; ++y)
-        {
-            //file >> m_grid[x][y];
-        }
-    }*/
-}
-
-void Drawable3DGrid::clearGrid()
-{
-    m_grid.clear();
 }

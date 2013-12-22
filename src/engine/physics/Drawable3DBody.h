@@ -1,6 +1,7 @@
 #pragma once
 
-#include <engine/Drawable3D.h>
+#include <engine/drawables/Drawable3D.h>
+#include <all.h>
 
 class Drawable3DBody : public Drawable3D
 {

@@ -28,6 +28,7 @@ void MyApp::init()
     ImageManager::getInstance().loadGroup("game_common");
     FontManager::getInstance().loadFont("font.ttf", 16, 24, 38, 0);
     ImageManager::getInstance().loadGroup("test1");
+    GridManager::getInstance().loadGrid("level1");
 }
 
 void MyApp::destroy()
