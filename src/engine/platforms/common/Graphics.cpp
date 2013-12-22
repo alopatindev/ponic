@@ -1,13 +1,13 @@
 #include "Graphics.h"
-#include <cmath>
 #include <cstring>
 #include "Camera.h"
+#include <glm/glm.hpp>
 
 Graphics_Class::Graphics_Class()
-    : m_width(0),
-      m_height(0),
-      m_hfar(0),
-      m_wfar(0)
+    : m_width(0)
+    , m_height(0)
+    , m_hfar(0)
+    , m_wfar(0)
 {
     std::memset(m_perspMatrix, 0, sizeof(m_perspMatrix));
 }
@@ -175,7 +175,7 @@ void Graphics_Class::drawImage3D(
 void Graphics_Class::buildPerspProjMat(float *m, float fov,
                                        float aspect, float znear, float zfar)
 {
-    float xymax = znear * std::tan((fov * M_PI) / 180.0);
+    float xymax = znear * glm::tan((fov * M_PI) / 180.0);
     float ymin = -xymax;
     float xmin = -xymax;
 

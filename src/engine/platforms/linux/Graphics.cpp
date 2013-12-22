@@ -7,7 +7,6 @@
 #include "FontManager.h"
 #include "misc/Utils.h"
 #include "Assert.h"
-#include <cmath>
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -100,7 +99,7 @@ void Graphics_Class::onReshape(int width, int height)
     buildPerspProjMat(m_perspMatrix, fov, aspect, ZNEAR, ZFAR);
     glUniformMatrix4fvARB(uniformPerspProjMat, 1, GL_FALSE, m_perspMatrix);
 
-    float tanf = std::tan(fov / 2.0f);
+    float tanf = glm::tan(fov * 0.5f);
     m_hfar = 2.0f * tanf * ZFAR;
     m_wfar = m_hfar * aspect;
 
