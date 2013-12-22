@@ -9,6 +9,8 @@ CFLAGS="${CXXFLAGS} -Qunused-arguments"
 CXXFLAGS="${CXXFLAGS} -std=c++0x -Qunused-arguments"
 
 BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
+cd "${BUILD_DIR}/../../src"
+ctags -R .
 cd "${BUILD_DIR}"
 
 mkdir -p bin
