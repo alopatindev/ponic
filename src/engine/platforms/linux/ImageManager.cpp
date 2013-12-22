@@ -10,17 +10,14 @@
     #include <GL/glu.h>
 #endif
 
-void ImageManager_Class::loadGroup(const char* group)
+void ImageManager_Class::loadGroup(const std::string& group)
 {
-    LOGI("loading group '%s'", group);
+    LOGI("loading group '%s'", group.c_str());
 
     GLuint textureId;
     glGenTextures(1, &textureId);
 
-    std::string fn(SYSTEM.getResourcesPath() +
-                   "atlases/" +
-                   std::string(group) +
-                   ".tga");
+    std::string fn(SYSTEM.getResourcesPath() + "atlases/" + group + ".tga");
     tga_data_t* tga = tga_data_load(fn.c_str());
 
     float width = m_groups[group].width;
@@ -43,9 +40,9 @@ void ImageManager_Class::loadGroup(const char* group)
     m_groups[group].loaded = true;
 }
 
-void ImageManager_Class::freeGroup(const char* group)
+void ImageManager_Class::freeGroup(const std::string& group)
 {
-    LOGI("freeing group '%s'", group);
+    LOGI("freeing group '%s'", group.c_str());
 
     Group* g = &m_groups[group];
     g->loaded = false;
@@ -56,9 +53,7 @@ void ImageManager_Class::freeGroup(const char* group)
 void ImageManager_Class::freeAllGroups()
 {
     LOGI("freeing all groups");
-    for (std::map<std::string, Group>::iterator it = m_groups.begin();
-         it != m_groups.end();
-         ++it)
+    for (auto it = m_groups.begin(); it != m_groups.end(); ++it)
     {
         it->second.loaded = false;
         it->second.textureId = 0;
@@ -67,11 +62,13 @@ void ImageManager_Class::freeAllGroups()
 }
 
 Image*
-ImageManager_Class::bindImage(const char* group, const char* name)
+ImageManager_Class::bindImage(const std::string& group, const std::string& name)
 {
 #ifdef _DEBUG
     if (!m_groups[group].loaded)
-        LOGE("trying to get image '%s' from unloaded group '%s'", name, group);
+        LOGE("trying to get image '%s' from unloaded group '%s'",
+             name.c_str(),
+             group.c_str());
 #endif
 
     GLuint id = m_groups[group].textureId;

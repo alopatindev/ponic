@@ -1,8 +1,8 @@
 #pragma once
 
 #include "misc/Singleton.h"
-#include <map>
 #include <string>
+#include <unordered_map>
 
 #ifdef ANDROID
     #include <GLES2/gl2.h>
@@ -36,8 +36,9 @@ struct Image
 
 class ImageManager_Class
 {
-    std::map<std::string, Group> m_groups;
-    std::map< std::string, std::map<std::string, Image> > m_groupsImages;
+    std::unordered_map<std::string, Group> m_groups;
+    std::unordered_map<std::string,
+                       std::unordered_map<std::string, Image>> m_groupsImages;
 
     GLuint m_bindedTextureId;
 
@@ -45,13 +46,13 @@ public:
     ImageManager_Class();
     virtual ~ImageManager_Class();
 
-    void parseAtlasXML(const char* filename);
+    void parseAtlasXML(const std::string& filename);
     
-    void loadGroup(const char* group);
-    void freeGroup(const char* group);
+    void loadGroup(const std::string& group);
+    void freeGroup(const std::string& group);
     void freeAllGroups();
 
-    Image* bindImage(const char* group, const char* name);
+    Image* bindImage(const std::string& group, const std::string& name);
 };
 
 typedef Singleton<ImageManager_Class> ImageManager;

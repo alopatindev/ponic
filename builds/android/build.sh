@@ -9,8 +9,8 @@ NDK_ROOT='/opt/android-ndk'
 BUILD_RESOURCES=1
 RES_DIR='res/raw'
 
-# FIXME
-cd ~/coding/github/ponic/builds/android
+BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
+cd "${BUILD_DIR}"
 
 cd jni
 ln -sf ../../../src/* .

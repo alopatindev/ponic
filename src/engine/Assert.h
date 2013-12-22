@@ -7,11 +7,12 @@
         { \
             if (!(expr)) \
             { \
-                size_t offset = std::string(__FILE__).find("ponic/src"); \
-                if (offset == std::string::npos) \
-                    offset = 0; \
+                std::string filename(__FILE__); \
+                size_t offset = filename.find("ponic/src"); \
+                if (offset != std::string::npos) \
+                    filename = filename.substr(offset); \
                 LOGE("\n%s:%d\nASSERT: %s \"" comment "\"\n", \
-                    __FILE__ + offset, \
+                    filename.c_str(), \
                     __LINE__, \
                     __STRING(expr), \
                     ##__VA_ARGS__ \

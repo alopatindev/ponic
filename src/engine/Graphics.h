@@ -6,13 +6,13 @@
 #include <queue>
 #include <string>
 
+static const float ZNEAR = 0.1f;
+static const float ZFAR = 10.0f;
+
 class Graphics_Class
 {
     float m_width;
     float m_height;
-
-    static const float ZNEAR = 0.1f;
-    static const float ZFAR = 10.0f;
 
     float m_perspMatrix[16];
     float m_hfar;

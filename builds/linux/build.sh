@@ -2,8 +2,13 @@
 
 set -e
 
-# FIXME: I hate fixed paths too, ya
-cd ~/coding/github/ponic/builds/linux
+export CC=/usr/bin/clang
+export CXX=/usr/bin/clang++
+
+CXXFLAGS="${CXXFLAGS} -std=c++0x"
+
+BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
+cd "${BUILD_DIR}"
 
 mkdir -p bin
 cmake CMakeLists.txt

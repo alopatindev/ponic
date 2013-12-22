@@ -12,7 +12,7 @@ ImageManager_Class::~ImageManager_Class()
 {
 }
 
-void ImageManager_Class::parseAtlasXML(const char* filename)
+void ImageManager_Class::parseAtlasXML(const std::string& filename)
 {
     std::string fn(SYSTEM.getResourcesPath() + filename);
     LOGI("parsing '%s'", fn.c_str());
@@ -41,9 +41,7 @@ void ImageManager_Class::parseAtlasXML(const char* filename)
         m_groups[groupName].width = atlas.attribute("width").as_float();
         m_groups[groupName].height = atlas.attribute("height").as_float();
 
-        for(pugi::xml_node i = atlas.first_child();
-            i;
-            i = i.next_sibling())
+        for(pugi::xml_node i = atlas.first_child(); i; i = i.next_sibling())
         {
             std::string imageName = i.attribute("name").value();
             Image image;
