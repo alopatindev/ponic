@@ -11,6 +11,9 @@ Drawable3DImage::~Drawable3DImage()
 
 void Drawable3DImage::render() const
 {
+    if (!getVisible())
+        return;
+
     GRAPHICS.drawImage3D(
         m_group,
         m_name,

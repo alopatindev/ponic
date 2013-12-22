@@ -1,8 +1,9 @@
 #pragma once
 
+#include "misc/IVisible.h"
 #include <glm/glm.hpp>
 
-class Drawable3D
+class Drawable3D : virtual public IVisible
 {
 public:
     Drawable3D();
