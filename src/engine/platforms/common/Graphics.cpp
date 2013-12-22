@@ -1,7 +1,9 @@
 #include "Graphics.h"
 #include <cstring>
-#include "Camera.h"
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include "Camera.h"
 
 Graphics_Class::Graphics_Class()
     : m_width(0)
@@ -175,7 +177,8 @@ void Graphics_Class::drawImage3D(
 void Graphics_Class::buildPerspProjMat(float *m, float fov,
                                        float aspect, float znear, float zfar)
 {
-    float xymax = znear * glm::tan((fov * M_PI) / 180.0);
+    /*float fovRad = (fov * M_PI) / 180.0;
+    float xymax = znear * glm::tan(fovRad);
     float ymin = -xymax;
     float xmin = -xymax;
 
@@ -208,5 +211,10 @@ void Graphics_Class::buildPerspProjMat(float *m, float fov,
     m[12] = 0;
     m[13] = 0;
     m[14] = qn;
-    m[15] = 0;
+    m[15] = 0;*/
+    fov *= 2.0f; // FIXME: no idea why need to do that
+    glm::mat4 persp = glm::perspective(fov, aspect, znear, zfar);
+    const float* ptr = glm::value_ptr(persp);
+    for (size_t i = 0; i < 16; ++i)
+        m[i] = ptr[i];
 }
