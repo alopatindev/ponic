@@ -13,7 +13,7 @@ cd "${BUILD_DIR}"
 
 mkdir -p bin
 cmake CMakeLists.txt
-make -j4
+make -j8
 
 cd bin
 ln -sf ../../../src/engine/platforms/linux/shaders
