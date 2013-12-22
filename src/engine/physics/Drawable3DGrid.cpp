@@ -1,12 +1,19 @@
 #include "Drawable3DGrid.h"
+//#include <engine/Log.h>
 #include <engine/Graphics.h>
 #include <cstring>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <glm/glm.hpp>
+#include <engine/System.h>
 
 Drawable3DGrid::Drawable3DGrid()
 {
     std::memset(m_tiles, Empty, 1);
     setPosition(-0.7f, -0.5f, -0.6f);
     setSize(GRAPHICS.getAspect(), 1.0f);
+    loadGrid("level1");
 }
 
 Drawable3DGrid::~Drawable3DGrid()
@@ -47,8 +54,7 @@ void Drawable3DGrid::render() const
 
                 tileWidth * 0.9f, tileHeight * 0.9f,
                 color.x, color.y, color.z,
-                0.2f);
-        }
+                0.2f); }
     }
 
     /*GRAPHICS.drawRectangle3D(
@@ -61,4 +67,37 @@ void Drawable3DGrid::render() const
 
 void Drawable3DGrid::update()
 {
+}
+
+void Drawable3DGrid::loadGrid(const std::string& grid)
+{
+    clearGrid();
+
+    /*std::string fn(SYSTEM.getResourcesPath() + "/grids/" + grid);
+    std::ifstream file(fn);
+
+    if (file.fail())
+    {
+        LOGE("file %s cannot be open", fn.c_str());
+    }
+
+    size_t width = 0;
+    size_t height = 0;
+
+    file >> width >> height;
+
+    m_grid.resize(width);
+    for (size_t x = 0; x < width; ++x)
+    {
+        m_grid[x].resize(height);
+        for (size_t y = 0; y < height; ++y)
+        {
+            //file >> m_grid[x][y];
+        }
+    }*/
+}
+
+void Drawable3DGrid::clearGrid()
+{
+    m_grid.clear();
 }

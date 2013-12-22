@@ -12,8 +12,8 @@ public:
     System_Class();
     virtual ~System_Class();
 
-    std::string getResourcesPath();
-    void setResourcesPath(const char* resourcesPath);
+    const std::string& getResourcesPath();
+    void setResourcesPath(const std::string& resourcesPath);
 
     int getDt();
     void setDt(int dt);
