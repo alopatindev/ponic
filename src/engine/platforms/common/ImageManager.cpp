@@ -45,7 +45,7 @@ void ImageManager_Class::parseAtlasXML(const std::string& filename)
         {
             std::string imageName = i.attribute("name").value();
             Image image;
-            image.groupName = groupName;
+            //image.groupName = groupName;
             LOGI("  image '%s'", imageName.c_str());
             image.left = i.attribute("left").as_float();
             image.top = i.attribute("top").as_float();

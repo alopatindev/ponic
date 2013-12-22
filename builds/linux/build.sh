@@ -5,7 +5,8 @@ set -e
 export CC=/usr/bin/clang
 export CXX=/usr/bin/clang++
 
-CXXFLAGS="${CXXFLAGS} -std=c++0x"
+CFLAGS="${CXXFLAGS} -Qunused-arguments"
+CXXFLAGS="${CXXFLAGS} -std=c++0x -Qunused-arguments"
 
 BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
 cd "${BUILD_DIR}"

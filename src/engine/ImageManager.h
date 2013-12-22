@@ -27,7 +27,7 @@ struct Group
 
 struct Image
 {
-    std::string groupName;  // deprecated member
+    //std::string groupName;  // deprecated member
     float left;
     float top;
     float right;
