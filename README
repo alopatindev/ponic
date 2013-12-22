@@ -24,3 +24,4 @@ Other dependencies (already in repo):
     sigslot (Public domain) http://sigslot.sourceforge.net/ https://gitorious.org/sigslot
     TGA loader (?) http://www.dreamincode.net/code/snippet2076.htm
     AtlasGenerator (MIT license) https://github.com/pjohalloran/texture-atlas-generator/blob/master/AtlasGenerator.py
+    glm aka OpenGL Mathematics (MIT) http://glm.g-truc.net
