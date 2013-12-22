@@ -37,7 +37,7 @@ class Graphics_Class
         bool depth;
     };
 
-    typedef std::map< float, std::queue<Command*> > BufferType;
+    typedef std::map<float, std::queue<Command*>> BufferType;
     BufferType m_imagesBuffer;
     BufferType m_imagesBufferTransparent;
 
@@ -65,8 +65,8 @@ public:
 
     // TODO: where and how should we load the font? ResourceManager?
     // how and where should we select font size for different display sizes?
-    void drawText2D(const char* fontName, int size,
-                    const char* text,
+    void drawText2D(const std::string& fontName, int size,
+                    const std::string& text,
                     float x, float y,
                     float r, float g, float b,
                     bool outline = false);
@@ -76,9 +76,10 @@ public:
                          bool onTop = false);
 
     void drawImage2D(
-        const char* group, const char* name,
+        const std::string& group, const std::string& name,
         float x, float y, float width, float height,
-        float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
+        float angle = 0.0f,
+        float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f,
         float opacity = 1.0f,
         bool onTop = false
@@ -86,10 +87,11 @@ public:
 
     // the next functions are considering camera's coordinates and zoom
     void drawImage3D(
-        const char* group, const char* name,
+        const std::string& group, const std::string& name,
         float x, float y, float z,
         float width, float height,
-        float angle = 0.0f, float centerX = 0.5f, float centerY = 0.5f,
+        float angle = 0.0f,
+        float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f,
         float opacity = 1.0f
     );
@@ -98,7 +100,7 @@ private:
     void flushRectangle2D(const Command* command);
     void flushImage2D(const Command* command);
     void flushImage3D(const Command* command);
-    void flushGeomerty(BufferType & buffer);
+    void flushGeomerty(BufferType& buffer);
     void buildPerspProjMat(float *m, float fov,
                            float aspect, float znear, float zfar);
 };

@@ -95,9 +95,10 @@ void Graphics_Class::drawRectangle2D(float x, float y,
 }
 
 void Graphics_Class::drawImage2D(
-    const char* group, const char* name,
+    const std::string& group, const std::string& name,
     float x, float y, float width, float height,
-    float angle, float centerX, float centerY,
+    float angle,
+    float centerX, float centerY,
     float scaleFactor,
     float opacity,
     bool onTop
@@ -110,8 +111,8 @@ void Graphics_Class::drawImage2D(
     Command* c = new Command;
 
     c->type = Command::Image2D;
-    c->group = std::string(group);
-    c->name = std::string(name);
+    c->group = group;
+    c->name = name;
     c->x = x;
     c->y = y;
     c->z = z;
@@ -134,10 +135,11 @@ void Graphics_Class::drawImage2D(
 }
 
 void Graphics_Class::drawImage3D(
-    const char* group, const char* name,
+    const std::string& group, const std::string& name,
     float x, float y, float z,
     float width, float height,
-    float angle, float centerX, float centerY,
+    float angle,
+    float centerX, float centerY,
     float scaleFactor,
     float opacity
 )
@@ -151,8 +153,8 @@ void Graphics_Class::drawImage3D(
     Command* c = new Command;
 
     c->type = Command::Image3D;
-    c->group = std::string(group);
-    c->name = std::string(name);
+    c->group = group;
+    c->name = name;
     c->x = x;
     c->y = y;
     c->z = z;

@@ -4,6 +4,8 @@
 *.o
 *.a
 *.so
+*.pyo
+*.pyc
 bin/
 cmake_install.cmake
 CMakeCache.txt

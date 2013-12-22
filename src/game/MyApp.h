@@ -2,9 +2,9 @@
 
 class MyApp
 {
-    float m_angle;
+    /*float m_angle;
     float m_scale;
-    int m_timer;
+    int m_timer;*/
 
 public:
     MyApp();

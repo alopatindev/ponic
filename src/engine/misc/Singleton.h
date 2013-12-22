@@ -11,5 +11,5 @@ public:
     }
 
 private:
-    void operator=(Singleton const &) {}
+    void operator=(const Singleton&) {}
 };

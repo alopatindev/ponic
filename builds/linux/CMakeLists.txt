@@ -35,6 +35,10 @@ add_executable(bin/ponic
 ../../src/engine/misc/Singleton.h
 ../../src/engine/misc/Utils.h
 ../../src/engine/misc/Utils.cpp
+../../src/engine/Drawable3D.cpp
+../../src/engine/Drawable3D.h
+../../src/game/Player.cpp
+../../src/game/Player.h
 ../../src/engine/platforms/common/ImageManager.cpp
 ../../src/engine/platforms/common/Graphics.cpp
 ../../src/engine/platforms/linux/Graphics.cpp
