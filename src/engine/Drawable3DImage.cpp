@@ -2,7 +2,6 @@
 #include "Graphics.h"
 
 Drawable3DImage::Drawable3DImage()
-    : m_opacity(1.0f)
 {
 }
 
@@ -28,9 +27,4 @@ void Drawable3DImage::setImage(const std::string& group, const std::string& name
 {
     m_group = group;
     m_name = name;
-}
-
-void Drawable3DImage::setOpacity(float opacity)
-{
-    m_opacity = opacity;
 }

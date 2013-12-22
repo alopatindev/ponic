@@ -7,6 +7,7 @@ Drawable3D::Drawable3D()
     , m_angle(0.0f)
     , m_center(glm::vec2(0.0f, 0.0f))
     , m_scaleFactor(1.0f)
+    , m_opacity(1.0f)
 {
 }
 
@@ -56,4 +57,9 @@ void Drawable3D::setCenter(float centerX, float centerY)
 void Drawable3D::setScaleFactor(float scaleFactor)
 {
     m_scaleFactor = scaleFactor;
+}
+
+void Drawable3D::setOpacity(float opacity)
+{
+    m_opacity = opacity;
 }

@@ -19,6 +19,7 @@ public:
     void setCenter(const glm::vec2& center);
     void setCenter(float centerX, float centerY);
     void setScaleFactor(float scaleFactor);
+    void setOpacity(float opacity);
 
 protected:
     glm::vec3 m_pos;
@@ -26,4 +27,5 @@ protected:
     float m_angle;
     glm::vec2 m_center;
     float m_scaleFactor;
+    float m_opacity;
 };
