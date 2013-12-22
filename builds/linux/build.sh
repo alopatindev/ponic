@@ -25,4 +25,7 @@ cd bin
 ln -sf ../../../src/engine/platforms/linux/shaders
 ../../../tools/AtlasGen/AtlasGen.py -r ../../../resources -m RGBA -t tga
 
+rm -rfv grids
+cp -rv ../../../resources/grids grids
+
 gdb ./ponic

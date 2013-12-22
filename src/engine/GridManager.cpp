@@ -27,15 +27,20 @@ void GridManager_Class::loadGrid(const std::string& grid)
     //    m_grids[grid].clear();
         return;
 
-    /*size_t width = 0;
+    size_t width = 0;
     size_t height = 0;
+    std::string line;
+    if (std::getline(file, line))
+    {
+        std::istringstream iss(line);
+        iss >> width;
+        iss >> height;
+    }
 
-    file >> width >> height;
-
-    m_grid.resize(width);
+    /*m_grids[grid].resize(width);
     for (size_t x = 0; x < width; ++x)
     {
-        m_grid[x].resize(height);
+        m_grids[grid][x].resize(height);
         for (size_t y = 0; y < height; ++y)
         {
             //file >> m_grid[x][y];
