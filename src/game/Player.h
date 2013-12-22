@@ -1,10 +1,10 @@
 #pragma once
 
 //#include <engine/physics/Drawable3DBody.h>
-#include "../engine/Drawable3D.h"
+#include "../engine/Drawable3DImage.h"
 #include <glm/glm.hpp>
 
-class Player : public Drawable3D
+class Player : public Drawable3DImage
 {
 public:
     Player();

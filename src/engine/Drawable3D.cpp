@@ -1,5 +1,4 @@
 #include "Drawable3D.h"
-#include "Graphics.h"
 #include <glm/glm.hpp>
 
 Drawable3D::Drawable3D()
@@ -8,32 +7,11 @@ Drawable3D::Drawable3D()
     , m_angle(0.0f)
     , m_center(glm::vec2(0.0f, 0.0f))
     , m_scaleFactor(1.0f)
-    , m_opacity(1.0f)
 {
 }
 
 Drawable3D::~Drawable3D()
 {
-}
-
-void Drawable3D::render() const
-{
-    GRAPHICS.drawImage3D(
-        m_group,
-        m_name,
-        m_pos.x, m_pos.y, m_pos.z,
-        m_size.x, m_size.y,
-        m_angle,
-        m_center.x, m_center.y,
-        m_scaleFactor,
-        m_opacity
-    );
-}
-
-void Drawable3D::setImage(const std::string& group, const std::string& name)
-{
-    m_group = group;
-    m_name = name;
 }
 
 void Drawable3D::setPosition(const glm::vec3& pos)
@@ -78,9 +56,4 @@ void Drawable3D::setCenter(float centerX, float centerY)
 void Drawable3D::setScaleFactor(float scaleFactor)
 {
     m_scaleFactor = scaleFactor;
-}
-
-void Drawable3D::setOpacity(float opacity)
-{
-    m_opacity = opacity;
 }

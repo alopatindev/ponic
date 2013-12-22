@@ -37,6 +37,8 @@ add_executable(bin/ponic
 ../../src/engine/misc/Utils.cpp
 ../../src/engine/Drawable3D.cpp
 ../../src/engine/Drawable3D.h
+../../src/engine/Drawable3DImage.cpp
+../../src/engine/Drawable3DImage.h
 ../../src/game/Player.cpp
 ../../src/game/Player.h
 ../../src/engine/platforms/common/ImageManager.cpp
