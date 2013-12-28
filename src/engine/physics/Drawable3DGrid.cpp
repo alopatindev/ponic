@@ -70,6 +70,20 @@ void Drawable3DGrid::update()
     }*/
 }
 
+void Drawable3DGrid::step(const glm::i32vec2& vec)
+{
+    glm::i32vec2 newCursor = m_cursor;
+    newCursor += vec;
+
+    int32_t width = (*m_grid).size();
+    if ((newCursor.x > 0) && (newCursor.x < width - GRID_WIDTH))
+        m_cursor.x = newCursor.x;
+
+    int32_t height = (*m_grid)[0].size();
+    if ((newCursor.y > 0) && (newCursor.y < height - GRID_HEIGHT))
+        m_cursor.y = newCursor.y;
+}
+
 void Drawable3DGrid::stepUp()
 {
     int32_t height = (*m_grid)[0].size();

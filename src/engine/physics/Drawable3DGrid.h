@@ -19,6 +19,7 @@ public:
     virtual void update() override;
     void setGrid(const std::string& grid);
 
+    void step(const glm::i32vec2& vec);
     void stepUp();
     void stepDown();
     void stepLeft();
