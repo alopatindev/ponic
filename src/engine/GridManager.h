@@ -5,13 +5,11 @@
 #include <unordered_map>
 #include <vector>
 
+enum TileType {Empty, Surface, Player};
+typedef std::vector<std::vector<TileType>> Grid;
+
 class GridManager_Class
 {
-public:
-    enum TileType {Empty, Surface, Player};
-    typedef std::vector<std::vector<TileType>> Grid;
-
-private:
     std::unordered_map<std::string, Grid> m_grids;
 
 public:
@@ -21,6 +19,8 @@ public:
     void loadGrid(const std::string& grid);
     void freeGrid(const std::string& grid);
     void freeAllGrids();
+
+    const Grid& getGrid(const std::string& grid);
 };
 
 typedef Singleton<GridManager_Class> GridManager;

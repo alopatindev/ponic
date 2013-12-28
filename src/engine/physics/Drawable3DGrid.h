@@ -3,17 +3,27 @@
 #include <engine/physics/Drawable3DGrid.h>
 #include <all.h>
 
-static const size_t GRID_TILES_HORIZONTAL = 10;
-static const size_t GRID_TILES_VERTICAL = 8;
+static const size_t GRID_WIDTH = 10;
+static const size_t GRID_HEIGHT = 8;
 
 class Drawable3DGrid : public Drawable3D
 {
-    GridManager_Class::TileType m_tiles[GRID_TILES_HORIZONTAL][GRID_TILES_VERTICAL];
-    GridManager_Class::Grid m_grid;
+    TileType m_gridBuffer[GRID_WIDTH][GRID_HEIGHT];
+    const Grid* m_grid;
+    glm::i32vec2 m_cursor;  // left+up corner of the grid
 
 public:
     Drawable3DGrid();
     virtual ~Drawable3DGrid() override;
     virtual void render() const override;
     virtual void update() override;
+    void setGrid(const std::string& grid);
+
+    void stepUp();
+    void stepDown();
+    void stepLeft();
+    void stepRight();
+
+private:
+    void updateBuffer();
 };

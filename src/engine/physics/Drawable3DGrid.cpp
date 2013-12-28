@@ -1,8 +1,11 @@
 #include "Drawable3DGrid.h"
+#include <engine/GridManager.h>
 
 Drawable3DGrid::Drawable3DGrid()
+    : m_grid(nullptr)
+    , m_cursor(glm::i32vec2(0, 0))
 {
-    std::memset(m_tiles, GridManager_Class::Empty, 1);
+    std::memset(m_gridBuffer, Empty, 1);
     setPosition(-0.7f, -0.5f, -0.6f);
     setSize(GRAPHICS.getAspect(), 1.0f);
 }
@@ -17,23 +20,23 @@ void Drawable3DGrid::render() const
         return;
 
 #ifdef _DEBUG
-    float tileWidth = m_size.x / GRID_TILES_HORIZONTAL;
-    float tileHeight = m_size.y / GRID_TILES_VERTICAL;
+    float tileWidth = m_size.x / GRID_WIDTH;
+    float tileHeight = m_size.y / GRID_HEIGHT;
 
     glm::vec3 color;
-    for (size_t x = 0; x < GRID_TILES_HORIZONTAL; ++x)
+    for (size_t x = 0; x < GRID_WIDTH; ++x)
     {
-        for (size_t y = 0; y < GRID_TILES_VERTICAL; ++y)
+        for (size_t y = 0; y < GRID_HEIGHT; ++y)
         {
-            switch (m_tiles[x][y])
+            switch (m_gridBuffer[x][y])
             {
-            case GridManager_Class::Empty:
+            case Empty:
                 color = glm::vec3(0.0f, 0.0f, 0.2f);
                 break;
-            case GridManager_Class::Surface:
-                color = glm::vec3(0.0f, 0.4f, 0.0f);
+            case Surface:
+                color = glm::vec3(0.0f, 0.9f, 0.0f);
                 break;
-            case GridManager_Class::Player:
+            case Player:
                 color = glm::vec3(0.4f, 0.0f, 0.0f);
                 break;
             }
@@ -58,4 +61,60 @@ void Drawable3DGrid::render() const
 
 void Drawable3DGrid::update()
 {
+    /*static int timer = 0;
+    timer += SYSTEM.getDt();
+    if (timer >= 500)
+    {
+        timer = 0;
+        stepRight();
+    }*/
+}
+
+void Drawable3DGrid::stepUp()
+{
+    int32_t height = (*m_grid)[0].size();
+    if (m_cursor.y < height - GRID_HEIGHT)
+        m_cursor.y++;
+    updateBuffer();
+}
+
+void Drawable3DGrid::stepDown()
+{
+    if (m_cursor.y > 0)
+        m_cursor.y--;
+    updateBuffer();
+}
+
+void Drawable3DGrid::stepLeft()
+{
+    if (m_cursor.x > 0)
+        m_cursor.x--;
+    updateBuffer();
+}
+
+void Drawable3DGrid::stepRight()
+{
+    int32_t width = (*m_grid).size();
+    if (m_cursor.x < width - GRID_WIDTH)
+        m_cursor.x++;
+    updateBuffer();
+}
+
+void Drawable3DGrid::setGrid(const std::string& grid)
+{
+    m_grid = &GridManager::getInstance().getGrid(grid);
+    m_cursor = glm::i32vec2(0, 0);
+    updateBuffer();
+}
+
+void Drawable3DGrid::updateBuffer()
+{
+    const Grid& grid = *m_grid;
+    for (int32_t x = 0; x < GRID_WIDTH; ++x)
+    {
+        for (int32_t y = 0; y < GRID_HEIGHT; ++y)
+        {
+            m_gridBuffer[x][y] = grid[x + m_cursor.x][y + m_cursor.y];
+        }
+    }
 }

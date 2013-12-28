@@ -58,11 +58,17 @@ void MyApp::update()
 
 void MyApp::render() const
 {
-    static Player player;
+    //static Player player;
     static Drawable3DGrid grid;
+    static bool b = true;
+    if (b)
+    {
+        grid.setGrid("level1");
+        b = false;
+    }
 
     GRAPHICS.startFrame();
-        player.render();
+        //player.render();
         grid.render();
         /*GRAPHICS.drawImage3D(
             "game_common",
@@ -123,4 +129,6 @@ void MyApp::render() const
         CAMERA.update();
     GRAPHICS.endFrame();
     GRAPHICS.forceRedraw();
+
+    grid.update();
 }
