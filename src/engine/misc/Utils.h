@@ -4,5 +4,5 @@
 
 namespace Utils
 {
-    std::string fileToString(const char* filename);
+    std::string fileToString(const std::string& filename);
 }

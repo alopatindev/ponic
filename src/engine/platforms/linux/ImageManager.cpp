@@ -55,7 +55,7 @@ void ImageManager_Class::freeAllGroups()
     }
 }
 
-Image*
+const Image&
 ImageManager_Class::bindImage(const std::string& group, const std::string& name)
 {
 #ifdef _DEBUG
@@ -72,5 +72,5 @@ ImageManager_Class::bindImage(const std::string& group, const std::string& name)
         m_bindedTextureId = id;
     }
 
-    return &m_groupsImages[group][name];
+    return m_groupsImages[group][name];
 }

@@ -1,10 +1,10 @@
 #pragma once
 
+#include "Scene.h"
+
 class MyApp
 {
-    /*float m_angle;
-    float m_scale;
-    int m_timer;*/
+    //Scene m_scene;
 
 public:
     MyApp();
@@ -12,6 +12,7 @@ public:
 
     void init();
     void destroy();
-    void update();
+    void update(int dt);
+    void fixedUpdate(int dt);
     void render() const;
 };

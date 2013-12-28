@@ -8,8 +8,9 @@ class Player : public Drawable3DImage
 {
 public:
     Player();
-    virtual ~Player() override;
+    virtual ~Player();
 
-    //virtual void render() const override;
-    virtual void update() override;
+    virtual void render() const;
+    virtual void update(int dt);
+    virtual void fixedUpdate(int dt);
 };

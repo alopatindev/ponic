@@ -52,7 +52,7 @@ public:
     void freeGroup(const std::string& group);
     void freeAllGroups();
 
-    Image* bindImage(const std::string& group, const std::string& name);
+    const Image& bindImage(const std::string& group, const std::string& name);
 };
 
 typedef Singleton<ImageManager_Class> ImageManager;

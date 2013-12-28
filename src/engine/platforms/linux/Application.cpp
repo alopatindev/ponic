@@ -1,5 +1,5 @@
-#include "Application.h"
 #include <GL/glew.h>
+#include "Application.h"
 #include "Log.h"
 #include "System.h"
 #include "Graphics.h"
@@ -34,15 +34,28 @@ void Application::run()
 void Application::onUpdate()
 {
     static int timeBase = -1;
+    static int timeBaseFixed = -1;
 
     int time = glutGet(GLUT_ELAPSED_TIME);
     if (timeBase < 0)
+    {
         timeBase = time;
+        timeBaseFixed = time;
+    }
 
-    m_app->update();
-
-    SYSTEM.setDt(time - timeBase);
+    int dt = time - timeBase;
+    m_app->update(dt);
     timeBase = time;
+
+    static int fixedTimer = 0;;
+    fixedTimer += time;
+    if (fixedTimer >= FIXED_TIMER_FREQ)
+    {
+        fixedTimer = 0;
+        int dtFixed = time - timeBaseFixed;
+        m_app->fixedUpdate(dtFixed);
+        timeBaseFixed = time;
+    }
 }
 
 void Application::onRender()

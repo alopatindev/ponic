@@ -9,6 +9,8 @@ class Application
     static MyApp* m_app;  // virtual functions are so slow,
                           // I won't use them here
 
+    static const int FIXED_TIMER_FREQ = 20;
+
 public:
     static void init();
     static void destroy();

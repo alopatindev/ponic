@@ -10,7 +10,8 @@ public:
     virtual ~Drawable3D();
 
     virtual void render() const = 0;
-    virtual void update() = 0;
+    virtual void update(int dt) = 0;
+    virtual void fixedUpdate(int dt) = 0;
 
     void setPosition(const glm::vec3& pos);
     void setPosition(float x, float y, float z);

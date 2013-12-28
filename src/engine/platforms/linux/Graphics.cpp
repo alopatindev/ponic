@@ -156,7 +156,7 @@ void Graphics_Class::flushRectangle2D(const Command* c)
 
 void Graphics_Class::flushImage2D(const Command* c)
 {
-    Image* image = ImageManager::getInstance().bindImage(c->group, c->name);
+    const Image& image = ImageManager::getInstance().bindImage(c->group, c->name);
 
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;
@@ -169,13 +169,13 @@ void Graphics_Class::flushImage2D(const Command* c)
                        0.0f + xOffset,  0.0f + yOffset,
                        c->width + xOffset, 0.0f + yOffset};
 
-    GLfloat uv[] = {image->left, image->top,
-                    image->right, image->top,
-                    image->right, image->bottom,
+    GLfloat uv[] = {image.left, image.top,
+                    image.right, image.top,
+                    image.right, image.bottom,
                     
-                    image->left, image->top,
-                    image->left, image->bottom,
-                    image->right, image->bottom};
+                    image.left, image.top,
+                    image.left, image.bottom,
+                    image.right, image.bottom};
 
     glUniform1fARB(uniformOrtho, true);
 
@@ -261,7 +261,7 @@ void Graphics_Class::flushRectangle3D(const Command* c)
 
 void Graphics_Class::flushImage3D(const Command* c)
 {
-    Image* image = ImageManager::getInstance().bindImage(c->group, c->name);
+    const Image& image = ImageManager::getInstance().bindImage(c->group, c->name);
 
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;
@@ -274,13 +274,13 @@ void Graphics_Class::flushImage3D(const Command* c)
                        0.0f + xOffset,  0.0f + yOffset, c->z,
                        c->width + xOffset, 0.0f + yOffset, c->z};
 
-    GLfloat uv[] = {image->left, image->top,
-                    image->right, image->top,
-                    image->right, image->bottom,
+    GLfloat uv[] = {image.left, image.top,
+                    image.right, image.top,
+                    image.right, image.bottom,
                     
-                    image->left, image->top,
-                    image->left, image->bottom,
-                    image->right, image->bottom};
+                    image.left, image.top,
+                    image.left, image.bottom,
+                    image.right, image.bottom};
 
     glUniform1fARB(uniformOrtho, false);
 

@@ -6,7 +6,8 @@
 class Drawable3DBody : public Drawable3D
 {
 public:
-    virtual ~Drawable3DBody() override = 0;
-    virtual void render() const override = 0;
-    virtual void update() override = 0;
+    virtual ~Drawable3DBody() = 0;
+    virtual void render() const = 0;
+    virtual void update(int dt) = 0;
+    virtual void fixedUpdate(int dt) = 0;
 };

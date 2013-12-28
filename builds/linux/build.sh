@@ -2,11 +2,16 @@
 
 set -e
 
-export CC=/usr/bin/clang
-export CXX=/usr/bin/clang++
+USE_CLANG=1
 
-CFLAGS="${CXXFLAGS} -Qunused-arguments"
-CXXFLAGS="${CXXFLAGS} -std=c++11 -Qunused-arguments"
+if [[ "${USE_CLANG}" -eq 1 ]]; then
+    export CC=/usr/bin/clang
+    export CXX=/usr/bin/clang++
+    CFLAGS="${CFLAGS} -Qunused-arguments"
+    CXXFLAGS="${CXXFLAGS} -std=c++11 -Qunused-arguments"
+else
+    CXXFLAGS="${CXXFLAGS} -std=c++0x"
+fi
 
 BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
 cd "${BUILD_DIR}/../../src"

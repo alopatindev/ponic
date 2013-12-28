@@ -15,6 +15,14 @@ Player::~Player()
 {
 }
 
-void Player::update()
+void Player::update(int dt)
+{
+}
+
+void Player::fixedUpdate(int dt)
+{
+}
+
+void Player::render() const
 {
 }

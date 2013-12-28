@@ -29,8 +29,8 @@ void GridManager_Class::loadGrid(const std::string& grid)
 
     LOGI("loading grid %s", grid.c_str());
 
-    size_t width = 0;
-    size_t height = 0;
+    int32_t width = 0;
+    int32_t height = 0;
     std::string line;
     if (std::getline(file, line))
     {

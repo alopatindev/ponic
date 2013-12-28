@@ -59,10 +59,14 @@ void Drawable3DGrid::render() const
 #endif
 }
 
-void Drawable3DGrid::update()
+void Drawable3DGrid::update(int dt)
+{
+}
+
+void Drawable3DGrid::fixedUpdate(int dt)
 {
     /*static int timer = 0;
-    timer += SYSTEM.getDt();
+    timer += dt;
     if (timer >= 500)
     {
         timer = 0;

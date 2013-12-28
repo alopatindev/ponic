@@ -27,6 +27,7 @@ add_executable(bin/${APP_NAME}
 ../../src/game/Effects.cpp
 ../../src/game/MyApp.cpp
 ../../src/game/Player.cpp
+../../src/game/Scene.cpp
 ../../src/engine/drawables/Drawable3D.cpp
 ../../src/engine/drawables/Drawable3DImage.cpp
 ../../src/engine/GridManager.cpp

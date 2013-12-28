@@ -10,8 +10,8 @@ class Drawable3DImage : public Drawable3D
 
 public:
     Drawable3DImage();
-    virtual ~Drawable3DImage() override;
+    virtual ~Drawable3DImage();
 
-    virtual void render() const override;
+    virtual void render() const;
     void setImage(const std::string& group, const std::string& name);
 };

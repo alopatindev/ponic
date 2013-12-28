@@ -14,9 +14,10 @@ class Drawable3DGrid : public Drawable3D
 
 public:
     Drawable3DGrid();
-    virtual ~Drawable3DGrid() override;
-    virtual void render() const override;
-    virtual void update() override;
+    virtual ~Drawable3DGrid();
+    virtual void render() const;
+    virtual void update(int dt);
+    virtual void fixedUpdate(int dt);
     void setGrid(const std::string& grid);
 
     void step(const glm::i32vec2& vec);

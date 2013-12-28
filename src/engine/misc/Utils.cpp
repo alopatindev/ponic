@@ -5,9 +5,9 @@
 
 namespace Utils
 {
-    std::string fileToString(const char* filename)
+    std::string fileToString(const std::string& filename)
     {
-        std::ifstream file((SYSTEM.getResourcesPath() + filename).c_str());
+        std::ifstream file(SYSTEM.getResourcesPath() + filename);
         std::string str((std::istreambuf_iterator<char>(file)),
                          std::istreambuf_iterator<char>());
         file.close();

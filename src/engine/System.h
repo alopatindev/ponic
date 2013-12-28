@@ -5,7 +5,6 @@
 
 class System_Class
 {
-    int m_dt;
     std::string m_resourcesPath;
 
 public:
@@ -14,9 +13,6 @@ public:
 
     const std::string& getResourcesPath();
     void setResourcesPath(const std::string& resourcesPath);
-
-    int getDt();
-    void setDt(int dt);
 };
 
 typedef Singleton<System_Class> System;
