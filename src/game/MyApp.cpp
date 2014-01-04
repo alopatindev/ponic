@@ -18,7 +18,7 @@ MyApp::~MyApp()
 
 void MyApp::init()
 {
-    GRAPHICS.init();
+    //GRAPHICS.init();
     ImageManager::get().parseAtlasXML("atlases/atlasDictionary.xml");
     ImageManager::get().loadGroup("game_common");
     FontManager::get().loadFont("font.ttf", 16, 24, 38, 0);

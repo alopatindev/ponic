@@ -10,13 +10,14 @@ MyApp* Application::m_app = 0;
 void Application::init()
 {
     std::atexit(Application::destroy);
+    GRAPHICS.init();
     m_app = new MyApp();
     m_app->init();
-    glutDisplayFunc(Application::onRender);
+    /*glutDisplayFunc(Application::onRender);
     glutIdleFunc(Application::onUpdate);
     glutReshapeFunc(Application::onReshape);
     Application::onReshape(glutGet(GLUT_WINDOW_WIDTH),
-                           glutGet(GLUT_WINDOW_HEIGHT));
+                           glutGet(GLUT_WINDOW_HEIGHT));*/
 }
 
 void Application::destroy()

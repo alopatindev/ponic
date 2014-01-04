@@ -8,6 +8,7 @@
 #include "FontManager.h"
 #include "misc/Utils.h"
 #include "Assert.h"
+#include "Application.h"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -42,6 +43,12 @@ void Graphics_Class::init()
     glewInit();
     ASSERT(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader,
            "no GLSL support")
+
+    glutDisplayFunc(Application::onRender);
+    glutIdleFunc(Application::onUpdate);
+    glutReshapeFunc(Application::onReshape);
+    Application::onReshape(glutGet(GLUT_WINDOW_WIDTH),
+                           glutGet(GLUT_WINDOW_HEIGHT));
 
     initShaders();
 
