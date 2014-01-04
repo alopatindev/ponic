@@ -122,7 +122,7 @@ void Drawable3DGrid::stepRight()
 
 void Drawable3DGrid::setGrid(const std::string& grid)
 {
-    m_grid = &GridManager::getInstance().getGrid(grid);
+    m_grid = &GridManager::get().getGrid(grid);
     m_cursor = glm::ivec2(0, 0);
     updateBuffer();
 }

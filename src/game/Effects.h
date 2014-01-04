@@ -22,4 +22,4 @@ public:
 
 typedef Singleton<Effects_Class> Effects;
 
-#define EFFECTS (Effects::getInstance())
+#define EFFECTS (Effects::get())

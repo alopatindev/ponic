@@ -19,16 +19,16 @@ MyApp::~MyApp()
 void MyApp::init()
 {
     GRAPHICS.init();
-    ImageManager::getInstance().parseAtlasXML("atlases/atlasDictionary.xml");
-    ImageManager::getInstance().loadGroup("game_common");
-    FontManager::getInstance().loadFont("font.ttf", 16, 24, 38, 0);
-    ImageManager::getInstance().loadGroup("test1");
-    GridManager::getInstance().loadGrid("level1");
+    ImageManager::get().parseAtlasXML("atlases/atlasDictionary.xml");
+    ImageManager::get().loadGroup("game_common");
+    FontManager::get().loadFont("font.ttf", 16, 24, 38, 0);
+    ImageManager::get().loadGroup("test1");
+    GridManager::get().loadGrid("level1");
 }
 
 void MyApp::destroy()
 {
-    ImageManager::getInstance().freeAllGroups();
+    ImageManager::get().freeAllGroups();
 }
 
 void MyApp::update(int dt)

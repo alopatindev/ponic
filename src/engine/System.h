@@ -17,4 +17,4 @@ public:
 
 typedef Singleton<System_Class> System;
 
-#define SYSTEM (System::getInstance())
+#define SYSTEM (System::get())

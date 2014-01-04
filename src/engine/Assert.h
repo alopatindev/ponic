@@ -17,7 +17,7 @@
                     __STRING(expr), \
                     ##__VA_ARGS__ \
                 ); \
-                Log::getInstance().printStack(); \
+                Log::get().printStack(); \
                 /*exit(1);*/\
             } \
         }

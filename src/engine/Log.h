@@ -16,9 +16,9 @@ public:
 typedef Singleton<Log_Class> Log;
 
 #ifdef _DEBUG
-    #define LOGI(...) Log::getInstance().info(__VA_ARGS__)
-    #define LOGW(...) Log::getInstance().warn(__VA_ARGS__)
-    #define LOGE(...) Log::getInstance().err(__VA_ARGS__)
+    #define LOGI(...) Log::get().info(__VA_ARGS__)
+    #define LOGW(...) Log::get().warn(__VA_ARGS__)
+    #define LOGE(...) Log::get().err(__VA_ARGS__)
 #else
     #define LOGI(...) {}
     #define LOGW(...) {}

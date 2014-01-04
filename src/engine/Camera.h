@@ -78,4 +78,4 @@ public:
 
 typedef Singleton<Camera_Class> Camera;
 
-#define CAMERA (Camera::getInstance())
+#define CAMERA (Camera::get())

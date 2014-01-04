@@ -156,7 +156,7 @@ void Graphics_Class::flushRectangle2D(const Command* c)
 
 void Graphics_Class::flushImage2D(const Command* c)
 {
-    const Image& image = ImageManager::getInstance().bindImage(c->group, c->name);
+    const Image& image = ImageManager::get().bindImage(c->group, c->name);
 
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;
@@ -261,7 +261,7 @@ void Graphics_Class::flushRectangle3D(const Command* c)
 
 void Graphics_Class::flushImage3D(const Command* c)
 {
-    const Image& image = ImageManager::getInstance().bindImage(c->group, c->name);
+    const Image& image = ImageManager::get().bindImage(c->group, c->name);
 
     GLfloat xOffset = -c->centerX * c->width;
     GLfloat yOffset = -c->centerY * c->height;

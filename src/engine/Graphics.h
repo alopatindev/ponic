@@ -114,4 +114,4 @@ private:
 
 typedef Singleton<Graphics_Class> Graphics;
 
-#define GRAPHICS (Graphics::getInstance())
+#define GRAPHICS (Graphics::get())
