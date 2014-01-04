@@ -9,7 +9,7 @@ Drawable3DGrid::Drawable3DGrid()
 {
     std::memset(m_gridBuffer, Empty, 1);
     setSize(GRAPHICS.getAspect(), 1.0f);
-    m_startPos = glm::vec3(-0.5f, -0.5f, -0.6f);
+    m_startPos = glm::vec3(-0.7f, -0.5f, -0.6f);
     m_tryPos = m_pos;
     setPosition(m_startPos);
 }
@@ -24,8 +24,8 @@ void Drawable3DGrid::render() const
         return;
 
 #ifdef _DEBUG
-    float tileWidth = m_size.x / GRID_WIDTH;
-    float tileHeight = m_size.y / GRID_HEIGHT;
+    float tileWidth = getTileWidth();
+    float tileHeight = getTileHeight();
 
     glm::vec3 color;
     for (size_t x = 0; x < GRID_WIDTH; ++x)
@@ -40,7 +40,7 @@ void Drawable3DGrid::render() const
             case Surface:
                 color = glm::vec3(0.0f, 0.9f, 0.0f);
                 break;
-            case Player:
+            case Animal:
                 color = glm::vec3(0.4f, 0.0f, 0.0f);
                 break;
             }
@@ -52,14 +52,9 @@ void Drawable3DGrid::render() const
 
                 tileWidth * 0.9f, tileHeight * 0.9f,
                 color.x, color.y, color.z,
-                0.2f); }
+                0.2f);
+        }
     }
-
-    /*GRAPHICS.drawRectangle3D(
-        m_pos.x, m_pos.y, m_pos.z,
-        m_size.x, m_size.y,
-        0.0f, 0.0f, 0.2f,
-        0.3f);*/
 #endif
 }
 
@@ -69,7 +64,7 @@ void Drawable3DGrid::update(int dt)
 
 void Drawable3DGrid::fixedUpdate(int dt)
 {
-    float tileWidth = m_size.x / GRID_WIDTH;
+    float tileWidth = getTileWidth();
     if (!canStepLeft() && m_tryPos.x > m_startPos.x)
         return;
     if (!canStepRight() && m_tryPos.x < m_startPos.x - tileWidth)
@@ -155,24 +150,34 @@ void Drawable3DGrid::updateBuffer()
     }
 }
 
-bool Drawable3DGrid::canStepUp()
+bool Drawable3DGrid::canStepUp() const
 {
     int32_t height = (*m_grid)[0].size();
     return m_cursor.y < height - GRID_HEIGHT;
 }
 
-bool Drawable3DGrid::canStepDown()
+bool Drawable3DGrid::canStepDown() const
 {
     return m_cursor.y > 0;
 }
 
-bool Drawable3DGrid::canStepLeft()
+bool Drawable3DGrid::canStepLeft() const
 {
     return m_cursor.x > 0;
 }
 
-bool Drawable3DGrid::canStepRight()
+bool Drawable3DGrid::canStepRight() const
 {
     int32_t width = (*m_grid).size();
     return m_cursor.x < width - GRID_WIDTH;
+}
+
+float Drawable3DGrid::getTileWidth() const
+{
+    return m_size.x / GRID_WIDTH;
+}
+
+float Drawable3DGrid::getTileHeight() const
+{
+    return m_size.y / GRID_HEIGHT;
 }

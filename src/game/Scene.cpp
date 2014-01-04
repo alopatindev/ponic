@@ -8,6 +8,7 @@ Scene::Scene()
     , m_speed(glm::vec3(0.0f, 0.0f, 0.0f))
 {
     m_grid.setGrid("level1");
+    m_player.setSize(m_grid.getTileWidth() * 2.0f, m_grid.getTileHeight());
     Input::get().press.connect(this, &Scene::onPress);
     Input::get().release.connect(this, &Scene::onRelease);
 }
@@ -19,11 +20,13 @@ Scene::~Scene()
 void Scene::render() const
 {
     m_grid.render();
+    m_player.render();
 }
 
 void Scene::update(int dt)
 {
     m_grid.update(dt);
+    m_player.update(dt);
 }
 
 void Scene::fixedUpdate(int dt)
@@ -54,13 +57,13 @@ void Scene::fixedUpdate(int dt)
 
     glm::vec3 newPos = m_grid.getPosition() + m_speed;
     m_grid.trySetPosition(newPos);
-
     m_grid.fixedUpdate(dt);
+
+    m_player.fixedUpdate(dt);
 }
 
 void Scene::onPress(Input_Class::Key key)
 {
-    LOGI("onPress key=%d", key);
     switch (key)
     {
     case Input_Class::Left:
@@ -74,7 +77,6 @@ void Scene::onPress(Input_Class::Key key)
 
 void Scene::onRelease(Input_Class::Key key)
 {
-    LOGI("onRelease key=%d", key);
     switch (key)
     {
     case Input_Class::Left:

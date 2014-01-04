@@ -9,7 +9,7 @@ public:
     Player();
     virtual ~Player();
 
-    virtual void render() const;
     virtual void update(int dt);
     virtual void fixedUpdate(int dt);
+    void render() const;
 };

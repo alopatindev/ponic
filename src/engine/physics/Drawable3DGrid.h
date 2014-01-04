@@ -5,8 +5,8 @@
 #include <glm/glm.hpp>
 #include <cstdlib>
 
-static const size_t GRID_WIDTH = 10;
-static const size_t GRID_HEIGHT = 8;
+static const size_t GRID_WIDTH = 20;
+static const size_t GRID_HEIGHT = 12;
 
 class Drawable3DGrid : public Drawable3D
 {
@@ -32,11 +32,14 @@ public:
 
     void trySetPosition(const glm::vec3& vec);
 
+    float getTileWidth() const;
+    float getTileHeight() const;
+
 private:
     void updateBuffer();
 
-    bool canStepUp();
-    bool canStepDown();
-    bool canStepLeft();
-    bool canStepRight();
+    bool canStepUp() const;
+    bool canStepDown() const;
+    bool canStepLeft() const;
+    bool canStepRight() const;
 };

@@ -63,6 +63,10 @@ ImageManager_Class::bindImage(const std::string& group, const std::string& name)
         LOGE("trying to get image '%s' from unloaded group '%s'",
              name.c_str(),
              group.c_str());
+    if (m_groupsImages[group].find(name) == m_groupsImages[group].end())
+        LOGE("trying to get unknown image '%s' from group '%s'",
+             name.c_str(),
+             group.c_str());
 #endif
 
     GLuint id = m_groups[group].textureId;
