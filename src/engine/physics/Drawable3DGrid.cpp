@@ -1,9 +1,11 @@
 #include "Drawable3DGrid.h"
 #include <engine/GridManager.h>
+#include <engine/Graphics.h>
+#include <cstring>
 
 Drawable3DGrid::Drawable3DGrid()
     : m_grid(nullptr)
-    , m_cursor(glm::i32vec2(0, 0))
+    , m_cursor(glm::ivec2(0, 0))
 {
     std::memset(m_gridBuffer, Empty, 1);
     setPosition(-0.7f, -0.5f, -0.6f);
@@ -74,9 +76,9 @@ void Drawable3DGrid::fixedUpdate(int dt)
     }*/
 }
 
-void Drawable3DGrid::step(const glm::i32vec2& vec)
+void Drawable3DGrid::step(const glm::ivec2& vec)
 {
-    glm::i32vec2 newCursor = m_cursor;
+    glm::ivec2 newCursor = m_cursor;
     newCursor += vec;
 
     int32_t width = (*m_grid).size();
@@ -121,7 +123,7 @@ void Drawable3DGrid::stepRight()
 void Drawable3DGrid::setGrid(const std::string& grid)
 {
     m_grid = &GridManager::getInstance().getGrid(grid);
-    m_cursor = glm::i32vec2(0, 0);
+    m_cursor = glm::ivec2(0, 0);
     updateBuffer();
 }
 

@@ -33,19 +33,19 @@ void MyApp::destroy()
 
 void MyApp::update(int dt)
 {
-    //m_scene.update(dt);
+    m_scene.update(dt);
     EFFECTS.update(dt);
 }
 
 void MyApp::fixedUpdate(int dt)
 {
-    //m_scene.fixedUpdate(dt);
+    m_scene.fixedUpdate(dt);
 }
 
 void MyApp::render() const
 {
     GRAPHICS.startFrame();
-        //m_scene.render();
+        m_scene.render();
         EFFECTS.render();
         CAMERA.update();
     GRAPHICS.endFrame();

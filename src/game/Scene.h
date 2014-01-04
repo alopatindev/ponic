@@ -8,7 +8,7 @@
 class Scene : public Drawable3D
 {
     //Player m_player;
-    //Drawable3DGrid m_grid;
+    Drawable3DGrid m_grid;
 
 public:
     Scene();

@@ -4,7 +4,7 @@
 
 class MyApp
 {
-    //Scene m_scene;
+    Scene m_scene;
 
 public:
     MyApp();

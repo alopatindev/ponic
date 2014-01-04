@@ -1,6 +1,5 @@
 #pragma once
 
-//#include <engine/physics/Drawable3DBody.h>
 #include <engine/drawables/Drawable3DImage.h>
 #include <glm/glm.hpp>
 
