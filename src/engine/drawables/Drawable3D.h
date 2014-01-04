@@ -15,6 +15,7 @@ public:
 
     void setPosition(const glm::vec3& pos);
     void setPosition(float x, float y, float z);
+    const glm::vec3& getPosition();
     void setSize(const glm::vec2& size);
     void setSize(float width, float height);
     void setAngle(float angle);

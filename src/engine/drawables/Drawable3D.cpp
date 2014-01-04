@@ -27,6 +27,11 @@ void Drawable3D::setPosition(float x, float y, float z)
     m_pos.z = z;
 }
 
+const glm::vec3& Drawable3D::getPosition()
+{
+    return m_pos;
+}
+
 void Drawable3D::setSize(const glm::vec2& size)
 {
     m_size = size;

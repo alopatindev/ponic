@@ -12,6 +12,12 @@ class Scene : public Drawable3D, public sigslot::has_slots<>
     //Player m_player;
     Drawable3DGrid m_grid;
 
+    bool m_pressedLeft;
+    bool m_pressedRight;
+    int m_pressTimer;
+
+    glm::vec3 m_speed;
+
 public:
     Scene();
     virtual ~Scene();

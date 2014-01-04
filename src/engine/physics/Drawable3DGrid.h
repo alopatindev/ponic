@@ -13,6 +13,8 @@ class Drawable3DGrid : public Drawable3D
     TileType m_gridBuffer[GRID_WIDTH][GRID_HEIGHT];
     const Grid* m_grid;
     glm::ivec2 m_cursor;  // left+up corner of the grid
+    glm::vec3 m_startPos;
+    glm::vec3 m_tryPos;
 
 public:
     Drawable3DGrid();
@@ -28,6 +30,13 @@ public:
     void stepLeft();
     void stepRight();
 
+    void trySetPosition(const glm::vec3& vec);
+
 private:
     void updateBuffer();
+
+    bool canStepUp();
+    bool canStepDown();
+    bool canStepLeft();
+    bool canStepRight();
 };

@@ -8,8 +8,10 @@ Drawable3DGrid::Drawable3DGrid()
     , m_cursor(glm::ivec2(0, 0))
 {
     std::memset(m_gridBuffer, Empty, 1);
-    setPosition(-0.7f, -0.5f, -0.6f);
     setSize(GRAPHICS.getAspect(), 1.0f);
+    m_startPos = glm::vec3(-0.5f, -0.5f, -0.6f);
+    m_tryPos = m_pos;
+    setPosition(m_startPos);
 }
 
 Drawable3DGrid::~Drawable3DGrid()
@@ -67,13 +69,24 @@ void Drawable3DGrid::update(int dt)
 
 void Drawable3DGrid::fixedUpdate(int dt)
 {
-    /*static int timer = 0;
-    timer += dt;
-    if (timer >= 500)
+    float tileWidth = m_size.x / GRID_WIDTH;
+    if (!canStepLeft() && m_tryPos.x > m_startPos.x)
+        return;
+    if (!canStepRight() && m_tryPos.x < m_startPos.x - tileWidth)
+        return;
+
+    glm::vec3 movement = m_tryPos - m_startPos;
+
+    if (std::abs(movement.x) >= tileWidth)
     {
-        timer = 0;
-        stepRight();
-    }*/
+        setPosition(m_startPos);
+        if (movement.x < 0.0f)
+            stepRight();
+        else
+            stepLeft();
+    } else {
+        setPosition(m_tryPos);
+    }
 }
 
 void Drawable3DGrid::step(const glm::ivec2& vec)
@@ -92,30 +105,28 @@ void Drawable3DGrid::step(const glm::ivec2& vec)
 
 void Drawable3DGrid::stepUp()
 {
-    int32_t height = (*m_grid)[0].size();
-    if (m_cursor.y < height - GRID_HEIGHT)
+    if (canStepUp())
         m_cursor.y++;
     updateBuffer();
 }
 
 void Drawable3DGrid::stepDown()
 {
-    if (m_cursor.y > 0)
+    if (canStepDown())
         m_cursor.y--;
     updateBuffer();
 }
 
 void Drawable3DGrid::stepLeft()
 {
-    if (m_cursor.x > 0)
+    if (canStepLeft())
         m_cursor.x--;
     updateBuffer();
 }
 
 void Drawable3DGrid::stepRight()
 {
-    int32_t width = (*m_grid).size();
-    if (m_cursor.x < width - GRID_WIDTH)
+    if (canStepRight())
         m_cursor.x++;
     updateBuffer();
 }
@@ -125,6 +136,11 @@ void Drawable3DGrid::setGrid(const std::string& grid)
     m_grid = &GridManager::get().getGrid(grid);
     m_cursor = glm::ivec2(0, 0);
     updateBuffer();
+}
+
+void Drawable3DGrid::trySetPosition(const glm::vec3& vec)
+{
+    m_tryPos = vec;
 }
 
 void Drawable3DGrid::updateBuffer()
@@ -137,4 +153,26 @@ void Drawable3DGrid::updateBuffer()
             m_gridBuffer[x][y] = grid[x + m_cursor.x][y + m_cursor.y];
         }
     }
+}
+
+bool Drawable3DGrid::canStepUp()
+{
+    int32_t height = (*m_grid)[0].size();
+    return m_cursor.y < height - GRID_HEIGHT;
+}
+
+bool Drawable3DGrid::canStepDown()
+{
+    return m_cursor.y > 0;
+}
+
+bool Drawable3DGrid::canStepLeft()
+{
+    return m_cursor.x > 0;
+}
+
+bool Drawable3DGrid::canStepRight()
+{
+    int32_t width = (*m_grid).size();
+    return m_cursor.x < width - GRID_WIDTH;
 }
