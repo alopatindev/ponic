@@ -18,4 +18,6 @@ public:
     static void onUpdate();
     static void onRender();
     static void onReshape(int width, int height);
+    static void onKeyUp(unsigned char key, int x, int y);
+    static void onKeyDown(unsigned char key, int x, int y);
 };

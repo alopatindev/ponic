@@ -39,6 +39,7 @@ add_executable(bin/${APP_NAME}
 ../../src/engine/platforms/linux/FontManager.cpp
 ../../src/engine/platforms/linux/Graphics.cpp
 ../../src/engine/platforms/linux/ImageManager.cpp
+../../src/engine/platforms/linux/Input.cpp
 ../../src/engine/platforms/linux/Log.cpp
 ../../src/engine/platforms/linux/main.cpp
 ../../src/engine/System.cpp
