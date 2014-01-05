@@ -18,6 +18,8 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+    Input::get().press.disconnect(this);
+    Input::get().release.disconnect(this);
 }
 
 void Scene::render() const
