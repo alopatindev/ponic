@@ -1,7 +1,7 @@
 #pragma once
 
 #include <engine/drawables/Drawable3DImage.h>
-#include <engine/physics/Drawable3DGrid.h>
+#include <engine/drawables/Drawable3DGrid.h>
 #include <glm/glm.hpp>
 
 class Player : public Drawable3DImage

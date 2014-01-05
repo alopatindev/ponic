@@ -29,10 +29,10 @@ add_executable(bin/${APP_NAME}
 ../../src/game/Player.cpp
 ../../src/game/Scene.cpp
 ../../src/engine/drawables/Drawable3D.cpp
+../../src/engine/drawables/Drawable3DGrid.cpp
 ../../src/engine/drawables/Drawable3DImage.cpp
 ../../src/engine/GridManager.cpp
 ../../src/engine/misc/Utils.cpp
-../../src/engine/physics/Drawable3DGrid.cpp
 ../../src/engine/platforms/common/ImageManager.cpp
 ../../src/engine/platforms/common/Graphics.cpp
 ../../src/engine/platforms/linux/Application.cpp

@@ -2,7 +2,7 @@
 
 #include "Player.h"
 #include <engine/drawables/Drawable3D.h>
-#include <engine/physics/Drawable3DGrid.h>
+#include <engine/drawables/Drawable3DGrid.h>
 #include <engine/Input.h>
 #include <engine/thirdparty/sigslot.h>
 

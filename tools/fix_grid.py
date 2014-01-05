@@ -14,7 +14,6 @@ rows = len(lines) - 1
 cols = len(lines[1]) - 1
 
 lines[0] = '%d %d\n' % (cols, rows)
-print lines
 
 f = open(sys.argv[1], 'w')
 f.writelines(lines)
