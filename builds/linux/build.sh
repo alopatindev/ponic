@@ -29,4 +29,8 @@ ln -sf ../../../src/engine/platforms/linux/shaders
 rm -rfv grids
 cp -rv ../../../resources/grids grids
 
+for i in grids/*.txt; do
+    ../../../tools/fix_grid.py "$i"
+done
+
 gdb ./ponic
