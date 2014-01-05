@@ -6,9 +6,12 @@
 
 class Player : public Drawable3DImage
 {
-    TileType m_collision;
     const Drawable3DGrid* m_grid;
     glm::vec2 m_gridSize;
+    TileType m_collision;
+    bool m_groundCollision;
+    float m_gravityAcceleration;
+    float m_jumpAcceleration;
 
 public:
     Player();
@@ -21,6 +24,9 @@ public:
     virtual void render() const;
 
     bool collidesSurface() const;
+    bool flies() const;
     //bool collidesEnemy() const; // TODO
-    void refixPosition();
+    void anticollisionUpdate();
+    void gravityUpdate();
+    void jumpUpdate();
 };

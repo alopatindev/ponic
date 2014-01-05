@@ -224,5 +224,6 @@ TileType Drawable3DGrid::getTileType(float x, float y) const
     glm::ivec2 cursor;
     cursor.x = std::floor((x - m_pos.x) / tileWidth);
     cursor.y = std::floor((y - m_pos.y) / tileHeight);
-    return m_gridBuffer[cursor.x][GRID_HEIGHT - cursor.y];
+    //LOGI("(%f %f) => [%d %d]", x, y, cursor.x, cursor.y);
+    return m_gridBuffer[cursor.x][cursor.y];
 }

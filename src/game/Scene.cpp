@@ -4,7 +4,9 @@
 Scene::Scene()
     : m_pressedLeft(false)
     , m_pressedRight(false)
-    , m_pressTimer(0)
+    , m_pressedJump(false)
+    , m_pressDirectionTimer(0)
+    , m_pressJumpTimer(0)
     , m_speed(glm::vec3(0.0f, 0.0f, 0.0f))
 {
     m_grid.setGrid("level1");
@@ -35,10 +37,10 @@ void Scene::fixedUpdate(int dt)
     // update movements
     static const float MAX_SPEED = 0.08f;
     static const float SPEED_STEP = 0.01f;
-    m_pressTimer += dt;
-    if (m_pressTimer >= 100)
+    m_pressDirectionTimer += dt;
+    if (m_pressDirectionTimer >= 100)
     {
-        m_pressTimer = 0;
+        m_pressDirectionTimer = 0;
         if (m_pressedLeft)
         {
             if (m_speed.x < 0.0f)
@@ -64,7 +66,24 @@ void Scene::fixedUpdate(int dt)
     // update collisions
     m_player.fixedUpdate(dt);
     if (m_player.collidesSurface())
-        m_player.refixPosition();
+        m_player.anticollisionUpdate();
+
+    // update gravity
+    if (m_pressedJump)
+    {
+        m_pressJumpTimer += dt;
+        if (m_pressJumpTimer >= 100)
+        {
+            m_pressJumpTimer = 0;
+            m_pressedJump = false;
+        }
+        m_player.jumpUpdate();
+    }
+    else
+    {
+        if (m_player.flies())
+            m_player.gravityUpdate();
+    }
 }
 
 void Scene::onPress(Input_Class::Key key)
@@ -76,6 +95,10 @@ void Scene::onPress(Input_Class::Key key)
         break;
     case Input_Class::Right:
         m_pressedRight = true;
+        break;
+    case Input_Class::Jump:
+        if (!m_player.flies())
+            m_pressedJump = true;
         break;
     }
 }
@@ -89,6 +112,9 @@ void Scene::onRelease(Input_Class::Key key)
         break;
     case Input_Class::Right:
         m_pressedRight = false;
+        break;
+    case Input_Class::Jump:
+        m_pressedJump = false;
         break;
     }
 }

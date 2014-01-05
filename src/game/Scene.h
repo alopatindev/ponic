@@ -13,7 +13,9 @@ class Scene : public Drawable3D, public sigslot::has_slots<>
 
     bool m_pressedLeft;
     bool m_pressedRight;
-    int m_pressTimer;
+    bool m_pressedJump;
+    int m_pressDirectionTimer;
+    int m_pressJumpTimer;
 
     glm::vec3 m_speed;
 
