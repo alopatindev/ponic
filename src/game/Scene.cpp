@@ -88,6 +88,7 @@ void Scene::fixedUpdate(int dt)
     }
     else
     {
+        m_pressJumpTimer = 0;
         if (m_player.flies())
             m_player.gravityUpdate();
     }
