@@ -15,7 +15,6 @@ public:
 
     void setPosition(const glm::vec3& pos);
     void setPosition(float x, float y, float z);
-    const glm::vec3& getPosition();
     void setSize(const glm::vec2& size);
     void setSize(float width, float height);
     void setAngle(float angle);
@@ -23,6 +22,9 @@ public:
     void setCenter(float centerX, float centerY);
     void setScaleFactor(float scaleFactor);
     void setOpacity(float opacity);
+
+    const glm::vec3& getPosition() const;
+    const glm::vec2& getSize() const;
 
 protected:
     glm::vec3 m_pos;
