@@ -5,11 +5,14 @@
 #include <unordered_map>
 #include <vector>
 
-enum TileType {
+enum TileType
+{
     Empty = '_',
     Ponic = 'P',
-    Platform2 = '2',
-    Platform4 = '4',
+    Platformv = 'v',
+    Platformh = 'h',
+    PlatformV = 'V',
+    PlatformH = 'H',
     EnemyWalker = 'W',
     EnemyDropper = 'D',
     EnemyClown = 'C',

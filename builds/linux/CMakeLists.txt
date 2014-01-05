@@ -20,7 +20,7 @@ include_directories(
 )
 
 add_definitions(
-    -O0 -g -rdynamic -fno-exceptions -Wall -D_DEBUG -DPUGIXML_NO_EXCEPTIONS
+    -fno-exceptions -Wall -DPUGIXML_NO_EXCEPTIONS
 )
 
 add_executable(bin/${APP_NAME}

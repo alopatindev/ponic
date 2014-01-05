@@ -23,15 +23,15 @@ void Drawable3DGrid::render() const
     if (!getVisible())
         return;
 
-#ifdef _DEBUG
     float tileWidth = getTileWidth();
     float tileHeight = getTileHeight();
 
     glm::vec3 color;
-    for (size_t x = 0; x < GRID_WIDTH; ++x)
+    for (int32_t x = 0; x < GRID_WIDTH; ++x)
     {
-        for (size_t y = 0; y < GRID_HEIGHT; ++y)
+        for (int32_t y = 0; y < GRID_HEIGHT; ++y)
         {
+#ifdef _DEBUG
             switch (m_gridBuffer[x][y])
             {
             case Empty:
@@ -41,8 +41,10 @@ void Drawable3DGrid::render() const
                 color = glm::vec3(0.0f, 0.9f, 0.0f);
                 break;
             case Ponic:
-            case Platform2:
-            case Platform4:
+            case Platformv:
+            case Platformh:
+            case PlatformV:
+            case PlatformH:
             case EnemyWalker:
             case EnemyDropper:
             case EnemyClown:
@@ -62,9 +64,29 @@ void Drawable3DGrid::render() const
                 tileWidth * 0.9f, tileHeight * 0.9f,
                 color.x, color.y, color.z,
                 0.4f);
+#endif
+
+            switch (m_gridBuffer[x][y])
+            {
+            case Surface:
+            case Platformv:
+            case Platformh:
+            case PlatformV:
+            case PlatformH:
+                GRAPHICS.drawImage3D(
+                    "game_common", "ground",
+                    m_pos.x + tileWidth * x,
+                    m_pos.y + tileHeight * y,
+                    m_pos.z,
+
+                    tileWidth * 0.9f, tileHeight * 0.9f);
+                break;
+            default:
+                break;
+            }
+
         }
     }
-#endif
 }
 
 void Drawable3DGrid::update(int dt)

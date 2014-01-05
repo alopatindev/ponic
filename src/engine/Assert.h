@@ -22,5 +22,5 @@
             } \
         }
 #else
-    #define ASSERT(expr) {}
+    #define ASSERT(expr, comment, ...) {}
 #endif
