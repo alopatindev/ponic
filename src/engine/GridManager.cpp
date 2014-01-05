@@ -59,9 +59,10 @@ void GridManager_Class::loadGrid(const std::string& grid)
         for (int32_t x = 0; x < width; ++x)
         {
             char c = file.get();
-            int digit = c - '0';
+            //int digit = c - '0';
             g[x].resize(height);
-            g[x][y] = static_cast<TileType>(digit);
+            //g[x][y] = static_cast<TileType>(digit);
+            g[x][y] = static_cast<TileType>(c);
         }
         char newLine = file.get();
         (void) newLine;

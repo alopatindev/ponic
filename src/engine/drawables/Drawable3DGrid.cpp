@@ -40,7 +40,13 @@ void Drawable3DGrid::render() const
             case Surface:
                 color = glm::vec3(0.0f, 0.9f, 0.0f);
                 break;
-            case Animal:
+            case Ponic:
+            case Platform2:
+            case Platform4:
+            case EnemyWalker:
+            case EnemyDropper:
+            case EnemyClown:
+            case EnemyEva:
                 color = glm::vec3(0.4f, 0.0f, 0.0f);
                 break;
             default:
@@ -55,7 +61,7 @@ void Drawable3DGrid::render() const
 
                 tileWidth * 0.9f, tileHeight * 0.9f,
                 color.x, color.y, color.z,
-                0.2f);
+                0.4f);
         }
     }
 #endif

@@ -5,7 +5,17 @@
 #include <unordered_map>
 #include <vector>
 
-enum TileType {Empty, Surface, Animal};
+enum TileType {
+    Empty = '_',
+    Ponic = 'P',
+    Platform2 = '2',
+    Platform4 = '4',
+    EnemyWalker = 'W',
+    EnemyDropper = 'D',
+    EnemyClown = 'C',
+    EnemyEva = 'E',
+    Surface = 'x',
+};
 typedef std::vector<std::vector<TileType>> Grid;
 
 class GridManager_Class
