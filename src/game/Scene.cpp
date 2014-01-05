@@ -8,7 +8,8 @@ Scene::Scene()
     , m_speed(glm::vec3(0.0f, 0.0f, 0.0f))
 {
     m_grid.setGrid("level1");
-    m_player.setSize(m_grid.getTileWidth() * 2.0f, m_grid.getTileHeight());
+    m_player.setGrid(m_grid);
+    //m_player.setSize(m_grid.getTileWidth() * 2.0f, m_grid.getTileHeight());
     Input::get().press.connect(this, &Scene::onPress);
     Input::get().release.connect(this, &Scene::onRelease);
 }
@@ -31,6 +32,7 @@ void Scene::update(int dt)
 
 void Scene::fixedUpdate(int dt)
 {
+    // update movements
     static const float MAX_SPEED = 0.08f;
     static const float SPEED_STEP = 0.01f;
     m_pressTimer += dt;
@@ -59,7 +61,10 @@ void Scene::fixedUpdate(int dt)
     m_grid.trySetPosition(newPos);
     m_grid.fixedUpdate(dt);
 
+    // update collisions
     m_player.fixedUpdate(dt);
+    if (m_player.collidesSurface())
+        m_player.refixPosition();
 }
 
 void Scene::onPress(Input_Class::Key key)

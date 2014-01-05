@@ -43,6 +43,9 @@ void Drawable3DGrid::render() const
             case Animal:
                 color = glm::vec3(0.4f, 0.0f, 0.0f);
                 break;
+            default:
+                color = glm::vec3(1.0f, 1.0f, 1.0f);
+                break;
             }
 
             GRAPHICS.drawRectangle3D(
@@ -141,11 +144,18 @@ void Drawable3DGrid::trySetPosition(const glm::vec3& vec)
 void Drawable3DGrid::updateBuffer()
 {
     const Grid& grid = *m_grid;
+    int32_t gridWidth = grid.size();
+    int32_t gridHeight = grid[0].size();
     for (int32_t x = 0; x < GRID_WIDTH; ++x)
     {
         for (int32_t y = 0; y < GRID_HEIGHT; ++y)
         {
-            m_gridBuffer[x][y] = grid[x + m_cursor.x][y + m_cursor.y];
+            int32_t xx = x + m_cursor.x;
+            int32_t yy = y + m_cursor.y;
+            if (xx >= gridWidth || yy >= gridHeight || xx < 0 || yy < 0)
+                m_gridBuffer[x][y] = Empty;
+            else
+                m_gridBuffer[x][y] = grid[xx][yy];
         }
     }
 }
@@ -180,4 +190,39 @@ float Drawable3DGrid::getTileWidth() const
 float Drawable3DGrid::getTileHeight() const
 {
     return m_size.y / GRID_HEIGHT;
+}
+
+const glm::vec2& Drawable3DGrid::getTileSize() const
+{
+    static glm::vec2 size;
+    size.x = m_size.x / GRID_WIDTH;
+    size.y = m_size.y / GRID_HEIGHT;
+    return size;
+}
+
+TileType Drawable3DGrid::getTileType(const glm::vec2& vec) const
+{
+    return getTileType(vec.x, vec.y);
+}
+
+TileType Drawable3DGrid::getTileType(const glm::vec3& vec) const
+{
+    return getTileType(vec.x, vec.y);
+}
+
+TileType Drawable3DGrid::getTileType(float x, float y) const
+{
+    if (x < m_pos.x || x > m_pos.x + m_size.x ||
+        y < m_pos.x || y > m_pos.y + m_size.y)
+    {
+        LOGE("wrong coords: %f %f", x, y);
+        return Empty;
+    }
+
+    float tileWidth = getTileWidth();
+    float tileHeight = getTileHeight();
+    glm::ivec2 cursor;
+    cursor.x = std::floor((x - m_pos.x) / tileWidth);
+    cursor.y = std::floor((y - m_pos.y) / tileHeight);
+    return m_gridBuffer[cursor.x][GRID_HEIGHT - cursor.y];
 }

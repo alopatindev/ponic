@@ -6,7 +6,6 @@
 #include <engine/Input.h>
 #include <engine/thirdparty/sigslot.h>
 
-
 class Scene : public Drawable3D, public sigslot::has_slots<>
 {
     Player m_player;

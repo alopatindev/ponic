@@ -34,6 +34,11 @@ public:
 
     float getTileWidth() const;
     float getTileHeight() const;
+    const glm::vec2& getTileSize() const;
+
+    TileType getTileType(const glm::vec2& vec) const;
+    TileType getTileType(const glm::vec3& vec) const;
+    TileType getTileType(float x, float y) const;
 
 private:
     void updateBuffer();

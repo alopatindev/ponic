@@ -8,9 +8,9 @@ if [[ "${USE_CLANG}" -eq 1 ]]; then
     export CC=/usr/bin/clang
     export CXX=/usr/bin/clang++
     CFLAGS="${CFLAGS} -Qunused-arguments"
-    CXXFLAGS="${CXXFLAGS} -std=c++11 -Qunused-arguments"
+    CXXFLAGS="${CXXFLAGS} -std=c++11 -Qunused-arguments -O0"
 else
-    CXXFLAGS="${CXXFLAGS} -std=c++0x"
+    CXXFLAGS="${CXXFLAGS} -std=c++0x -O0"
 fi
 
 BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
