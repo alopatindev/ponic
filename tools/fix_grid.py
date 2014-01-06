@@ -12,6 +12,9 @@ f = open(filename, 'r')
 lines = f.readlines()
 f.close()
 
+for i in xrange(len(lines)):
+    lines[i] = lines[i].replace('\r', '')
+
 rows = len(lines)
 cols = len(lines[0]) - 1
 
