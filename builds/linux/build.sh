@@ -29,7 +29,8 @@ cd "${BUILD_DIR}"
 
 mkdir -p bin
 cmake CMakeLists.txt
-make -j8 #VERBOSE=1
+#make -j8 VERBOSE=1
+make -j8
 
 cd bin
 ln -sf ../../../src/engine/platforms/linux/shaders
@@ -42,4 +43,5 @@ for i in grids/*.txt; do
     ../../../tools/fix_grid.py "$i"
 done
 
+#valgrind --leak-check=full ./ponic
 gdb ./ponic

@@ -28,6 +28,7 @@ add_executable(bin/${APP_NAME}
 ../../src/game/MyApp.cpp
 ../../src/game/Player.cpp
 ../../src/game/Scene.cpp
+../../src/game/GameObjects/Platform.cpp
 ../../src/engine/drawables/Drawable3D.cpp
 ../../src/engine/drawables/Drawable3DGrid.cpp
 ../../src/engine/drawables/Drawable3DImage.cpp

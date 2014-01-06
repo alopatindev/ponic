@@ -142,7 +142,6 @@ void Graphics_Class::drawImage2D(
         m_imagesBuffer[z].push(c);
 }
 
-
 void Graphics_Class::drawRectangle3D(
     float x, float y, float z,
     float width, float height,

@@ -3,6 +3,7 @@
 #include <engine/Log.h>
 #include <fstream>
 #include <sstream>
+#include <game/GameObjects/Platform.h>
 
 GridManager_Class::GridManager_Class()
 {
@@ -10,6 +11,7 @@ GridManager_Class::GridManager_Class()
 
 GridManager_Class::~GridManager_Class()
 {
+    freeAllGrids();
 }
 
 void GridManager_Class::loadGrid(const std::string& grid)
@@ -39,18 +41,6 @@ void GridManager_Class::loadGrid(const std::string& grid)
         iss >> height;
     }
 
-    /*m_grids[grid].resize(width);
-    for (size_t x = 0; x < width; ++x)
-    {
-        m_grids[grid][x].resize(height);
-        for (size_t y = 0; y < height; ++y)
-        {
-            char c = file.get();
-            int digit = c - '0';
-            m_grids[grid][x][y] = static_cast<TileType>(digit);
-        }
-    }*/
-
     Grid& g = m_grids[grid];
     g.resize(width);
     //for (size_t y = 0; y < height; ++y)
@@ -59,10 +49,9 @@ void GridManager_Class::loadGrid(const std::string& grid)
         for (int32_t x = 0; x < width; ++x)
         {
             char c = file.get();
-            //int digit = c - '0';
             g[x].resize(height);
-            //g[x][y] = static_cast<TileType>(digit);
             g[x][y] = static_cast<TileType>(c);
+            updateGameObjects(grid, glm::ivec2(x, y));
         }
         char newLine = file.get();
         (void) newLine;
@@ -71,14 +60,46 @@ void GridManager_Class::loadGrid(const std::string& grid)
     file.close();
 }
 
+void GridManager_Class::updateGameObjects(const std::string& grid,
+                                          const glm::ivec2& vec)
+{
+    TileType type = m_grids[grid][vec.x][vec.y];
+    switch (type)
+    {
+    case Platformv:
+    case Platformh:
+    case PlatformV:
+    case PlatformH:
+        {
+            GameObject* obj = new Platform(vec, type);
+            m_gameObjects[grid].push_back(obj);
+            m_grids[grid][vec.x][vec.y] = Empty;
+            break;
+        }
+    //case EnemyWalker:
+    //case EnemyDropper:
+    //case EnemyClown:
+    //case EnemyEva:
+    }
+}
+
 void GridManager_Class::freeGrid(const std::string& grid)
 {
+    LOGI("freeing grid '%s'", grid.c_str());
+    for (auto itg : m_gameObjects[grid])
+    {
+        delete itg;
+    }
     m_grids.erase(grid);
+    m_gameObjects.erase(grid);
 }
 
 void GridManager_Class::freeAllGrids()
 {
-    m_grids.clear();
+    for (auto itg : m_grids)
+    {
+        freeGrid(itg.first);
+    }
 }
 
 const Grid& GridManager_Class::getGrid(const std::string& grid)
@@ -86,4 +107,14 @@ const Grid& GridManager_Class::getGrid(const std::string& grid)
     if (m_grids.find(grid) == m_grids.end())
         loadGrid(grid);
     return m_grids[grid];
+}
+
+GameObject::GameObject(const glm::ivec2& pos, TileType type)
+    : m_startPos(pos)
+    , m_type(type)
+{
+}
+
+GameObject::~GameObject()
+{
 }

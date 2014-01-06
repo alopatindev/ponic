@@ -10,6 +10,7 @@ ImageManager_Class::ImageManager_Class()
 
 ImageManager_Class::~ImageManager_Class()
 {
+    freeAllGroups();
 }
 
 void ImageManager_Class::parseAtlasXML(const std::string& filename)
