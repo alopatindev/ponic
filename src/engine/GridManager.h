@@ -24,6 +24,8 @@ enum TileType
 
 typedef std::vector<std::vector<TileType>> Grid;
 
+class GameObject;
+
 class GridManager_Class
 {
     std::unordered_map<std::string, Grid> m_grids;
