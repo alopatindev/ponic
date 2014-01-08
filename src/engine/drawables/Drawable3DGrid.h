@@ -47,6 +47,12 @@ public:
         return m_cursor;
     }
 
+    const glm::ivec2& coordsToIndexes(float x, float y, bool offsetHack = false) const;
+    const glm::ivec2& coordsToIndexes(const glm::vec2& vec, bool offsetHack = false) const;
+    const glm::ivec2& coordsToIndexes(const glm::vec3& vec, bool offsetHack = false) const;
+    const glm::vec3& indexesToCoords(int x, int y) const;
+    const glm::vec3& indexesToCoords(const glm::ivec2& vec) const;
+
 private:
     void updateBuffer();
 

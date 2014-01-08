@@ -61,8 +61,8 @@ protected:
     float m_speed;
     glm::ivec2 m_startPos;
     glm::ivec2 m_endPos;
-    glm::ivec2 m_currentPos;
     glm::vec3 m_direction;
+    glm::vec3 m_movementOffset;
 
     TileType m_type;
 

@@ -10,7 +10,7 @@ Scene::Scene()
     , m_pressJumpTimer(0)
     , m_speed(glm::vec3(0.0f, 0.0f, 0.0f))
 {
-    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    auto& grid = Drawable3DGrid::get();
     grid.setGrid("level1");
     //m_player.setGrid(grid);
     //m_player.setSize(grid.getTileWidth() * 2.0f, grid.getTileHeight());
@@ -26,14 +26,14 @@ Scene::~Scene()
 
 void Scene::render() const
 {
-    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    auto& grid = Drawable3DGrid::get();
     grid.render();
     m_player.render();
 }
 
 void Scene::update(int dt)
 {
-    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    auto& grid = Drawable3DGrid::get();
     grid.update(dt);
     m_player.update(dt);
 }
@@ -44,7 +44,7 @@ void Scene::fixedUpdate(int dt)
     static const float SPEED_STEP = 0.01f;
     static const float HILL_RESISTANCE = 0.8f;
 
-    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    auto& grid = Drawable3DGrid::get();
 
     // update movements
     m_pressDirectionTimer += dt;

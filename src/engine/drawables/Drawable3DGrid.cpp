@@ -105,7 +105,7 @@ void Drawable3DGrid_Class::fixedUpdate(int dt)
 
     glm::vec3 movement = m_tryPos - m_startPos;
 
-    if (std::abs(movement.x) >= tileWidth)
+    if (glm::abs(movement.x) >= tileWidth)
     {
         setPosition(m_startPos);
         if (movement.x < 0.0f)
@@ -252,11 +252,48 @@ TileType Drawable3DGrid_Class::getTileType(float x, float y) const
         return Empty;
     }
 
+    glm::ivec2 cursor = coordsToIndexes(x, y);
+    return m_gridBuffer[cursor.x][cursor.y];
+}
+
+const glm::ivec2& Drawable3DGrid_Class::coordsToIndexes(float x, float y, bool offsetHack) const
+{
     float tileWidth = getTileWidth();
     float tileHeight = getTileHeight();
-    glm::ivec2 cursor;
-    cursor.x = std::floor((x - m_pos.x) / tileWidth);
-    cursor.y = std::floor((y - m_pos.y) / tileHeight);
-    //LOGI("(%f %f) => [%d %d]", x, y, cursor.x, cursor.y);
-    return m_gridBuffer[cursor.x][cursor.y];
+    if (offsetHack)
+    {
+        x += tileWidth / 50.0f;
+        y += tileHeight / 50.0f;
+    }
+    static glm::ivec2 cursor;
+    cursor.x = glm::floor((x - m_pos.x) / tileWidth);
+    cursor.y = glm::floor((y - m_pos.y) / tileHeight);
+    return cursor;
+}
+
+const
+glm::ivec2& Drawable3DGrid_Class::coordsToIndexes(const glm::vec2& vec, bool offsetHack) const
+{
+    return coordsToIndexes(vec.x, vec.y, offsetHack);
+}
+
+const
+glm::ivec2& Drawable3DGrid_Class::coordsToIndexes(const glm::vec3& vec, bool offsetHack) const
+{
+    return coordsToIndexes(vec.x, vec.y, offsetHack);
+}
+
+const glm::vec3& Drawable3DGrid_Class::indexesToCoords(int x, int y) const
+{
+    glm::vec2 v(x, y);
+    v *= getTileSize();
+    static glm::vec3 cursor;
+    cursor = glm::vec3(v.x, v.y, 0.0f);
+    return cursor;
+}
+
+const
+glm::vec3& Drawable3DGrid_Class::indexesToCoords(const glm::ivec2& vec) const
+{
+    return indexesToCoords(vec.x, vec.y);
 }
