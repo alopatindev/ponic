@@ -2,25 +2,17 @@
 
 #include "misc/Singleton.h"
 #include "Graphics.h"
+#include <glm/glm.hpp>
 
 class Camera_Class
 {
-    float m_x;
-    float m_y;
-    float m_z;
-
-    float m_tx;
-    float m_ty;
-    float m_tz;
+    glm::vec3 m_pos;
+    glm::vec3 m_newPos;
 
 public:
     Camera_Class()
-        : m_x(0.0f),
-          m_y(0.0f),
-          m_z(0.0f),
-          m_tx(0.0f),
-          m_ty(0.0f),
-          m_tz(0.0f)
+        : m_pos(glm::vec3(0.0f, 0.0f, 0.0f))
+        , m_newPos(glm::vec3(0.0f, 0.0f, 0.0f))
     {
     }
 
@@ -30,50 +22,57 @@ public:
 
     float getX()
     {
-        return m_x;
+        return m_pos.x;
     }
 
     float getY()
     {
-        return m_y;
+        return m_pos.y;
     }
 
     float getZoom()
     {
-        return m_z;
+        return m_pos.z;
     }
 
     void lookAt(float x, float y)
     {
-        m_tx = x;
-        m_ty = y;
+        m_newPos.x = x;
+        m_newPos.y = y;
     }
 
     void setZoom(float zoom = 0.0f)
     {
-        m_tz = zoom;
+        m_newPos.z = zoom;
     }
 
-    void update()
+    void update(int dt)
     {
-        m_x = m_tx;
-        m_y = m_ty;
-        m_z = m_tz;
+        if (m_pos != m_newPos)
+        {
+            static float eps = 0.001f;
+            float distance = glm::abs(glm::distance(m_pos, m_newPos));
+            float speed = distance * dt * 0.01f;
+            if (distance > eps)
+                m_pos += m_newPos * speed;
+            else
+                m_pos = m_newPos;
+        }
     }
 
-    bool isVisible(float x, float y, float width, float height)
+    /*bool isVisible(float x, float y, float width, float height)
     {
         float wfar = GRAPHICS.getWfar();
         float hfar = GRAPHICS.getHfar();
-        float xx = x + m_x;
-        float yy = y + m_y;
+        float dx = m_pos.x + x;
+        float dy = m_pos.y + y;
 
-        if ((xx + width) >= -wfar && (xx - width) <= wfar &&
-            (yy + height) >= -hfar && (yy - height) <= hfar)
+        if ((dx + width) >= -wfar && (dx - width) <= wfar &&
+            (dy + height) >= -hfar && (dy - height) <= hfar)
             return true;
 
         return false;
-    }
+    }*/
 };
 
 typedef Singleton<Camera_Class> Camera;
