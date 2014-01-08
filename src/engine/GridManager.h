@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <glm/glm.hpp>
+#include "drawables/Drawable3DImage.h"
 
 enum TileType
 {
@@ -45,17 +46,23 @@ public:
 
     const Grid& getGrid(const std::string& grid);
 
+    void renderGameObjects(const std::string& grid) const;
+    void fixedUpdateGameObjects(const std::string& grid, int dt);
+
 private:
     void updateGameObjects(const std::string& grid, const glm::ivec2& vec);
 };
 
 typedef Singleton<GridManager_Class> GridManager;
 
-class GameObject
+class GameObject : public Drawable3DImage
 {
-    //float m_speed;
+protected:
+    float m_speed;
     glm::ivec2 m_startPos;
-    //glm::ivec2 m_endPos;
+    glm::ivec2 m_endPos;
+    glm::ivec2 m_currentPos;
+    glm::vec3 m_direction;
 
     TileType m_type;
 

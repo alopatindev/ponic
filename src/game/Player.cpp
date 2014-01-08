@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <Camera.h>
 #include <Graphics.h>
 
 Player::Player()
@@ -13,16 +14,12 @@ Player::Player()
     setPosition(-0.5f, -0.5f, -0.6f);
     //setCenter(0.5f, 0.5f);
     //setOpacity(1.0f);
+    m_grid = &Drawable3DGrid::get();
+    setSize(m_grid->getTileSize() * m_gridSize);
 }
 
 Player::~Player()
 {
-}
-
-void Player::setGrid(const Drawable3DGrid& grid)
-{
-    m_grid = &grid;
-    setSize(m_grid->getTileSize() * m_gridSize);
 }
 
 void Player::update(int dt)
@@ -31,6 +28,8 @@ void Player::update(int dt)
 
 void Player::fixedUpdate(int dt)
 {
+    //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
+    //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);
     float tileWidth = m_grid->getTileWidth();
     float tileHeight = m_grid->getTileHeight();
     m_collision = Empty;
@@ -126,6 +125,7 @@ void Player::gravityUpdate()
     float tileHeight = m_grid->getTileHeight();
     cursor.y -= tileHeight * m_gravityAcceleration;
     //if (cursor.y > 0.0f)
+
     setPosition(cursor);
 }
 
@@ -138,6 +138,7 @@ void Player::jumpUpdate()
     glm::vec3 cursor = m_pos;
     cursor.y += m_jumpAcceleration;
     setPosition(cursor);
+    //CAMERA.lookAt(CAMERA.getX(), CAMERA.getY() + m_jumpAcceleration);
 }
 
 bool Player::flies() const

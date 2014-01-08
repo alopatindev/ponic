@@ -6,7 +6,7 @@
 
 class Player : public Drawable3DImage
 {
-    const Drawable3DGrid* m_grid;
+    const Drawable3DGrid_Class* m_grid;
     glm::vec2 m_gridSize;
     TileType m_collision;
     bool m_groundCollision;

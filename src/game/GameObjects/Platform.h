@@ -1,10 +1,11 @@
 #pragma once
 
 #include <engine/drawables/Drawable3DImage.h>
+#include <engine/drawables/Drawable3DGrid.h>
 #include "GridManager.h"
 #include <glm/glm.hpp>
 
-class Platform : public GameObject, public Drawable3DImage
+class Platform : public GameObject
 {
 public:
     Platform(const glm::ivec2& pos, TileType type);
@@ -12,5 +13,5 @@ public:
 
     virtual void update(int dt);
     virtual void fixedUpdate(int dt);
-    virtual void render();
+    virtual void render() const;
 };

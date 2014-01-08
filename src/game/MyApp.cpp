@@ -24,6 +24,8 @@ void MyApp::init()
     FontManager::get().loadFont("font.ttf", 16, 24, 38, 0);
     ImageManager::get().loadGroup("test1");
     GridManager::get().loadGrid("level1");
+    //CAMERA.setZoom(CAMERA.getZoom() - 0.3f);
+    //CAMERA.lookAt(CAMERA.getX() - 0.1f, CAMERA.getY());
 }
 
 void MyApp::destroy()
@@ -35,6 +37,7 @@ void MyApp::update(int dt)
 {
     m_scene.update(dt);
     EFFECTS.update(dt);
+    CAMERA.update(dt);
 }
 
 void MyApp::fixedUpdate(int dt)
@@ -47,7 +50,6 @@ void MyApp::render() const
     GRAPHICS.startFrame();
         m_scene.render();
         EFFECTS.render();
-        CAMERA.update();
     GRAPHICS.endFrame();
     GRAPHICS.forceRedraw();
 }

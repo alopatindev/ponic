@@ -109,6 +109,28 @@ const Grid& GridManager_Class::getGrid(const std::string& grid)
     return m_grids[grid];
 }
 
+void GridManager_Class::renderGameObjects(const std::string& grid) const
+{
+    auto itg = m_gameObjects.find(grid);
+    while (itg != m_gameObjects.end())
+    {
+        for (auto it : itg->second)
+        {
+            it->render();
+        }
+        ++itg;
+    }
+}
+
+void GridManager_Class::fixedUpdateGameObjects(const std::string& grid,
+                                               int dt)
+{
+    for (auto it : m_gameObjects[grid])
+    {
+        it->fixedUpdate(dt);
+    }
+}
+
 GameObject::GameObject(const glm::ivec2& pos, TileType type)
     : m_startPos(pos)
     , m_type(type)

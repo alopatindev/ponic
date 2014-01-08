@@ -2,23 +2,25 @@
 
 #include <engine/drawables/Drawable3D.h>
 #include <engine/GridManager.h>
+#include <engine/misc/Singleton.h>
 #include <glm/glm.hpp>
 #include <cstdlib>
 
 static const size_t GRID_WIDTH = 20;
 static const size_t GRID_HEIGHT = 12;
 
-class Drawable3DGrid : public Drawable3D
+class Drawable3DGrid_Class : public Drawable3D
 {
     TileType m_gridBuffer[GRID_WIDTH][GRID_HEIGHT];
     const Grid* m_grid;
+    std::string m_gridName;
     glm::ivec2 m_cursor;  // left+up corner of the grid
     glm::vec3 m_startPos;
     glm::vec3 m_tryPos;
 
 public:
-    Drawable3DGrid();
-    virtual ~Drawable3DGrid();
+    Drawable3DGrid_Class();
+    virtual ~Drawable3DGrid_Class();
     virtual void render() const;
     virtual void update(int dt);
     virtual void fixedUpdate(int dt);
@@ -40,6 +42,11 @@ public:
     TileType getTileType(const glm::vec3& vec) const;
     TileType getTileType(float x, float y) const;
 
+    const glm::ivec2& getCursor() const
+    {
+        return m_cursor;
+    }
+
 private:
     void updateBuffer();
 
@@ -48,3 +55,5 @@ private:
     bool canStepLeft() const;
     bool canStepRight() const;
 };
+
+typedef Singleton<Drawable3DGrid_Class> Drawable3DGrid;

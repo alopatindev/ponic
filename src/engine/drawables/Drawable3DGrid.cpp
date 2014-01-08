@@ -3,7 +3,7 @@
 #include <engine/Graphics.h>
 #include <cstring>
 
-Drawable3DGrid::Drawable3DGrid()
+Drawable3DGrid_Class::Drawable3DGrid_Class()
     : m_grid(nullptr)
     , m_cursor(glm::ivec2(0, 0))
 {
@@ -14,11 +14,11 @@ Drawable3DGrid::Drawable3DGrid()
     setPosition(m_startPos);
 }
 
-Drawable3DGrid::~Drawable3DGrid()
+Drawable3DGrid_Class::~Drawable3DGrid_Class()
 {
 }
 
-void Drawable3DGrid::render() const
+void Drawable3DGrid_Class::render() const
 {
     if (!getVisible())
         return;
@@ -87,13 +87,15 @@ void Drawable3DGrid::render() const
 
         }
     }
+
+    GridManager::get().renderGameObjects(m_gridName);
 }
 
-void Drawable3DGrid::update(int dt)
+void Drawable3DGrid_Class::update(int dt)
 {
 }
 
-void Drawable3DGrid::fixedUpdate(int dt)
+void Drawable3DGrid_Class::fixedUpdate(int dt)
 {
     float tileWidth = getTileWidth();
     if (!canStepLeft() && m_tryPos.x > m_startPos.x)
@@ -113,9 +115,11 @@ void Drawable3DGrid::fixedUpdate(int dt)
     } else {
         setPosition(m_tryPos);
     }
+
+    GridManager::get().fixedUpdateGameObjects(m_gridName, dt);
 }
 
-void Drawable3DGrid::step(const glm::ivec2& vec)
+void Drawable3DGrid_Class::step(const glm::ivec2& vec)
 {
     glm::ivec2 newCursor = m_cursor;
     newCursor += vec;
@@ -129,47 +133,48 @@ void Drawable3DGrid::step(const glm::ivec2& vec)
         m_cursor.y = newCursor.y;
 }
 
-void Drawable3DGrid::stepUp()
+void Drawable3DGrid_Class::stepUp()
 {
     if (canStepUp())
         m_cursor.y++;
     updateBuffer();
 }
 
-void Drawable3DGrid::stepDown()
+void Drawable3DGrid_Class::stepDown()
 {
     if (canStepDown())
         m_cursor.y--;
     updateBuffer();
 }
 
-void Drawable3DGrid::stepLeft()
+void Drawable3DGrid_Class::stepLeft()
 {
     if (canStepLeft())
         m_cursor.x--;
     updateBuffer();
 }
 
-void Drawable3DGrid::stepRight()
+void Drawable3DGrid_Class::stepRight()
 {
     if (canStepRight())
         m_cursor.x++;
     updateBuffer();
 }
 
-void Drawable3DGrid::setGrid(const std::string& grid)
+void Drawable3DGrid_Class::setGrid(const std::string& grid)
 {
+    m_gridName = grid;
     m_grid = &GridManager::get().getGrid(grid);
     m_cursor = glm::ivec2(0, 0);
     updateBuffer();
 }
 
-void Drawable3DGrid::trySetPosition(const glm::vec3& vec)
+void Drawable3DGrid_Class::trySetPosition(const glm::vec3& vec)
 {
     m_tryPos = vec;
 }
 
-void Drawable3DGrid::updateBuffer()
+void Drawable3DGrid_Class::updateBuffer()
 {
     const Grid& grid = *m_grid;
     int32_t gridWidth = grid.size();
@@ -188,39 +193,39 @@ void Drawable3DGrid::updateBuffer()
     }
 }
 
-bool Drawable3DGrid::canStepUp() const
+bool Drawable3DGrid_Class::canStepUp() const
 {
     int32_t height = (*m_grid)[0].size();
     return m_cursor.y < height - GRID_HEIGHT;
 }
 
-bool Drawable3DGrid::canStepDown() const
+bool Drawable3DGrid_Class::canStepDown() const
 {
     return m_cursor.y > 0;
 }
 
-bool Drawable3DGrid::canStepLeft() const
+bool Drawable3DGrid_Class::canStepLeft() const
 {
     return m_cursor.x > 0;
 }
 
-bool Drawable3DGrid::canStepRight() const
+bool Drawable3DGrid_Class::canStepRight() const
 {
     int32_t width = (*m_grid).size();
     return m_cursor.x < width - GRID_WIDTH;
 }
 
-float Drawable3DGrid::getTileWidth() const
+float Drawable3DGrid_Class::getTileWidth() const
 {
     return m_size.x / GRID_WIDTH;
 }
 
-float Drawable3DGrid::getTileHeight() const
+float Drawable3DGrid_Class::getTileHeight() const
 {
     return m_size.y / GRID_HEIGHT;
 }
 
-const glm::vec2& Drawable3DGrid::getTileSize() const
+const glm::vec2& Drawable3DGrid_Class::getTileSize() const
 {
     static glm::vec2 size;
     size.x = m_size.x / GRID_WIDTH;
@@ -228,17 +233,17 @@ const glm::vec2& Drawable3DGrid::getTileSize() const
     return size;
 }
 
-TileType Drawable3DGrid::getTileType(const glm::vec2& vec) const
+TileType Drawable3DGrid_Class::getTileType(const glm::vec2& vec) const
 {
     return getTileType(vec.x, vec.y);
 }
 
-TileType Drawable3DGrid::getTileType(const glm::vec3& vec) const
+TileType Drawable3DGrid_Class::getTileType(const glm::vec3& vec) const
 {
     return getTileType(vec.x, vec.y);
 }
 
-TileType Drawable3DGrid::getTileType(float x, float y) const
+TileType Drawable3DGrid_Class::getTileType(float x, float y) const
 {
     if (x < m_pos.x || x > m_pos.x + m_size.x ||
         y < m_pos.x || y > m_pos.y + m_size.y)

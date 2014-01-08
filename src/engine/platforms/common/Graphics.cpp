@@ -187,8 +187,8 @@ void Graphics_Class::drawImage3D(
     float opacity
 )
 {
-    if (!CAMERA.isVisible(x, y, width, height))
-        return;
+    //if (!CAMERA.isVisible(x, y, width, height))
+    //    return;
 
     if (opacity == 0.0f)
         return;

@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include <Camera.h>
 #include <Log.h>
 
 Scene::Scene()
@@ -9,9 +10,10 @@ Scene::Scene()
     , m_pressJumpTimer(0)
     , m_speed(glm::vec3(0.0f, 0.0f, 0.0f))
 {
-    m_grid.setGrid("level1");
-    m_player.setGrid(m_grid);
-    //m_player.setSize(m_grid.getTileWidth() * 2.0f, m_grid.getTileHeight());
+    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    grid.setGrid("level1");
+    //m_player.setGrid(grid);
+    //m_player.setSize(grid.getTileWidth() * 2.0f, grid.getTileHeight());
     Input::get().press.connect(this, &Scene::onPress);
     Input::get().release.connect(this, &Scene::onRelease);
 }
@@ -24,13 +26,15 @@ Scene::~Scene()
 
 void Scene::render() const
 {
-    m_grid.render();
+    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    grid.render();
     m_player.render();
 }
 
 void Scene::update(int dt)
 {
-    m_grid.update(dt);
+    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
+    grid.update(dt);
     m_player.update(dt);
 }
 
@@ -39,6 +43,8 @@ void Scene::fixedUpdate(int dt)
     static const float MAX_SPEED = 0.08f;
     static const float SPEED_STEP = 0.01f;
     static const float HILL_RESISTANCE = 0.8f;
+
+    Drawable3DGrid_Class& grid = Drawable3DGrid::get();
 
     // update movements
     m_pressDirectionTimer += dt;
@@ -63,9 +69,9 @@ void Scene::fixedUpdate(int dt)
             m_speed = glm::vec3(0.0f, 0.0f, 0.0f);
     }
 
-    glm::vec3 newPos = m_grid.getPosition() + m_speed;
-    m_grid.trySetPosition(newPos);
-    m_grid.fixedUpdate(dt);
+    glm::vec3 newPos = grid.getPosition() + m_speed;
+    grid.trySetPosition(newPos);
+    grid.fixedUpdate(dt);
 
     // update collisions
     m_player.fixedUpdate(dt);
