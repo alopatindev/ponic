@@ -29,7 +29,7 @@ if [[ $BUILD_RESOURCES == 1 ]]; then
     cd ../..
 fi
 
-android update project --name ponic --path . --target "android-15"
+android update project --name ponic --path . --target "android-16"
 ndk-build V=1 -j4
 ant debug
 
