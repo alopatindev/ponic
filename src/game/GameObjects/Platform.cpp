@@ -12,17 +12,17 @@ Platform::Platform(const glm::ivec2& pos, TileType type)
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         break;
     case PlatformV:
-        m_speed = 0.2f;
+        m_speed = 0.01f;
         m_endPos = m_startPos + glm::ivec2(0, 8);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         break;
     case Platformh:
-        m_speed = 0.1f;
+        m_speed = 0.001f;
         m_endPos = m_startPos + glm::ivec2(5, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
         break;
     case PlatformH:
-        m_speed = 0.2f;
+        m_speed = 0.01f;
         m_endPos = m_startPos + glm::ivec2(8, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
         break;
@@ -33,7 +33,6 @@ Platform::Platform(const glm::ivec2& pos, TileType type)
     setSize(grid.getTileSize());
     setImage("game_common", "ground");
 
-    //glm::ivec2 v = m_currentPos - grid.getCursor();
     glm::ivec2 v = m_startPos - grid.getCursor();
     glm::vec3 v3 = grid.indexesToCoords(v) + grid.getPosition();
 
@@ -52,27 +51,43 @@ void Platform::fixedUpdate(int dt)
 {
     auto& grid = Drawable3DGrid::get();
 
-    //float y = m_pos.y;
-    //glm::ivec2 v = m_currentPos - grid.getCursor();
     glm::ivec2 v = m_startPos - grid.getCursor();
-    glm::vec3 v3 = grid.indexesToCoords(v) + grid.getPosition();
-    //glm::vec3 v3 = m_pos - grid.indexesToCoords(grid.getCursor());
-    //LOGI("currentPos=(%d %d)", m_currentPos.x, m_currentPos.y);
-    
-    m_movementOffset += m_direction * m_speed;
-    LOGI("m_movementOffset=(%f %f) m_direction.y=%f m_speed=%f", m_movementOffset.x, m_movementOffset.y, m_direction.y, m_speed);
-    v3 += m_movementOffset;
 
-    glm::ivec2 cp = grid.coordsToIndexes(m_pos, true) + grid.getCursor();
-    if ((m_direction.y > 0 && cp.y > m_endPos.y - 1) ||
-        (m_direction.y < 0 && cp.y < m_startPos.y))
+    /*bool visible = v.x >= 0 && v.x <= GRID_WIDTH - 1 &&
+                   v.y >= 0 && v.y <= GRID_HEIGHT - 1;
+    setVisible(visible);
+    if (!visible)
+        return;*/
+
+    glm::vec3 newPos = grid.indexesToCoords(v) + grid.getPosition();
+
+    m_movementOffset += m_direction * m_speed;
+    newPos += m_movementOffset;
+
+    auto negative = [](const glm::vec3& v) {
+        return v.x < 0.0f || v.y < 0.0f;
+    };
+
+    //glm::ivec2 cp = grid.coordsToIndexes(m_pos, true) + grid.getCursor();
+    glm::ivec2 cp = grid.coordsToIndexes(newPos, true) + grid.getCursor();
+    if (
+        (!negative(m_direction) &&
+            glm::length(cp) > glm::length(m_endPos) - 1) ||
+        (negative(m_direction) &&
+            glm::length(cp) <= glm::length(m_startPos))
+    )
     {
         m_direction = -m_direction;
     }
+    LOGI("neg(direction)=%d (true?)", negative(m_direction));
+    LOGI("len(cp) < len(startPos): %d < %d -> %d\n",
+         glm::length(cp), glm::length(m_startPos),
+         (glm::length(cp) <= glm::length(m_startPos))
+    );
     //m_currentPos = grid.coordsToIndexes(m_pos, true) + grid.getCursor();
     //LOGI("cp=(%d %d)\n", cp.x, cp.y);
 
-    setPosition(v3);
+    setPosition(newPos);
 
     /*glm::ivec2 v = m_currentPos - grid.getCursor();
 
