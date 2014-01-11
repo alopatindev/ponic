@@ -75,12 +75,7 @@ void Scene::fixedUpdate(int dt)
 
     // update collisions
     m_player.fixedUpdate(dt);
-    if (m_player.collidesGameObjects())
-    {
-        LOGI("game object collision detected");
-        m_player.collisionGameObjectsUpdate();
-    }
-    else if (m_player.collidesSurface())
+    if (m_player.collidesSurface())
     {
         m_speed.x *= HILL_RESISTANCE;
         m_player.anticollisionUpdate();
@@ -103,6 +98,11 @@ void Scene::fixedUpdate(int dt)
         if (m_player.flies())
         {
             m_player.gravityUpdate();
+        }
+
+        if (m_player.collidesGameObjects())
+        {
+            m_player.collisionGameObjectsUpdate();
         }
     }
 }
