@@ -79,7 +79,7 @@ void Drawable3DGrid_Class::render() const
                     m_pos.y + tileHeight * y,
                     m_pos.z,
 
-                    tileWidth * 0.9f, tileHeight * 0.9f);
+                    tileWidth, tileHeight);
                 break;
             default:
                 break;

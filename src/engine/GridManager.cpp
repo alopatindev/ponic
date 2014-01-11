@@ -51,10 +51,17 @@ void GridManager_Class::loadGrid(const std::string& grid)
             char c = file.get();
             g[x].resize(height);
             g[x][y] = static_cast<TileType>(c);
-            updateGameObjects(grid, glm::ivec2(x, y));
         }
         char newLine = file.get();
         (void) newLine;
+    }
+
+    for (int32_t y = height - 1; y >= 0; --y)  // FIXME
+    {
+        for (int32_t x = 0; x < width; ++x)
+        {
+            updateGameObjects(grid, glm::ivec2(x, y));
+        }
     }
 
     file.close();
@@ -63,7 +70,8 @@ void GridManager_Class::loadGrid(const std::string& grid)
 void GridManager_Class::updateGameObjects(const std::string& grid,
                                           const glm::ivec2& vec)
 {
-    TileType type = m_grids[grid][vec.x][vec.y];
+    Grid& g = m_grids[grid];
+    TileType type = g[vec.x][vec.y];
     switch (type)
     {
     case Platformv:
@@ -71,9 +79,15 @@ void GridManager_Class::updateGameObjects(const std::string& grid,
     case PlatformV:
     case PlatformH:
         {
-            GameObject* obj = new Platform(vec, type);
+            int i;
+            for (i = 0;
+                i < vec.x + g.size() && g[vec.x + i][vec.y] == type;
+                ++i)
+            {
+                g[vec.x + i][vec.y] = Empty;
+            }
+            GameObject* obj = new Platform(vec, type, glm::vec2(i, 1.0f));
             m_gameObjects[grid].push_back(obj);
-            m_grids[grid][vec.x][vec.y] = Empty;
             break;
         }
     //case EnemyWalker:

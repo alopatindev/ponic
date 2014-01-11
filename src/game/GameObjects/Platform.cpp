@@ -1,13 +1,15 @@
 #include "Platform.h"
 #include <Log.h>
+#include <Graphics.h>
 
-Platform::Platform(const glm::ivec2& pos, TileType type)
+Platform::Platform(const glm::ivec2& pos, TileType type,
+                   const glm::vec2& gridSize)
     : GameObject(pos, type)
 {
     switch (type)
     {
     case Platformv:
-        m_speed = 0.001f;
+        m_speed = 0.005f;
         m_endPos = m_startPos + glm::ivec2(0, 5);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         break;
@@ -17,7 +19,7 @@ Platform::Platform(const glm::ivec2& pos, TileType type)
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         break;
     case Platformh:
-        m_speed = 0.001f;
+        m_speed = 0.005f;
         m_endPos = m_startPos + glm::ivec2(5, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
         break;
@@ -30,7 +32,7 @@ Platform::Platform(const glm::ivec2& pos, TileType type)
 
     auto& grid = Drawable3DGrid::get();
     //m_currentPos = m_startPos;
-    setSize(grid.getTileSize());
+    setSize(grid.getTileSize() * gridSize);
     setImage("game_common", "ground");
 
     glm::ivec2 v = m_startPos - grid.getCursor();
@@ -79,11 +81,11 @@ void Platform::fixedUpdate(int dt)
     {
         m_direction = -m_direction;
     }
-    LOGI("neg(direction)=%d (true?)", negative(m_direction));
+/*    LOGI("neg(direction)=%d (true?)", negative(m_direction));
     LOGI("len(cp) < len(startPos): %d < %d -> %d\n",
          glm::length(cp), glm::length(m_startPos),
          (glm::length(cp) <= glm::length(m_startPos))
-    );
+    );*/
     //m_currentPos = grid.coordsToIndexes(m_pos, true) + grid.getCursor();
     //LOGI("cp=(%d %d)\n", cp.x, cp.y);
 
@@ -122,4 +124,12 @@ void Platform::fixedUpdate(int dt)
 void Platform::render() const
 {
     Drawable3DImage::render();
+
+#ifdef _DEBUG
+    GRAPHICS.drawRectangle3D(
+        m_pos.x, m_pos.y, m_pos.z + 0.001f,
+        m_size.x, m_size.y,
+        0.6f, 0.0f, 0.0f,
+        0.2f);
+#endif
 }
