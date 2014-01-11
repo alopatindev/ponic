@@ -47,6 +47,11 @@ public:
         return m_cursor;
     }
 
+    const std::string& getGridName() const
+    {
+        return m_gridName;
+    }
+
     const glm::ivec2& coordsToIndexes(float x, float y, bool offsetHack = false) const;
     const glm::ivec2& coordsToIndexes(const glm::vec2& vec, bool offsetHack = false) const;
     const glm::ivec2& coordsToIndexes(const glm::vec3& vec, bool offsetHack = false) const;

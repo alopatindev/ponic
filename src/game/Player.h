@@ -2,7 +2,9 @@
 
 #include <engine/drawables/Drawable3DImage.h>
 #include <engine/drawables/Drawable3DGrid.h>
+#include <engine/GridManager.h>
 #include <glm/glm.hpp>
+#include <vector>
 
 class Player : public Drawable3DImage
 {
@@ -12,6 +14,7 @@ class Player : public Drawable3DImage
     bool m_groundCollision;
     float m_gravityAcceleration;
     float m_jumpAcceleration;
+    std::vector<GameObject*> m_gameObjectsCollided;
 
 public:
     Player();
@@ -23,6 +26,8 @@ public:
     virtual void fixedUpdate(int dt);
     virtual void render() const;
 
+    bool collidesGameObjects() const;
+    const std::vector<GameObject*>& getGameObjects();
     bool collidesSurface() const;
     bool flies() const;
     //bool collidesEnemy() const; // TODO

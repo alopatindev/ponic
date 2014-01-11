@@ -75,7 +75,12 @@ void Scene::fixedUpdate(int dt)
 
     // update collisions
     m_player.fixedUpdate(dt);
-    if (m_player.collidesSurface())
+    if (m_player.collidesGameObjects())
+    {
+        LOGI("game object collision detected");
+        // TODO
+    }
+    else if (m_player.collidesSurface())
     {
         m_speed.x *= HILL_RESISTANCE;
         m_player.anticollisionUpdate();

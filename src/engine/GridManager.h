@@ -49,6 +49,11 @@ public:
     void renderGameObjects(const std::string& grid) const;
     void fixedUpdateGameObjects(const std::string& grid, int dt);
 
+    std::vector<GameObject*>& getGameObjects(const std::string grid)
+    {
+        return m_gameObjects[grid];
+    }
+
 private:
     void updateGameObjects(const std::string& grid, const glm::ivec2& vec);
 };
@@ -57,6 +62,8 @@ typedef Singleton<GridManager_Class> GridManager;
 
 class GameObject : public Drawable3DImage
 {
+    bool m_active;
+
 protected:
     float m_speed;
     glm::ivec2 m_startPos;
@@ -69,4 +76,17 @@ protected:
 public:
     GameObject(const glm::ivec2& pos, TileType type);
     virtual ~GameObject();
+
+    virtual bool collides(const glm::vec3& playerPos,
+                          const glm::vec2& gridSize) = 0;
+
+    bool isActive() const
+    {
+        return m_active;
+    }
+
+    void setActive(bool active)
+    {
+        m_active = active;
+    }
 };

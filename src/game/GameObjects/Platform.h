@@ -16,4 +16,5 @@ public:
     virtual void update(int dt);
     virtual void fixedUpdate(int dt);
     virtual void render() const;
+    virtual bool collides(const glm::vec3& playerPos, const glm::vec2& gridSize);
 };

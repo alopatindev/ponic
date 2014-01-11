@@ -58,11 +58,12 @@ void Platform::fixedUpdate(int dt)
     glm::ivec2 vend = m_endPos - grid.getCursor();
 
     // are we gonna calculate physics?
-    bool calc = vend.x + m_gridSize.x >= 0 &&
-                vstart.x - m_gridSize.x <= GRID_WIDTH - 1 &&
-                vend.y + m_gridSize.y >= 0 &&
-                vstart.y - m_gridSize.y <= GRID_HEIGHT - 1;
-    if (!calc)
+    bool active = vend.x + m_gridSize.x >= 0 &&
+                  vstart.x - m_gridSize.x <= GRID_WIDTH - 1 &&
+                  vend.y + m_gridSize.y >= 0 &&
+                  vstart.y - m_gridSize.y <= GRID_HEIGHT - 1;
+    setActive(active);
+    if (!active)
     {
         setVisible(false);
         return;
@@ -147,4 +148,25 @@ void Platform::render() const
         0.6f, 0.0f, 0.0f,
         0.2f);
 #endif
+}
+
+bool Platform::collides(const glm::vec3& playerPos, const glm::vec2& gridSize)
+{
+    float tileWidth = Drawable3DGrid::get().getTileWidth();
+    float tileHeight = Drawable3DGrid::get().getTileHeight();
+
+    float y = playerPos.y - tileHeight;
+    if (y >= m_pos.y && y <= m_pos.y + tileHeight)
+    {
+        for (int x = 0; x < int(gridSize.x); ++x)
+        {
+            float xx = x * tileWidth;
+            if (playerPos.x + xx >= m_pos.x &&
+                playerPos.x + xx <= m_pos.x + m_size.x)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }

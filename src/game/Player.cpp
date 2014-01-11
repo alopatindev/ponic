@@ -85,6 +85,18 @@ void Player::fixedUpdate(int dt)
         m_gravityAcceleration = 0.1f;
 
     //LOGI("ground collision: %d", m_groundCollision);
+
+    // collisions with game objects
+    m_gameObjectsCollided.clear();
+    for (auto it :
+            GridManager::get().getGameObjects(
+                Drawable3DGrid::get().getGridName()))
+    {
+        if (it->isActive() && it->collides(m_pos, m_gridSize))
+        {
+            m_gameObjectsCollided.push_back(it);
+        }
+    }
 }
 
 void Player::render() const
@@ -98,6 +110,16 @@ void Player::render() const
         0.6f, 0.0f, 0.0f,
         0.2f);
 #endif
+}
+
+bool Player::collidesGameObjects() const
+{
+    return m_gameObjectsCollided.size() > 0;
+}
+
+const std::vector<GameObject*>& Player::getGameObjects()
+{
+    return m_gameObjectsCollided;
 }
 
 bool Player::collidesSurface() const
