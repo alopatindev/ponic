@@ -26,10 +26,13 @@ public:
     virtual void fixedUpdate(int dt);
     virtual void render() const;
 
-    bool collidesGameObjects() const;
     const std::vector<GameObject*>& getGameObjects();
     bool collidesSurface() const;
     bool flies() const;
+
+    bool collidesGameObjects() const;
+    void collisionGameObjectsUpdate();
+
     //bool collidesEnemy() const; // TODO
     void anticollisionUpdate();
     void gravityUpdate();

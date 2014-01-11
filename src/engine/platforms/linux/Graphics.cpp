@@ -40,6 +40,10 @@ void Graphics_Class::init()
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutCreateWindow(WINDOW_TITLE);
 
+#ifndef _DEBUG
+    glutFullScreen();
+#endif
+
     glewInit();
     ASSERT(GLEW_ARB_vertex_shader && GLEW_ARB_fragment_shader,
            "no GLSL support")

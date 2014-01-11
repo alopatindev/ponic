@@ -78,7 +78,7 @@ void Scene::fixedUpdate(int dt)
     if (m_player.collidesGameObjects())
     {
         LOGI("game object collision detected");
-        // TODO
+        m_player.collisionGameObjectsUpdate();
     }
     else if (m_player.collidesSurface())
     {
@@ -101,7 +101,9 @@ void Scene::fixedUpdate(int dt)
     {
         m_pressJumpTimer = 0;
         if (m_player.flies())
+        {
             m_player.gravityUpdate();
+        }
     }
 }
 
@@ -117,7 +119,9 @@ void Scene::onPress(Input_Class::Key key)
         break;
     case Input_Class::Jump:
         if (!m_player.flies())
+        {
             m_pressedJump = true;
+        }
         break;
     }
 }

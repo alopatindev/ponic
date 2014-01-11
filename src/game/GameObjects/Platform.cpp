@@ -156,7 +156,7 @@ bool Platform::collides(const glm::vec3& playerPos, const glm::vec2& gridSize)
     float tileHeight = Drawable3DGrid::get().getTileHeight();
 
     float y = playerPos.y - tileHeight;
-    if (y >= m_pos.y && y <= m_pos.y + tileHeight)
+    if (y >= m_pos.y - tileHeight && y <= m_pos.y + 2.0f * tileHeight)
     {
         for (int x = 0; x < int(gridSize.x); ++x)
         {

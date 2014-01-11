@@ -89,4 +89,9 @@ public:
     {
         m_active = active;
     }
+
+    TileType getType()
+    {
+        return m_type;
+    }
 };

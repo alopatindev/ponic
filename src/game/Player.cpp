@@ -99,6 +99,27 @@ void Player::fixedUpdate(int dt)
     }
 }
 
+void Player::collisionGameObjectsUpdate()
+{
+    float tileHeight = m_grid->getTileHeight();
+    for (auto it : m_gameObjectsCollided)
+    {
+        switch (it->getType())
+        {
+        case Platformv:
+        case PlatformV:
+        case Platformh:
+        case PlatformH:
+            {
+                m_groundCollision = true;
+                setPosition(m_pos.x, it->getPosition().y + tileHeight, m_pos.z);
+                break;
+            }
+        // TODO
+        }
+    }
+}
+
 void Player::render() const
 {
     Drawable3DImage::render();
