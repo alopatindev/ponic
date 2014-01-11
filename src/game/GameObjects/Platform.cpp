@@ -79,7 +79,9 @@ void Platform::fixedUpdate(int dt)
     // calculating new position
     glm::vec3 newPos = grid.indexesToCoords(vstart) + grid.getPosition();
 
-    m_movementOffset += m_direction * m_speed;
+    m_lastMovement = m_direction * m_speed;
+    m_movementOffset += m_lastMovement;
+
     newPos += m_movementOffset;
 
     auto negative = [](const glm::vec3& v) {

@@ -108,11 +108,20 @@ void Player::collisionGameObjectsUpdate()
         {
         case Platformv:
         case PlatformV:
+            {
+                m_groundCollision = true;
+                setPosition(m_pos.x, it->getPosition().y + tileHeight, m_pos.z);
+                break;
+            }
         case Platformh:
         case PlatformH:
             {
                 m_groundCollision = true;
-                setPosition(m_pos.x, it->getPosition().y + tileHeight, m_pos.z);
+                setPosition(
+                    m_pos.x + it->getLastMovement().x,
+                    it->getPosition().y + tileHeight,
+                    m_pos.z
+                );
                 break;
             }
         // TODO

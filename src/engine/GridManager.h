@@ -70,6 +70,7 @@ protected:
     glm::ivec2 m_endPos;
     glm::vec3 m_direction;
     glm::vec3 m_movementOffset;
+    glm::vec3 m_lastMovement;
 
     TileType m_type;
 
@@ -93,5 +94,10 @@ public:
     TileType getType()
     {
         return m_type;
+    }
+
+    const glm::vec3& getLastMovement() const
+    {
+        return m_lastMovement;
     }
 };
