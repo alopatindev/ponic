@@ -51,6 +51,15 @@ void Player::fixedUpdate(int dt)
 
     m_groundCollision = false;
     cursor = m_pos;
+
+#if _DEBUG
+    GRAPHICS.drawRectangle3D(
+        m_pos.x, m_pos.y, m_pos.z + 0.001f,
+        m_size.x * 0.1f, m_size.y * 0.1f,
+        0.0f, 1.0f, 0.0f,
+        0.8f);
+#endif
+
     cursor.y -= tileHeight * 0.2f;
     /*if (cursor.y < 0.0f)
     {

@@ -5,6 +5,7 @@
 Platform::Platform(const glm::ivec2& pos, TileType type,
                    const glm::vec2& gridSize)
     : GameObject(pos, type)
+    , m_gridSize(gridSize)
 {
     switch (type)
     {
@@ -53,15 +54,29 @@ void Platform::fixedUpdate(int dt)
 {
     auto& grid = Drawable3DGrid::get();
 
-    glm::ivec2 v = m_startPos - grid.getCursor();
+    glm::ivec2 vstart = m_startPos - grid.getCursor();
+    glm::ivec2 vend = m_endPos - grid.getCursor();
 
-    /*bool visible = v.x >= 0 && v.x <= GRID_WIDTH - 1 &&
-                   v.y >= 0 && v.y <= GRID_HEIGHT - 1;
+    // are we gonna calculate physics?
+    bool calc = vend.x + m_gridSize.x >= 0 &&
+                vstart.x - m_gridSize.x <= GRID_WIDTH - 1 &&
+                vend.y + m_gridSize.y >= 0 &&
+                vstart.y - m_gridSize.y <= GRID_HEIGHT - 1;
+    if (!calc)
+    {
+        setVisible(false);
+        return;
+    }
+
+    // are we gonna show the object?
+    glm::ivec2 checkPos = grid.coordsToIndexes(
+        m_pos + glm::vec3(m_size.x, m_size.y, 0.0f)
+    );
+    bool visible = checkPos.x >= 0;
     setVisible(visible);
-    if (!visible)
-        return;*/
 
-    glm::vec3 newPos = grid.indexesToCoords(v) + grid.getPosition();
+    // calculating new position
+    glm::vec3 newPos = grid.indexesToCoords(vstart) + grid.getPosition();
 
     m_movementOffset += m_direction * m_speed;
     newPos += m_movementOffset;

@@ -7,6 +7,8 @@
 
 class Platform : public GameObject
 {
+    glm::vec2 m_gridSize;
+
 public:
     Platform(const glm::ivec2& pos, TileType type, const glm::vec2& gridSize);
     virtual ~Platform();
