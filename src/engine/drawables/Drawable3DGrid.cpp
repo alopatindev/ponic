@@ -97,23 +97,26 @@ void Drawable3DGrid_Class::update(int dt)
 
 void Drawable3DGrid_Class::fixedUpdate(int dt)
 {
+    bool canMove = true;
     float tileWidth = getTileWidth();
     if (!canStepLeft() && m_tryPos.x > m_startPos.x)
-        return;
-    if (!canStepRight() && m_tryPos.x < m_startPos.x - tileWidth)
-        return;
+        canMove = false;
+    if (canMove && !canStepRight() && m_tryPos.x < m_startPos.x - tileWidth)
+        canMove = false;
 
-    glm::vec3 movement = m_tryPos - m_startPos;
-
-    if (glm::abs(movement.x) >= tileWidth)
+    if (canMove)
     {
-        setPosition(m_startPos);
-        if (movement.x < 0.0f)
-            stepRight();
-        else
-            stepLeft();
-    } else {
-        setPosition(m_tryPos);
+        glm::vec3 movement = m_tryPos - m_startPos;
+        if (glm::abs(movement.x) >= tileWidth)
+        {
+            setPosition(m_startPos);
+            if (movement.x < 0.0f)
+                stepRight();
+            else
+                stepLeft();
+        } else {
+            setPosition(m_tryPos);
+        }
     }
 
     GridManager::get().fixedUpdateGameObjects(m_gridName, dt);
