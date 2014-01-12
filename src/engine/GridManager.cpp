@@ -60,15 +60,15 @@ void GridManager_Class::loadGrid(const std::string& grid)
     {
         for (int32_t x = 0; x < width; ++x)
         {
-            updateGameObjects(grid, glm::ivec2(x, y));
+            collectGameObjects(grid, glm::ivec2(x, y));
         }
     }
 
     file.close();
 }
 
-void GridManager_Class::updateGameObjects(const std::string& grid,
-                                          const glm::ivec2& vec)
+void GridManager_Class::collectGameObjects(const std::string& grid,
+                                           const glm::ivec2& vec)
 {
     Grid& g = m_grids[grid];
     TileType type = g[vec.x][vec.y];
@@ -136,8 +136,7 @@ void GridManager_Class::renderGameObjects(const std::string& grid) const
     }
 }
 
-void GridManager_Class::fixedUpdateGameObjects(const std::string& grid,
-                                               int dt)
+void GridManager_Class::fixedUpdateGameObjects(const std::string& grid, int dt)
 {
     for (auto it : m_gameObjects[grid])
     {

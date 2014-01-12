@@ -55,7 +55,7 @@ public:
     }
 
 private:
-    void updateGameObjects(const std::string& grid, const glm::ivec2& vec);
+    void collectGameObjects(const std::string& grid, const glm::ivec2& vec);
 };
 
 typedef Singleton<GridManager_Class> GridManager;
