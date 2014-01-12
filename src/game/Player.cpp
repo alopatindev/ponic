@@ -11,7 +11,8 @@ Player_Class::Player_Class()
     , m_jumpAcceleration(0.0f)
 {
     setImage("game_common", "horse_stands");
-    setPosition(-0.5f, -0.5f, -0.6f);
+    glm::vec3 initialPos(-0.25f, -0.5f, -0.6f);
+    setPosition(initialPos);
     //setCenter(0.5f, 0.5f);
     //setOpacity(1.0f);
     m_grid = &Drawable3DGrid::get();
@@ -78,8 +79,10 @@ void Player_Class::fixedUpdate(int dt)
             if (t == Surface)
             {
                 // align to grid
-                float y = m_grid->getPosition().y +
-                    m_grid->coordsToIndexes(getPosition()).y * tileHeight;
+                float y =
+                    m_grid->getPosition().y +
+                    m_grid->coordsToIndexes(getPosition()).y *
+                        (tileHeight * 1.01f);
                 setPosition(getPosition().x, y, getPosition().z);
 
                 m_groundCollision = true;
@@ -192,7 +195,6 @@ void Player_Class::gravityUpdate()
     cursor = m_pos;
     float tileHeight = m_grid->getTileHeight();
     cursor.y -= tileHeight * m_gravityAcceleration;
-    //if (cursor.y > 0.0f)
 
     setPosition(cursor);
 }
@@ -206,7 +208,6 @@ void Player_Class::jumpUpdate()
     glm::vec3 cursor = m_pos;
     cursor.y += m_jumpAcceleration;
     setPosition(cursor);
-    //CAMERA.lookAt(CAMERA.getX(), CAMERA.getY() + m_jumpAcceleration);
 }
 
 bool Player_Class::isFalling() const
