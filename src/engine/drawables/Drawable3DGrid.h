@@ -17,6 +17,7 @@ class Drawable3DGrid_Class : public Drawable3D
     glm::ivec2 m_cursor;  // left+up corner of the grid
     glm::vec3 m_startPos;
     glm::vec3 m_tryPos;
+    //bool m_canMove;
 
 public:
     Drawable3DGrid_Class();
@@ -33,6 +34,10 @@ public:
     void stepRight();
 
     void trySetPosition(const glm::vec3& vec);
+    /*bool didMove()
+    {
+        return m_canMove;
+    }*/
 
     float getTileWidth() const;
     float getTileHeight() const;

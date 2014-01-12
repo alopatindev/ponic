@@ -12,8 +12,6 @@ Scene::Scene()
 {
     auto& grid = Drawable3DGrid::get();
     grid.setGrid("level1");
-    //m_player.setGrid(grid);
-    //m_player.setSize(grid.getTileWidth() * 2.0f, grid.getTileHeight());
     Input::get().press.connect(this, &Scene::onPress);
     Input::get().release.connect(this, &Scene::onRelease);
 }
@@ -28,14 +26,14 @@ void Scene::render() const
 {
     auto& grid = Drawable3DGrid::get();
     grid.render();
-    m_player.render();
+    Player::get().render();
 }
 
 void Scene::update(int dt)
 {
     auto& grid = Drawable3DGrid::get();
     grid.update(dt);
-    m_player.update(dt);
+    Player::get().update(dt);
 }
 
 void Scene::fixedUpdate(int dt)
@@ -73,12 +71,17 @@ void Scene::fixedUpdate(int dt)
     grid.trySetPosition(newPos);
     grid.fixedUpdate(dt);
 
+    /*if (!grid.didMove())
+    {
+        Player::get().setPosition(Player::get().getPosition() - m_speed);
+    }*/
+
     // update collisions
-    m_player.fixedUpdate(dt);
-    if (m_player.collidesSurface())
+    Player::get().fixedUpdate(dt);
+    if (Player::get().collidesSurface())
     {
         m_speed.x *= HILL_RESISTANCE;
-        m_player.anticollisionUpdate();
+        Player::get().anticollisionUpdate();
     }
 
     // update gravity
@@ -90,19 +93,19 @@ void Scene::fixedUpdate(int dt)
             m_pressJumpTimer = 0;
             m_pressedJump = false;
         }
-        m_player.jumpUpdate();
+        Player::get().jumpUpdate();
     }
     else
     {
         m_pressJumpTimer = 0;
-        if (m_player.flies())
+        if (Player::get().flies())
         {
-            m_player.gravityUpdate();
+            Player::get().gravityUpdate();
         }
 
-        if (m_player.collidesGameObjects())
+        if (Player::get().collidesGameObjects())
         {
-            m_player.collisionGameObjectsUpdate();
+            Player::get().collisionGameObjectsUpdate();
         }
     }
 }
@@ -118,7 +121,7 @@ void Scene::onPress(Input_Class::Key key)
         m_pressedRight = true;
         break;
     case Input_Class::Jump:
-        if (!m_player.flies())
+        if (!Player::get().flies())
         {
             m_pressedJump = true;
         }

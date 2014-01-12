@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-class Player : public Drawable3DImage
+class Player_Class : public Drawable3DImage
 {
     const Drawable3DGrid_Class* m_grid;
     glm::vec2 m_gridSize;
@@ -17,8 +17,8 @@ class Player : public Drawable3DImage
     std::vector<GameObject*> m_gameObjectsCollided;
 
 public:
-    Player();
-    virtual ~Player();
+    Player_Class();
+    virtual ~Player_Class();
 
     void setGrid(const Drawable3DGrid& grid);
 
@@ -38,3 +38,5 @@ public:
     void gravityUpdate();
     void jumpUpdate();
 };
+
+typedef Singleton<Player_Class> Player;

@@ -2,7 +2,7 @@
 #include <Camera.h>
 #include <Graphics.h>
 
-Player::Player()
+Player_Class::Player_Class()
     : m_grid(nullptr)
     , m_gridSize(glm::vec2(2.0f, 2.0f))
     , m_collision(Empty)
@@ -18,15 +18,15 @@ Player::Player()
     setSize(m_grid->getTileSize() * m_gridSize);
 }
 
-Player::~Player()
+Player_Class::~Player_Class()
 {
 }
 
-void Player::update(int dt)
+void Player_Class::update(int dt)
 {
 }
 
-void Player::fixedUpdate(int dt)
+void Player_Class::fixedUpdate(int dt)
 {
     //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
     //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);
@@ -99,7 +99,7 @@ void Player::fixedUpdate(int dt)
     }
 }
 
-void Player::collisionGameObjectsUpdate()
+void Player_Class::collisionGameObjectsUpdate()
 {
     float tileHeight = m_grid->getTileHeight();
     for (auto it : m_gameObjectsCollided)
@@ -129,7 +129,7 @@ void Player::collisionGameObjectsUpdate()
     }
 }
 
-void Player::render() const
+void Player_Class::render() const
 {
     Drawable3DImage::render();
 
@@ -142,22 +142,22 @@ void Player::render() const
 #endif
 }
 
-bool Player::collidesGameObjects() const
+bool Player_Class::collidesGameObjects() const
 {
     return m_gameObjectsCollided.size() > 0;
 }
 
-const std::vector<GameObject*>& Player::getGameObjects()
+const std::vector<GameObject*>& Player_Class::getGameObjects()
 {
     return m_gameObjectsCollided;
 }
 
-bool Player::collidesSurface() const
+bool Player_Class::collidesSurface() const
 {
     return m_collision == Surface;
 }
 
-void Player::anticollisionUpdate()
+void Player_Class::anticollisionUpdate()
 {
     // find empty at top
     //TileType collision = Surface;
@@ -174,7 +174,7 @@ void Player::anticollisionUpdate()
     setPosition(cursor);
 }
 
-void Player::gravityUpdate()
+void Player_Class::gravityUpdate()
 {
     m_jumpAcceleration = 0.0f;
 
@@ -190,7 +190,7 @@ void Player::gravityUpdate()
     setPosition(cursor);
 }
 
-void Player::jumpUpdate()
+void Player_Class::jumpUpdate()
 {
     if (m_jumpAcceleration < 0.1f)
         m_jumpAcceleration += 0.02f;
@@ -202,7 +202,7 @@ void Player::jumpUpdate()
     //CAMERA.lookAt(CAMERA.getX(), CAMERA.getY() + m_jumpAcceleration);
 }
 
-bool Player::flies() const
+bool Player_Class::flies() const
 {
     return !m_groundCollision;
 }

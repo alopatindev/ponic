@@ -8,7 +8,7 @@
 
 class Scene : public Drawable3D, public sigslot::has_slots<>
 {
-    Player m_player;
+    //Player m_player;
     //Drawable3DGrid m_grid;
 
     bool m_pressedLeft;

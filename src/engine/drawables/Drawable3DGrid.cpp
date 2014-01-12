@@ -6,6 +6,7 @@
 Drawable3DGrid_Class::Drawable3DGrid_Class()
     : m_grid(nullptr)
     , m_cursor(glm::ivec2(0, 0))
+    //, m_canMove(false)
 {
     std::memset(m_gridBuffer, Empty, 1);
     setSize(GRAPHICS.getAspect(), 1.0f);
