@@ -7,28 +7,33 @@ Platform::Platform(const glm::ivec2& pos, TileType type,
                    const glm::vec2& gridSize)
     : GameObject(pos, type)
     , m_gridSize(gridSize)
+    , m_vertical(false)
 {
     switch (type)
     {
     case Platformv:
         m_speed = 0.005f;
-        m_endPos = m_startPos + glm::ivec2(0, 5);
+        m_endPos = glm::ivec2(0, 5);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
+        m_vertical = true;
         break;
     case PlatformV:
         m_speed = 0.01f;
-        m_endPos = m_startPos + glm::ivec2(0, 8);
+        m_endPos = glm::ivec2(0, 8);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
+        m_vertical = true;
         break;
     case Platformh:
         m_speed = 0.005f;
-        m_endPos = m_startPos + glm::ivec2(5, 0);
+        m_endPos = glm::ivec2(5, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
+        m_vertical = false;
         break;
     case PlatformH:
         m_speed = 0.01f;
-        m_endPos = m_startPos + glm::ivec2(8, 0);
+        m_endPos = glm::ivec2(8, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
+        m_vertical = false;
         break;
     }
 
@@ -36,7 +41,7 @@ Platform::Platform(const glm::ivec2& pos, TileType type,
     setSize(grid.getTileSize() * gridSize);
     setImage("game_common", "ground");
 
-    glm::ivec2 v = m_startPos - grid.getCursor();
+    glm::ivec2 v = m_gridPos - grid.getCursor();
     glm::vec3 v3 = grid.indexesToCoords(v) + grid.getPosition();
 
     setPosition(v3);
@@ -54,10 +59,9 @@ void Platform::fixedUpdate(int dt)
 {
     auto& grid = Drawable3DGrid::get();
 
-    glm::ivec2 vstart = m_startPos - grid.getCursor();
-    glm::ivec2 vend = m_endPos - grid.getCursor();
-
-    // are we gonna calculate physics?
+    // are we gonna calculate physics and show the object?
+    glm::ivec2 vstart = m_gridPos - grid.getCursor();
+    glm::ivec2 vend = m_gridPos + m_endPos - grid.getCursor();
     bool active = vend.x + m_gridSize.x >= 0 &&
                   vstart.x - m_gridSize.x <= GRID_WIDTH - 1 &&
                   vend.y + m_gridSize.y >= 0 &&
@@ -68,38 +72,29 @@ void Platform::fixedUpdate(int dt)
         setVisible(false);
         return;
     }
+    setVisible(active);
 
-    // are we gonna show the object?
-    glm::ivec2 checkPos = grid.coordsToIndexes(
-        m_pos + glm::vec3(m_size.x, m_size.y, 0.0f)
-    );
-    bool visible = checkPos.x >= 0;
-    setVisible(visible);
+    // setting platform considering position in grid
+    // and grid's position on screen
+    glm::ivec2 currentPos = m_gridPos;
+    glm::ivec2 currentGridPos = currentPos - grid.getCursor();
+    glm::vec3 newPos = grid.indexesToCoords(currentGridPos) + grid.getPosition();
 
-    // calculating new position
-    glm::vec3 newPos = grid.indexesToCoords(vstart) + grid.getPosition();
-
+    // updating newPos
     m_lastMovement = m_direction * m_speed;
     m_movementOffset += m_lastMovement;
-
     newPos += m_movementOffset;
 
-    auto negative = [](const glm::vec3& v) {
-        return v.x < 0.0f || v.y < 0.0f;
-    };
-
-    //glm::ivec2 cp = grid.coordsToIndexes(m_pos, true) + grid.getCursor();
-    glm::ivec2 cp = grid.coordsToIndexes(newPos, true) + grid.getCursor();
-    if (
-        (!negative(m_direction) &&
-            glm::length(cp) > glm::length(m_endPos) - 1) ||
-        (negative(m_direction) &&
-            glm::length(cp) <= glm::length(m_startPos))
-    )
+    // converting newPos to currentPos and checking bounds
+    currentPos = grid.coordsToIndexes(newPos, true) + grid.getCursor();
+    glm::ivec2 dposition = currentPos - m_gridPos ;
+    bool changeDirection = m_vertical
+        ? dposition.y >= m_endPos.y - 1 || dposition.y < 0
+        : dposition.x >= m_endPos.x - 1 || dposition.x < 0;
+    if (changeDirection)
     {
         m_direction = -m_direction;
     }
-
     setPosition(newPos);
 }
 

@@ -146,7 +146,7 @@ void GridManager_Class::fixedUpdateGameObjects(const std::string& grid, int dt)
 
 GameObject::GameObject(const glm::ivec2& pos, TileType type)
     : m_active(false)
-    , m_startPos(pos)
+    , m_gridPos(pos)
     , m_type(type)
 {
 }
