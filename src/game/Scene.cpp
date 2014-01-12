@@ -98,7 +98,7 @@ void Scene::fixedUpdate(int dt)
     else
     {
         m_pressJumpTimer = 0;
-        if (Player::get().flies())
+        if (Player::get().isFalling())
         {
             Player::get().gravityUpdate();
         }
@@ -121,7 +121,7 @@ void Scene::onPress(Input_Class::Key key)
         m_pressedRight = true;
         break;
     case Input_Class::Jump:
-        if (!Player::get().flies())
+        if (!Player::get().isFalling())
         {
             m_pressedJump = true;
         }

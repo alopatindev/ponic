@@ -67,6 +67,8 @@ void Player_Class::fixedUpdate(int dt)
         m_groundCollision = true;
     }
     else*/
+
+    if (!m_groundCollision)
     {
         for (int x = 0;
              x < int(m_gridSize.x) + 1;
@@ -75,6 +77,11 @@ void Player_Class::fixedUpdate(int dt)
             TileType t = m_grid->getTileType(cursor);
             if (t == Surface)
             {
+                // align to grid
+                float y = m_grid->getPosition().y +
+                    m_grid->coordsToIndexes(getPosition()).y * tileHeight;
+                setPosition(getPosition().x, y, getPosition().z);
+
                 m_groundCollision = true;
                 break;
             }
@@ -202,7 +209,7 @@ void Player_Class::jumpUpdate()
     //CAMERA.lookAt(CAMERA.getX(), CAMERA.getY() + m_jumpAcceleration);
 }
 
-bool Player_Class::flies() const
+bool Player_Class::isFalling() const
 {
     return !m_groundCollision;
 }

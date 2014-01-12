@@ -28,7 +28,7 @@ public:
 
     const std::vector<GameObject*>& getGameObjects();
     bool collidesSurface() const;
-    bool flies() const;
+    bool isFalling() const;
 
     bool collidesGameObjects() const;
     void collisionGameObjectsUpdate();
