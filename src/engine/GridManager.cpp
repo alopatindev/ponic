@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <game/GameObjects/Platform.h>
+#include <game/Player.h>
 
 GridManager_Class::GridManager_Class()
 {
@@ -88,8 +89,12 @@ void GridManager_Class::collectGameObjects(const std::string& grid,
             }
             GameObject* obj = new Platform(vec, type, glm::vec2(i, 1.0f));
             m_gameObjects[grid].push_back(obj);
-            break;
         }
+        break;
+    case Ponic:
+        g[vec.x][vec.y] = Empty;
+        Player::get().initPosition(vec);
+        break;
     //case EnemyWalker:
     //case EnemyDropper:
     //case EnemyClown:

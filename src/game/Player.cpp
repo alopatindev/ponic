@@ -11,16 +11,23 @@ Player_Class::Player_Class()
     , m_jumpAcceleration(0.0f)
 {
     setImage("game_common", "horse_stands");
-    glm::vec3 initialPos(-0.25f, -0.5f, -0.6f);
-    setPosition(initialPos);
+    //glm::vec3 initialPos(0.0f, 0.0f, -0.6f);
+    //setPosition(initialPos);
+    m_grid = &Drawable3DGrid::get();
     //setCenter(0.5f, 0.5f);
     //setOpacity(1.0f);
-    m_grid = &Drawable3DGrid::get();
     setSize(m_grid->getTileSize() * m_gridSize);
 }
 
 Player_Class::~Player_Class()
 {
+}
+
+void Player_Class::initPosition(const glm::ivec2& gridPos)
+{
+    LOGI("set init pos (%d %d)", gridPos.x, gridPos.y);
+    m_initialPos = gridPos;
+    m_initializePos = true;
 }
 
 void Player_Class::update(int dt)
@@ -29,10 +36,26 @@ void Player_Class::update(int dt)
 
 void Player_Class::fixedUpdate(int dt)
 {
-    //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
-    //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);
     float tileWidth = m_grid->getTileWidth();
     float tileHeight = m_grid->getTileHeight();
+    if (m_initializePos)
+    {
+        m_initializePos = false;
+
+        if (m_initialPos.x < GRID_WIDTH / 2)
+            m_initialPos.x = GRID_WIDTH / 2;
+
+        for (int x = 1; x < m_initialPos.x - GRID_WIDTH / 2; ++x)
+            m_grid->stepRight();
+
+        m_pos.y += m_initialPos.y * tileHeight;
+        m_pos.y -= (GRID_HEIGHT / 2) * tileHeight;
+
+        m_pos.z = m_grid->getPosition().z;
+    }
+
+    //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
+    //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);
     m_collision = Empty;
     glm::vec3 cursor;
     cursor = m_pos;

@@ -8,7 +8,7 @@
 
 class Player_Class : public Drawable3DImage
 {
-    const Drawable3DGrid_Class* m_grid;
+    Drawable3DGrid_Class* m_grid;
     glm::vec2 m_gridSize;
     TileType m_collision;
     bool m_groundCollision;
@@ -16,9 +16,14 @@ class Player_Class : public Drawable3DImage
     float m_jumpAcceleration;
     std::vector<GameObject*> m_gameObjectsCollided;
 
+    glm::ivec2 m_initialPos;
+    bool m_initializePos;
+
 public:
     Player_Class();
     virtual ~Player_Class();
+
+    void initPosition(const glm::ivec2& gridPos);
 
     void setGrid(const Drawable3DGrid& grid);
 

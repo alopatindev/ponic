@@ -6,8 +6,8 @@
 #include <glm/glm.hpp>
 #include <cstdlib>
 
-static const size_t GRID_WIDTH = 20;
-static const size_t GRID_HEIGHT = 12;
+static const size_t GRID_WIDTH = 35;
+static const size_t GRID_HEIGHT = 25;
 
 class Drawable3DGrid_Class : public Drawable3D
 {
