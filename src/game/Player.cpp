@@ -134,6 +134,7 @@ void Player_Class::fixedUpdate(int dt)
 
 void Player_Class::collisionGameObjectsUpdate()
 {
+    float tileWidth = m_grid->getTileWidth();
     float tileHeight = m_grid->getTileHeight();
     for (auto it : m_gameObjectsCollided)
     {
@@ -225,7 +226,7 @@ void Player_Class::gravityUpdate()
 void Player_Class::jumpUpdate()
 {
     if (m_jumpAcceleration < 0.1f)
-        m_jumpAcceleration += 0.02f;
+        m_jumpAcceleration += 0.013f;
     else
         m_jumpAcceleration = 0.0f;
     glm::vec3 cursor = m_pos;

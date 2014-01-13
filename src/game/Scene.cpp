@@ -38,8 +38,8 @@ void Scene::update(int dt)
 
 void Scene::fixedUpdate(int dt)
 {
-    static const float MAX_SPEED = 0.08f;
-    static const float SPEED_STEP = 0.01f;
+    static const float MAX_SPEED = 0.03f;
+    static const float SPEED_STEP = 0.005f;
     static const float HILL_RESISTANCE = 0.8f;
 
     auto& grid = Drawable3DGrid::get();
