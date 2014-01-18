@@ -37,7 +37,10 @@ ln -sf ../../../src/engine/platforms/linux/shaders
 ../../../tools/AtlasGen/AtlasGen.py -r ../../../resources -m RGBA -t tga
 
 rm -rfv grids
-cp -rv ../../../resources/grids grids
+mkdir grids
+for i in ../../../resources/grids/*.txt; do
+    cp -vf "${i}" grids/
+done
 
 for i in grids/*.txt; do
     ../../../tools/fix_grid.py "$i"
