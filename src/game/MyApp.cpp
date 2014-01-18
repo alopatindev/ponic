@@ -23,8 +23,7 @@ void MyApp::init()
     ImageManager::get().loadGroup("game_common");
     FontManager::get().loadFont("font.ttf", 16, 24, 38, 0);
     GridManager::get().loadGrid("level1");
-    CAMERA.zoom(CAMERA.getZoom() + 0.2f);
-    //CAMERA.lookAt(CAMERA.getX() - 0.1f, CAMERA.getY());
+    CAMERA.zoom(CAMERA_DEFAULT_ZOOM);
     CAMERA.setLookAtPlayer(true);
 }
 
@@ -37,6 +36,8 @@ void MyApp::update(int dt)
 {
     m_scene.update(dt);
     EFFECTS.update(dt);
+    float playerSpeed = glm::length(m_scene.getSpeed());
+    CAMERA.setPlayerSpeed(playerSpeed);
     CAMERA.update(dt);
 }
 

@@ -29,4 +29,9 @@ public:
 
     void onPress(Input_Class::Key key);
     void onRelease(Input_Class::Key key);
+
+    const glm::vec3& getSpeed() const
+    {
+        return m_speed;
+    }
 };

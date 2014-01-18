@@ -4,7 +4,9 @@ Camera_Class::Camera_Class()
     : m_pos(glm::vec3(0.0f, 0.0f, 0.0f))
     , m_newPos(glm::vec3(0.0f, 0.0f, 0.0f))
     , m_lookAtPlayer(false)
+    , m_playerSpeed(0.0f)
 {
+    zoom(CAMERA_DEFAULT_ZOOM);
 }
 
 Camera_Class::~Camera_Class()
@@ -48,6 +50,11 @@ void Camera_Class::setLookAtPlayer(bool lookAtPlayer)
     m_lookAtPlayer = lookAtPlayer;
 }
 
+void Camera_Class::setPlayerSpeed(float playerSpeed)
+{
+    m_playerSpeed = playerSpeed;
+}
+
 void Camera_Class::zoom(float zoom)
 {
     m_pos.z = zoom;
@@ -68,21 +75,43 @@ void Camera_Class::update(int dt)
         dPlayerPos += playerOffset;
 
         // smooth update
-        float speed = 0.01f * dt;
-        dPlayerPos *= speed;
+        static const float smooth = 0.01f;
+        float camSpeed = smooth * dt;
+        dPlayerPos *= camSpeed;
         //lookAt(m_pos.x + dPlayerPos.x, m_pos.y + dPlayerPos.y);
         m_pos.x += dPlayerPos.x;
         m_pos.y += dPlayerPos.y;
+
+        // smooth zoom update
+        if (m_playerSpeed < 0.002f)
+        {
+            static const float smooth = 0.00005f;
+            camSpeed = smooth * dt;
+            if (m_pos.z < CAMERA_DEFAULT_ZOOM)
+                m_pos.z += camSpeed;
+            else
+                m_pos.z = CAMERA_DEFAULT_ZOOM;
+        }
+        else
+        {
+            static const float eps = 0.01f;
+            if (m_playerSpeed > eps && m_pos.z > CAMERA_MIN_ZOOM)
+            {
+                camSpeed = smooth * dt;
+                m_pos.z -= m_playerSpeed * camSpeed;
+            }
+        }
         return;
     }
 
     if (m_pos != m_newPos)
     {
         static const float eps = 0.001f;
+        static const float smooth = 0.01f;
         float distance = glm::abs(glm::distance(m_pos, m_newPos));
-        float speed = distance * dt * 0.01f;
+        float camSpeed = distance * dt * smooth;
         if (distance > eps)
-            m_pos += m_newPos * speed;
+            m_pos += m_newPos * camSpeed;
         else
             m_pos = m_newPos;
     }

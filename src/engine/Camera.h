@@ -5,11 +5,15 @@
 #include <glm/glm.hpp>
 #include <game/Player.h>
 
+static const float CAMERA_MIN_ZOOM = 0.2f;
+static const float CAMERA_DEFAULT_ZOOM = 0.27f;
+
 class Camera_Class
 {
     glm::vec3 m_pos;
     glm::vec3 m_newPos;
     bool m_lookAtPlayer;
+    float m_playerSpeed;
 
 public:
     Camera_Class();
@@ -24,6 +28,7 @@ public:
     void smoothLookAt(float x, float y);
 
     void setLookAtPlayer(bool lookAtPlayer);
+    void setPlayerSpeed(float playerSpeed);
 
     void zoom(float zoom = 0.0f);
     void smoothZoom(float zoom = 0.0f);
