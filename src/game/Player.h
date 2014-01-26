@@ -42,6 +42,12 @@ public:
     void anticollisionUpdate();
     void gravityUpdate();
     void jumpUpdate();
+    void slopesCorrectionUpdate();
+
+    const glm::vec2& getGridSize() const
+    {
+        return m_gridSize;
+    }
 };
 
 typedef Singleton<Player_Class> Player;

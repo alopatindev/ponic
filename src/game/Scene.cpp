@@ -108,6 +108,9 @@ void Scene::fixedUpdate(int dt)
             Player::get().collisionGameObjectsUpdate();
         }
     }
+
+    if (!Player::get().isFalling())
+        Player::get().slopesCorrectionUpdate();
 }
 
 void Scene::onPress(Input_Class::Key key)

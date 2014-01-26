@@ -82,6 +82,19 @@ void Player_Class::fixedUpdate(int dt)
         m_size.x * 0.1f, m_size.y * 0.1f,
         0.0f, 1.0f, 0.0f,
         0.8f);
+
+    glm::ivec2 debugPos2 = m_grid->coordsToIndexes(m_pos);
+    glm::vec3 debugPos3 = m_grid->indexesToCoords(debugPos2);
+    debugPos3 += Drawable3DGrid::get().getPosition();
+    LOGI("m_pos=(%f %f %f) 3=(%f %f %f) 2=(%d %d)",
+         m_pos.x, m_pos.y, m_pos.z,
+         debugPos3.x, debugPos3.y, debugPos3.z,
+         debugPos2.x, debugPos2.y);
+    GRAPHICS.drawRectangle3D(
+        debugPos3.x, debugPos3.y, debugPos3.z + 0.001f,
+        m_size.x * 0.1f, m_size.y * 0.1f,
+        0.0f, 1.0f, 1.0f,
+        0.8f);
 #endif
 
     cursor.y -= tileHeight * 0.2f;
@@ -232,6 +245,33 @@ void Player_Class::jumpUpdate()
     glm::vec3 cursor = m_pos;
     cursor.y += m_jumpAcceleration;
     setPosition(cursor);
+}
+
+void Player_Class::slopesCorrectionUpdate()
+{
+    float tileWidth = m_grid->getTileWidth();
+    float tileHeight = m_grid->getTileHeight();
+    /*glm::ivec2 ipos = m_grid->coordsToIndexes(m_pos);
+    glm::vec3 pos = m_grid->indexesToCoords(ipos);
+
+    //glm::vec3 pos = glm::vec3(ipos.x * tileWidth, m_pos.y * tileHeight, m_pos.z);
+    //pos += m_grid->getPosition();
+    glm::vec3 pos = m_grid->indexesToCoords(ipos);
+    LOGI("m_pos=(%f %f) ipos=(%d %d) pos=(%f %f)",
+         m_pos.x, m_pos.y,
+         ipos.x, ipos.y,
+         pos.x, pos.y);
+    //m_pos.y = m_grid->getNextSlopeOffset(pos);
+    LOGI("\nm_pos.y=%f", m_pos.y);
+    //m_pos.y = tileHeight * 0.5f;
+    float y = pos.y - m_grid->getPosition().y - 1.0f;
+    y *= m_grid->getNextSlopeOffset(m_pos);
+    LOGI("=> y=%f", y);
+    setPosition(m_pos.x, y, m_pos.z);*/
+
+    //LOGI("m_pos.y=%f", m_pos.y);
+    //m_pos.y += m_grid->getNextSlopeOffset(m_pos) * tileHeight;
+    m_pos.y = m_grid->getNextSlopeOffset(m_pos);
 }
 
 bool Player_Class::isFalling() const

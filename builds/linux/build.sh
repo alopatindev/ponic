@@ -4,6 +4,7 @@ set -e
 
 USE_CLANG=1
 DEBUG=1
+#DEBUG=0
 
 if [[ "${DEBUG}" -eq 1 ]]; then
     CFLAGS="${CFLAGS} -O0 -g -rdynamic -D_DEBUG"

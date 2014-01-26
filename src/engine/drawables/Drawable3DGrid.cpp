@@ -2,11 +2,13 @@
 #include <engine/GridManager.h>
 #include <engine/Graphics.h>
 #include <cstring>
+#include <game/Player.h>
 
 Drawable3DGrid_Class::Drawable3DGrid_Class()
     : m_grid(nullptr)
     , m_cursor(glm::ivec2(0, 0))
     //, m_canMove(false)
+    , m_onSlope(false)
 {
     std::memset(m_gridBuffer, Empty, 1);
     setSize(GRAPHICS.getAspect(), 1.0f);
@@ -300,4 +302,109 @@ const
 glm::vec3& Drawable3DGrid_Class::indexesToCoords(const glm::ivec2& vec) const
 {
     return indexesToCoords(vec.x, vec.y);
+}
+
+void Drawable3DGrid_Class::calculateSlopeVertexes(
+    const glm::vec3& pos, glm::ivec2& leftVertex, glm::ivec2& rightVertex) const
+{
+    auto player = Player::get();
+    glm::ivec2 ipos = coordsToIndexes(pos);
+    leftVertex = glm::ivec2(-1, -1);
+
+    //  /
+    // /  slope searching
+    int i = ipos.x + int(player.getGridSize().x);
+    while (i > 0)
+    {
+        --i;
+        if (m_gridBuffer[i][ipos.y - 1] != Surface)
+            //|| m_gridBuffer[ipos.x][ipos.y - 1] != Surface
+        {
+            leftVertex = glm::ivec2(i, ipos.y - 1);
+            break;
+        }
+    }
+
+    rightVertex = glm::ivec2(-1, -1);
+    //i = ipos.x;
+    while (i < GRID_WIDTH - 1)
+    {
+        ++i;
+        if (m_gridBuffer[i][ipos.y] == Surface)
+        {
+            rightVertex = glm::ivec2(i, ipos.y);
+            break;
+        }
+    }
+
+    if (leftVertex != glm::ivec2(-1, -1) &&
+        rightVertex != glm::ivec2(-1, -1))
+        return;
+
+
+    // \
+    //  \ slope searching
+    i = ipos.x;
+    if (ipos.y - 2 < 0)
+        return;
+    while (i < GRID_WIDTH - 1)
+    {
+        ++i;
+        if (m_gridBuffer[i][ipos.y - 1] != Surface)
+        {
+            leftVertex = glm::ivec2(i - 1, ipos.y - 1);
+            break;
+        }
+    }
+    while (i < GRID_WIDTH - 1)
+    {
+        ++i;
+        if (m_gridBuffer[i][ipos.y - 2] != Surface)
+        {
+            rightVertex = glm::ivec2(i, ipos.y - 2);
+            break;
+        }
+    }
+}
+
+float
+Drawable3DGrid_Class::getNextSlopeOffset(const glm::vec3& pos) const
+{
+    glm::ivec2 leftVertex;
+    glm::ivec2 rightVertex;
+    calculateSlopeVertexes(pos, leftVertex, rightVertex);
+
+    if (leftVertex == glm::ivec2(-1, -1) ||
+        rightVertex == glm::ivec2(-1, -1))
+        return pos.y;
+
+    glm::vec3 leftVertexCoords = indexesToCoords(leftVertex);
+    glm::vec3 rightVertexCoords = indexesToCoords(rightVertex);
+
+#if _DEBUG
+    auto player = Player::get();
+    glm::vec3 debugPos3 = leftVertexCoords + m_pos;
+    glm::vec2 playerSize = player.getSize();
+    GRAPHICS.drawRectangle3D(
+        debugPos3.x, debugPos3.y, debugPos3.z + 0.001f,
+        playerSize.x * 0.1f, playerSize.y * 0.1f,
+        1.0f, 0.0f, 0.0f,
+        0.8f);
+
+    debugPos3 = rightVertexCoords + m_pos;
+    GRAPHICS.drawRectangle3D(
+        debugPos3.x, debugPos3.y, debugPos3.z + 0.001f,
+        playerSize.x * 0.1f, playerSize.y * 0.1f,
+        1.0f, 0.0f, 0.0f,
+        0.8f);
+#endif
+
+//    glm::vec3 newPos = indexesToCoords(ipos);
+//    float x = newPos.x;
+    float x1 = leftVertexCoords.x;
+    float y1 = leftVertexCoords.y;
+    float x2 = rightVertexCoords.x;
+    float y2 = rightVertexCoords.y;
+
+    return pos.y;
 }

@@ -18,6 +18,7 @@ class Drawable3DGrid_Class : public Drawable3D
     glm::vec3 m_startPos;
     glm::vec3 m_tryPos;
     //bool m_canMove;
+    bool m_onSlope;
 
 public:
     Drawable3DGrid_Class();
@@ -63,6 +64,8 @@ public:
     const glm::vec3& indexesToCoords(int x, int y) const;
     const glm::vec3& indexesToCoords(const glm::ivec2& vec) const;
 
+    float getNextSlopeOffset(const glm::vec3& pos) const;
+
 private:
     void updateBuffer();
 
@@ -70,6 +73,10 @@ private:
     bool canStepDown() const;
     bool canStepLeft() const;
     bool canStepRight() const;
+
+    void calculateSlopeVertexes(const glm::vec3& pos,
+                                glm::ivec2& leftVertex,
+                                glm::ivec2& rightVertex) const;
 };
 
 typedef Singleton<Drawable3DGrid_Class> Drawable3DGrid;
