@@ -2,6 +2,7 @@
 #include <Log.h>
 #include <Graphics.h>
 #include <game/Player.h>
+#include <game/MyApp.h>
 
 Platform::Platform(const glm::ivec2& pos, TileType type,
                    const glm::vec2& gridSize)
@@ -12,25 +13,25 @@ Platform::Platform(const glm::ivec2& pos, TileType type,
     switch (type)
     {
     case Platformv:
-        m_speed = 0.005f;
+        m_speed = 0.005f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(0, 5);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         m_vertical = true;
         break;
     case PlatformV:
-        m_speed = 0.01f;
+        m_speed = 0.01f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(0, 8);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         m_vertical = true;
         break;
     case Platformh:
-        m_speed = 0.005f;
+        m_speed = 0.005f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(5, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
         m_vertical = false;
         break;
     case PlatformH:
-        m_speed = 0.01f;
+        m_speed = 0.01f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(8, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
         m_vertical = false;

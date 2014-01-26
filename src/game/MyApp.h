@@ -2,6 +2,8 @@
 
 #include "Scene.h"
 
+const float GLOBAL_SPEED = 0.5f;
+
 class MyApp
 {
     Scene m_scene;

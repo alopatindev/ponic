@@ -5,8 +5,9 @@
 #include <glm/glm.hpp>
 #include <game/Player.h>
 
-static const float CAMERA_MIN_ZOOM = 0.2f;
-static const float CAMERA_DEFAULT_ZOOM = 0.27f;
+static const float CAMERA_MIN_ZOOM = 0.4f;
+static const float CAMERA_DEFAULT_ZOOM = 0.43f;
+//static const float CAMERA_DEFAULT_ZOOM = 0.f;
 
 class Camera_Class
 {

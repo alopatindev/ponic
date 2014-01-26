@@ -2,6 +2,8 @@
 
 import sys
 
+LINES_NUMBER = 50
+
 if len(sys.argv) < 2:
     print '%s path/to/level.txt'
     sys.exit(1)
@@ -17,6 +19,10 @@ for i in xrange(len(lines)):
 
 rows = len(lines)
 cols = len(lines[0]) - 1
+
+if rows != LINES_NUMBER:
+    print 'Error: wrong number of lines: %d instead of %d' % (rows, LINES_NUMBER)
+    sys.exit(2)
 
 for i in xrange(1, len(lines)):
     if len(lines[i]) - 1 != cols:

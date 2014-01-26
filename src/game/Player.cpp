@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <Camera.h>
 #include <Graphics.h>
+#include <game/MyApp.h>
 
 Player_Class::Player_Class()
     : m_grid(nullptr)
@@ -50,6 +51,7 @@ void Player_Class::fixedUpdate(int dt)
 
         m_pos.y += m_initialPos.y * tileHeight;
         m_pos.y -= (GRID_HEIGHT / 2) * tileHeight;
+        //m_pos.y -= float(GRID_HEIGHT) / (2.0f * ASPECT_ADDITION) * tileHeight;
 
         m_pos.z = m_grid->getPosition().z;
     }
@@ -86,10 +88,10 @@ void Player_Class::fixedUpdate(int dt)
     glm::ivec2 debugPos2 = m_grid->coordsToIndexes(m_pos);
     glm::vec3 debugPos3 = m_grid->indexesToCoords(debugPos2);
     debugPos3 += Drawable3DGrid::get().getPosition();
-    LOGI("m_pos=(%f %f %f) 3=(%f %f %f) 2=(%d %d)",
+    /*LOGI("m_pos=(%f %f %f) 3=(%f %f %f) 2=(%d %d)",
          m_pos.x, m_pos.y, m_pos.z,
          debugPos3.x, debugPos3.y, debugPos3.z,
-         debugPos2.x, debugPos2.y);
+         debugPos2.x, debugPos2.y);*/
     GRAPHICS.drawRectangle3D(
         debugPos3.x, debugPos3.y, debugPos3.z + 0.001f,
         m_size.x * 0.1f, m_size.y * 0.1f,
@@ -206,11 +208,12 @@ bool Player_Class::collidesSurface() const
 
 void Player_Class::anticollisionUpdate()
 {
+    float tileWidth = m_grid->getTileWidth();
+    float tileHeight = m_grid->getTileHeight();
     // find empty at top
     //TileType collision = Surface;
     glm::vec3 cursor;
     cursor = m_pos;
-    float tileHeight = m_grid->getTileHeight();
     cursor.y += tileHeight;
     /*for (;
          collision == Surface && cursor.y < m_grid->getSize().y;
@@ -218,6 +221,16 @@ void Player_Class::anticollisionUpdate()
     {
         collision = m_grid->getTileType(cursor);
     }*/
+    if (m_grid->getTileType(cursor.x + tileWidth, cursor.y) == Surface)
+    {
+        cursor.x -= tileWidth * 0.5f;
+        cursor.y -= tileHeight;
+    }
+    else if (m_grid->getTileType(cursor.x - tileWidth, cursor.y) == Surface)
+    {
+        cursor.x += tileWidth * 0.5f;
+        cursor.y -= tileHeight;
+    }
     setPosition(cursor);
 }
 
@@ -226,7 +239,7 @@ void Player_Class::gravityUpdate()
     m_jumpAcceleration = 0.0f;
 
     if (m_gravityAcceleration <= 0.3f)
-        m_gravityAcceleration += 0.01f;
+        m_gravityAcceleration += 0.01f * GLOBAL_SPEED;
 
     glm::vec3 cursor;
     cursor = m_pos;
@@ -239,39 +252,12 @@ void Player_Class::gravityUpdate()
 void Player_Class::jumpUpdate()
 {
     if (m_jumpAcceleration < 0.1f)
-        m_jumpAcceleration += 0.013f;
+        m_jumpAcceleration += 0.013f * GLOBAL_SPEED;
     else
         m_jumpAcceleration = 0.0f;
     glm::vec3 cursor = m_pos;
     cursor.y += m_jumpAcceleration;
     setPosition(cursor);
-}
-
-void Player_Class::slopesCorrectionUpdate()
-{
-    float tileWidth = m_grid->getTileWidth();
-    float tileHeight = m_grid->getTileHeight();
-    /*glm::ivec2 ipos = m_grid->coordsToIndexes(m_pos);
-    glm::vec3 pos = m_grid->indexesToCoords(ipos);
-
-    //glm::vec3 pos = glm::vec3(ipos.x * tileWidth, m_pos.y * tileHeight, m_pos.z);
-    //pos += m_grid->getPosition();
-    glm::vec3 pos = m_grid->indexesToCoords(ipos);
-    LOGI("m_pos=(%f %f) ipos=(%d %d) pos=(%f %f)",
-         m_pos.x, m_pos.y,
-         ipos.x, ipos.y,
-         pos.x, pos.y);
-    //m_pos.y = m_grid->getNextSlopeOffset(pos);
-    LOGI("\nm_pos.y=%f", m_pos.y);
-    //m_pos.y = tileHeight * 0.5f;
-    float y = pos.y - m_grid->getPosition().y - 1.0f;
-    y *= m_grid->getNextSlopeOffset(m_pos);
-    LOGI("=> y=%f", y);
-    setPosition(m_pos.x, y, m_pos.z);*/
-
-    //LOGI("m_pos.y=%f", m_pos.y);
-    //m_pos.y += m_grid->getNextSlopeOffset(m_pos) * tileHeight;
-    m_pos.y = m_grid->getNextSlopeOffset(m_pos);
 }
 
 bool Player_Class::isFalling() const

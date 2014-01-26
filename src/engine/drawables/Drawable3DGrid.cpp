@@ -3,15 +3,16 @@
 #include <engine/Graphics.h>
 #include <cstring>
 #include <game/Player.h>
+#include <engine/Camera.h>
 
 Drawable3DGrid_Class::Drawable3DGrid_Class()
     : m_grid(nullptr)
     , m_cursor(glm::ivec2(0, 0))
     //, m_canMove(false)
-    , m_onSlope(false)
 {
     std::memset(m_gridBuffer, Empty, 1);
-    setSize(GRAPHICS.getAspect(), 1.0f);
+    //setSize(GRAPHICS.getAspect(), 1.0f * ASPECT_ADDITION);
+    setSize(GRAPHICS.getAspect() * ASPECT_ADDITION, 1.0f);
     m_startPos = glm::vec3(-0.7f, -0.5f, -0.6f);
     m_tryPos = m_pos;
     setPosition(m_startPos);
@@ -125,7 +126,7 @@ void Drawable3DGrid_Class::fixedUpdate(int dt)
     GridManager::get().fixedUpdateGameObjects(m_gridName, dt);
 }
 
-void Drawable3DGrid_Class::step(const glm::ivec2& vec)
+/*void Drawable3DGrid_Class::step(const glm::ivec2& vec)
 {
     glm::ivec2 newCursor = m_cursor;
     newCursor += vec;
@@ -137,7 +138,7 @@ void Drawable3DGrid_Class::step(const glm::ivec2& vec)
     int32_t height = (*m_grid)[0].size();
     if ((newCursor.y > 0) && (newCursor.y < height - GRID_HEIGHT))
         m_cursor.y = newCursor.y;
-}
+}*/
 
 void Drawable3DGrid_Class::stepUp()
 {
@@ -180,8 +181,44 @@ void Drawable3DGrid_Class::trySetPosition(const glm::vec3& vec)
     m_tryPos = vec;
 }
 
+void Drawable3DGrid_Class::repairBuffer()
+{
+    float tileWidth = getTileWidth();
+    float tileHeight = getTileHeight();
+
+    glm::vec3 playerPos = Player::get().getPosition();
+    int playerPosX = coordsToIndexes(playerPos).x;
+    //LOGI("playerPosX=%d", playerPosX);
+    int goodPlayerPos = GRID_WIDTH / 2 + int(Player::get().getGridSize().x) / 2;
+    if (glm::abs(playerPosX - goodPlayerPos) > 2)
+    //if (playerPosX != goodPlayerPos)
+    {
+        //LOGI("fixing");
+        if (playerPosX > goodPlayerPos)
+        {
+            Player::get().setPosition(playerPos.x - tileWidth,
+                                      playerPos.y,
+                                      playerPos.z);
+            m_cursor.x++;
+            CAMERA.lookAt(CAMERA.getPosition().x - tileWidth,
+                          CAMERA.getPosition().y);
+        }
+        else
+        {
+            Player::get().setPosition(playerPos.x + tileWidth,
+                                      playerPos.y,
+                                      playerPos.z);
+            CAMERA.lookAt(CAMERA.getPosition().x + tileWidth,
+                          CAMERA.getPosition().y);
+            m_cursor.x--;
+        }
+    }
+}
+
 void Drawable3DGrid_Class::updateBuffer()
 {
+    repairBuffer();
+
     const Grid& grid = *m_grid;
     int32_t gridWidth = grid.size();
     int32_t gridHeight = grid[0].size();
@@ -304,35 +341,39 @@ glm::vec3& Drawable3DGrid_Class::indexesToCoords(const glm::ivec2& vec) const
     return indexesToCoords(vec.x, vec.y);
 }
 
-void Drawable3DGrid_Class::calculateSlopeVertexes(
+/*void Drawable3DGrid_Class::calculateSlopeVertexes(
     const glm::vec3& pos, glm::ivec2& leftVertex, glm::ivec2& rightVertex) const
 {
     auto player = Player::get();
     glm::ivec2 ipos = coordsToIndexes(pos);
     leftVertex = glm::ivec2(-1, -1);
+    rightVertex = glm::ivec2(-1, -1);
 
     //  /
     // /  slope searching
     int i = ipos.x + int(player.getGridSize().x);
+    if (ipos.y - 1 < 0)
+        return;
     while (i > 0)
     {
         --i;
         if (m_gridBuffer[i][ipos.y - 1] != Surface)
             //|| m_gridBuffer[ipos.x][ipos.y - 1] != Surface
         {
-            leftVertex = glm::ivec2(i, ipos.y - 1);
+            leftVertex = glm::ivec2(i + 1, ipos.y - 1);
             break;
         }
     }
 
-    rightVertex = glm::ivec2(-1, -1);
+    if (ipos.y + 1 > GRID_HEIGHT)
+        return;
     //i = ipos.x;
     while (i < GRID_WIDTH - 1)
     {
         ++i;
-        if (m_gridBuffer[i][ipos.y] == Surface)
+        if (m_gridBuffer[i][ipos.y + 1] == Surface)
         {
-            rightVertex = glm::ivec2(i, ipos.y);
+            rightVertex = glm::ivec2(i, ipos.y + 1);
             break;
         }
     }
@@ -345,7 +386,7 @@ void Drawable3DGrid_Class::calculateSlopeVertexes(
     // \
     //  \ slope searching
     i = ipos.x;
-    if (ipos.y - 2 < 0)
+    if (ipos.y - 3 < 0)
         return;
     while (i < GRID_WIDTH - 1)
     {
@@ -356,19 +397,21 @@ void Drawable3DGrid_Class::calculateSlopeVertexes(
             break;
         }
     }
+    if (ipos.y - 3 < 0)
+        return;
     while (i < GRID_WIDTH - 1)
     {
         ++i;
-        if (m_gridBuffer[i][ipos.y - 2] != Surface)
+        if (m_gridBuffer[i][ipos.y - 3] != Surface)
         {
-            rightVertex = glm::ivec2(i, ipos.y - 2);
+            rightVertex = glm::ivec2(i - 1, ipos.y - 3);
             break;
         }
     }
 }
 
-float
-Drawable3DGrid_Class::getNextSlopeOffset(const glm::vec3& pos) const
+bool
+Drawable3DGrid_Class::getNextSlopeOffset(const glm::vec3& pos, float& yOut) const
 {
     glm::ivec2 leftVertex;
     glm::ivec2 rightVertex;
@@ -376,24 +419,27 @@ Drawable3DGrid_Class::getNextSlopeOffset(const glm::vec3& pos) const
 
     if (leftVertex == glm::ivec2(-1, -1) ||
         rightVertex == glm::ivec2(-1, -1))
-        return pos.y;
+    {
+        return false;
+    }
 
-    glm::vec3 leftVertexCoords = indexesToCoords(leftVertex);
-    glm::vec3 rightVertexCoords = indexesToCoords(rightVertex);
+    glm::vec3 leftVertexCoords = indexesToCoords(leftVertex) + m_pos;
+    glm::vec3 rightVertexCoords = indexesToCoords(rightVertex) + m_pos;
+
+    //m_leftVertexCoords = leftVertexCoords;
+    //m_rightVertexCoords = rightVertexCoords;
 
 #if _DEBUG
     auto player = Player::get();
-    glm::vec3 debugPos3 = leftVertexCoords + m_pos;
     glm::vec2 playerSize = player.getSize();
     GRAPHICS.drawRectangle3D(
-        debugPos3.x, debugPos3.y, debugPos3.z + 0.001f,
+        leftVertexCoords.x, leftVertexCoords.y, leftVertexCoords.z + 0.001f,
         playerSize.x * 0.1f, playerSize.y * 0.1f,
         1.0f, 0.0f, 0.0f,
         0.8f);
 
-    debugPos3 = rightVertexCoords + m_pos;
     GRAPHICS.drawRectangle3D(
-        debugPos3.x, debugPos3.y, debugPos3.z + 0.001f,
+        rightVertexCoords.x, rightVertexCoords.y, rightVertexCoords.z + 0.001f,
         playerSize.x * 0.1f, playerSize.y * 0.1f,
         1.0f, 0.0f, 0.0f,
         0.8f);
@@ -401,10 +447,16 @@ Drawable3DGrid_Class::getNextSlopeOffset(const glm::vec3& pos) const
 
 //    glm::vec3 newPos = indexesToCoords(ipos);
 //    float x = newPos.x;
+    float x = pos.x + m_pos.x;
     float x1 = leftVertexCoords.x;
     float y1 = leftVertexCoords.y;
     float x2 = rightVertexCoords.x;
     float y2 = rightVertexCoords.y;
 
-    return pos.y;
-}
+    float y = (x - x1) * y2 / (x2 - x1);
+
+    LOGI("y=%f dx=%f-%f=%f", y, x, x1, x-x1);
+
+    yOut = pos.y + y;
+    return true;
+}*/

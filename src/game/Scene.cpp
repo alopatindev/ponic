@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include <Camera.h>
 #include <Log.h>
+#include <game/MyApp.h>
 
 Scene::Scene()
     : m_pressedLeft(false)
@@ -38,8 +39,8 @@ void Scene::update(int dt)
 
 void Scene::fixedUpdate(int dt)
 {
-    static const float MAX_SPEED = 0.03f;
-    static const float SPEED_STEP = 0.005f;
+    static const float MAX_SPEED = 0.03f * GLOBAL_SPEED;
+    static const float SPEED_STEP = 0.005f * GLOBAL_SPEED;
     static const float HILL_RESISTANCE = 0.8f;
 
     auto& grid = Drawable3DGrid::get();
@@ -108,9 +109,6 @@ void Scene::fixedUpdate(int dt)
             Player::get().collisionGameObjectsUpdate();
         }
     }
-
-    if (!Player::get().isFalling())
-        Player::get().slopesCorrectionUpdate();
 }
 
 void Scene::onPress(Input_Class::Key key)

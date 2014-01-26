@@ -6,8 +6,9 @@
 #include <glm/glm.hpp>
 #include <cstdlib>
 
-static const size_t GRID_WIDTH = 35;
-static const size_t GRID_HEIGHT = 25;
+static const size_t GRID_WIDTH = 80;
+static const size_t GRID_HEIGHT = 50;
+static const float ASPECT_ADDITION = 1.0f;
 
 class Drawable3DGrid_Class : public Drawable3D
 {
@@ -28,7 +29,7 @@ public:
     virtual void fixedUpdate(int dt);
     void setGrid(const std::string& grid);
 
-    void step(const glm::ivec2& vec);
+    //void step(const glm::ivec2& vec);
     void stepUp();
     void stepDown();
     void stepLeft();
@@ -64,9 +65,10 @@ public:
     const glm::vec3& indexesToCoords(int x, int y) const;
     const glm::vec3& indexesToCoords(const glm::ivec2& vec) const;
 
-    float getNextSlopeOffset(const glm::vec3& pos) const;
+    //bool getNextSlopeOffset(const glm::vec3& pos, float& yOut) const;
 
 private:
+    void repairBuffer();
     void updateBuffer();
 
     bool canStepUp() const;

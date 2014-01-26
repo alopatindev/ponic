@@ -104,21 +104,33 @@ void GridManager_Class::collectGameObjects(const std::string& grid,
 
 void GridManager_Class::freeGrid(const std::string& grid)
 {
-    LOGI("freeing grid '%s'", grid.c_str());
+    LOGI(" freeing grid '%s'", grid.c_str());
+    m_grids.erase(grid);
     for (auto itg : m_gameObjects[grid])
     {
         delete itg;
     }
-    m_grids.erase(grid);
+    m_gameObjects[grid].clear();
     m_gameObjects.erase(grid);
 }
 
 void GridManager_Class::freeAllGrids()
 {
+    /*LOGI("freeing all grids");
     for (auto itg : m_grids)
     {
         freeGrid(itg.first);
+    }*/
+
+    for (auto it : m_grids)
+    {
+        for (auto itg : m_gameObjects[it.first])
+        {
+            delete itg;
+        }
     }
+    m_grids.clear();
+    m_gameObjects.clear();
 }
 
 const Grid& GridManager_Class::getGrid(const std::string& grid)
