@@ -24,6 +24,7 @@ add_definitions(
 )
 
 add_executable(bin/${APP_NAME}
+../../src/game/Background3D.cpp
 ../../src/game/Effects.cpp
 ../../src/game/MyApp.cpp
 ../../src/game/Player.cpp

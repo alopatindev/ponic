@@ -13,5 +13,8 @@ public:
     virtual ~Drawable3DImage();
 
     virtual void render() const;
+    virtual void fixedUpdate(int dt) {};
+    virtual void update(int dt) {};
+
     void setImage(const std::string& group, const std::string& name);
 };

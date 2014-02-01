@@ -35,7 +35,7 @@ void Drawable3DGrid_Class::render() const
     {
         for (int32_t y = 0; y < GRID_HEIGHT; ++y)
         {
-#ifdef _DEBUG
+/*#ifdef _DEBUG
             switch (m_gridBuffer[x][y])
             {
             case Empty:
@@ -68,7 +68,7 @@ void Drawable3DGrid_Class::render() const
                 tileWidth * 0.9f, tileHeight * 0.9f,
                 color.x, color.y, color.z,
                 0.4f);
-#endif
+#endif*/
 
             switch (m_gridBuffer[x][y])
             {

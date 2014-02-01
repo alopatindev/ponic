@@ -13,6 +13,7 @@ Scene::Scene()
 {
     auto& grid = Drawable3DGrid::get();
     grid.setGrid("level1");
+
     Input::get().press.connect(this, &Scene::onPress);
     Input::get().release.connect(this, &Scene::onRelease);
 }
@@ -28,6 +29,7 @@ void Scene::render() const
     auto& grid = Drawable3DGrid::get();
     grid.render();
     Player::get().render();
+    m_background.render();
 }
 
 void Scene::update(int dt)
@@ -35,11 +37,12 @@ void Scene::update(int dt)
     auto& grid = Drawable3DGrid::get();
     grid.update(dt);
     Player::get().update(dt);
+    m_background.update(dt);
 }
 
 void Scene::fixedUpdate(int dt)
 {
-    static const float MAX_SPEED = 0.03f * GLOBAL_SPEED;
+    static const float MAX_SPEED = 0.025f * GLOBAL_SPEED;
     static const float SPEED_STEP = 0.005f * GLOBAL_SPEED;
     static const float HILL_RESISTANCE = 0.8f;
 

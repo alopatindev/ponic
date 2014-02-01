@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include <engine/drawables/Drawable3D.h>
+#include <game/Background3D.h>
 #include <engine/drawables/Drawable3DGrid.h>
 #include <engine/Input.h>
 #include <engine/thirdparty/sigslot.h>
@@ -16,8 +17,9 @@ class Scene : public Drawable3D, public sigslot::has_slots<>
     bool m_pressedJump;
     int m_pressDirectionTimer;
     int m_pressJumpTimer;
-
     glm::vec3 m_speed;
+
+    Background3D m_background;
 
 public:
     Scene();
