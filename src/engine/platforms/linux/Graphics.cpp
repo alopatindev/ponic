@@ -285,13 +285,39 @@ void Graphics_Class::flushImage3D(const Command* c)
                        0.0f + xOffset,  0.0f + yOffset, c->z,
                        c->width + xOffset, 0.0f + yOffset, c->z};
 
-    GLfloat uv[] = {image.left, image.top,
-                    image.right, image.top,
-                    image.right, image.bottom,
-                    
-                    image.left, image.top,
-                    image.left, image.bottom,
-                    image.right, image.bottom};
+    GLfloat uv[12];
+    if (!c->horizMirrored)
+    {
+        uv[0] = image.left;
+        uv[1] = image.top;
+        uv[2] = image.right;
+        uv[3] = image.top;
+        uv[4] = image.right;
+        uv[5] = image.bottom;
+
+        uv[6] = image.left;
+        uv[7] = image.top;
+        uv[8] = image.left;
+        uv[9] = image.bottom;
+        uv[10] = image.right;
+        uv[11] = image.bottom;
+    }
+    else
+    {
+        uv[0] = image.right;
+        uv[1] = image.top;
+        uv[2] = image.left;
+        uv[3] = image.top;
+        uv[4] = image.left;
+        uv[5] = image.bottom;
+
+        uv[6] = image.right;
+        uv[7] = image.top;
+        uv[8] = image.right;
+        uv[9] = image.bottom;
+        uv[10] = image.left;
+        uv[11] = image.bottom;
+    }
 
     glUniform1fARB(uniformOrtho, false);
 

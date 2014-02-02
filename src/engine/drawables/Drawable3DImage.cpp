@@ -2,6 +2,7 @@
 #include <engine/Graphics.h>
 
 Drawable3DImage::Drawable3DImage()
+    : m_horizMirrored(false)
 {
 }
 
@@ -22,7 +23,8 @@ void Drawable3DImage::render() const
         m_angle,
         m_center.x, m_center.y,
         m_scaleFactor,
-        m_opacity
+        m_opacity,
+        m_horizMirrored
     );
 }
 

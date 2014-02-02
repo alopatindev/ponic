@@ -55,6 +55,7 @@ void Scene::fixedUpdate(int dt)
         m_pressDirectionTimer = 0;
         if (m_pressedLeft)
         {
+            Player::get().setLeftDirection(true);
             if (m_speed.x < 0.0f)
                 m_speed.x = 0.0f;
             if (m_speed.x < MAX_SPEED)
@@ -62,6 +63,7 @@ void Scene::fixedUpdate(int dt)
         }
         else if (m_pressedRight)
         {
+            Player::get().setLeftDirection(false);
             if (m_speed.x > 0.0f)
                 m_speed.x = 0.0f;
             if (m_speed.x > -MAX_SPEED)

@@ -34,6 +34,7 @@ class Graphics_Class
         float scaleFactor;
         float color[3];
         float opacity;
+        bool horizMirrored;
         bool depth;
     };
 
@@ -99,7 +100,8 @@ public:
         float angle = 0.0f,
         float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f,
-        float opacity = 1.0f
+        float opacity = 1.0f,
+        bool horizMirrored = false
     );
 
 private:

@@ -1,12 +1,13 @@
 #pragma once
 
 #include <engine/drawables/Drawable3DImage.h>
+#include <engine/drawables/Drawable3D.h>
 #include <engine/drawables/Drawable3DGrid.h>
 #include <engine/GridManager.h>
 #include <glm/glm.hpp>
 #include <vector>
 
-class Player_Class : public Drawable3DImage
+class Player_Class : public Drawable3D
 {
     Drawable3DGrid_Class* m_grid;
     glm::vec2 m_gridSize;
@@ -18,6 +19,9 @@ class Player_Class : public Drawable3DImage
 
     glm::ivec2 m_initialPos;
     bool m_initializePos;
+    bool m_leftDirection;
+
+    Drawable3DImage m_image;
 
 public:
     Player_Class();
@@ -46,6 +50,11 @@ public:
     const glm::vec2& getGridSize() const
     {
         return m_gridSize;
+    }
+
+    void setLeftDirection(bool leftDirection)
+    {
+        m_leftDirection = leftDirection;
     }
 };
 

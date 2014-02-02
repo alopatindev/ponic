@@ -10,14 +10,14 @@ Player_Class::Player_Class()
     , m_groundCollision(true)
     , m_gravityAcceleration(0.1f)
     , m_jumpAcceleration(0.0f)
+    , m_initializePos(false)
+    , m_leftDirection(false)
 {
-    setImage("game_common", "horse_stands");
-    //glm::vec3 initialPos(0.0f, 0.0f, -0.6f);
-    //setPosition(initialPos);
-    m_grid = &Drawable3DGrid::get();
     //setCenter(0.5f, 0.5f);
-    //setOpacity(1.0f);
+    m_grid = &Drawable3DGrid::get();
     setSize(m_grid->getTileSize() * m_gridSize);
+    m_image.setImage("game_common", "horse_stands");
+    m_image.setSize(getSize() * 1.4f);
 }
 
 Player_Class::~Player_Class()
@@ -55,6 +55,9 @@ void Player_Class::fixedUpdate(int dt)
 
         m_pos.z = m_grid->getPosition().z;
     }
+
+    m_image.setHorizMirrored(m_leftDirection);
+    m_image.setPosition(m_pos);
 
     //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
     //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);
@@ -180,7 +183,7 @@ void Player_Class::collisionGameObjectsUpdate()
 
 void Player_Class::render() const
 {
-    Drawable3DImage::render();
+    m_image.render();
 
 #ifdef _DEBUG
     GRAPHICS.drawRectangle3D(
