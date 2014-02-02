@@ -8,7 +8,7 @@
 Drawable3DGrid_Class::Drawable3DGrid_Class()
     : m_grid(nullptr)
     , m_cursor(glm::ivec2(0, 0))
-    //, m_canMove(false)
+    , m_lastStep(glm::ivec2(0, 0))
 {
     std::memset(m_gridBuffer, Empty, 1);
     //setSize(GRAPHICS.getAspect(), 1.0f * ASPECT_ADDITION);
@@ -126,7 +126,7 @@ void Drawable3DGrid_Class::fixedUpdate(int dt)
     GridManager::get().fixedUpdateGameObjects(m_gridName, dt);
 }
 
-/*void Drawable3DGrid_Class::step(const glm::ivec2& vec)
+void Drawable3DGrid_Class::step(const glm::ivec2& vec)
 {
     glm::ivec2 newCursor = m_cursor;
     newCursor += vec;
@@ -138,9 +138,9 @@ void Drawable3DGrid_Class::fixedUpdate(int dt)
     int32_t height = (*m_grid)[0].size();
     if ((newCursor.y > 0) && (newCursor.y < height - GRID_HEIGHT))
         m_cursor.y = newCursor.y;
-}*/
+}
 
-void Drawable3DGrid_Class::stepUp()
+/*void Drawable3DGrid_Class::stepUp()
 {
     if (canStepUp())
         m_cursor.y++;
@@ -152,19 +152,27 @@ void Drawable3DGrid_Class::stepDown()
     if (canStepDown())
         m_cursor.y--;
     updateBuffer();
-}
+}*/
 
 void Drawable3DGrid_Class::stepLeft()
 {
+    m_lastStep = glm::ivec2(-1, 0);
     if (canStepLeft())
-        m_cursor.x--;
+        m_cursor += m_lastStep;
     updateBuffer();
 }
 
 void Drawable3DGrid_Class::stepRight()
 {
+    m_lastStep = glm::ivec2(1, 0);
     if (canStepRight())
-        m_cursor.x++;
+        m_cursor += m_lastStep;
+    updateBuffer();
+}
+
+void Drawable3DGrid_Class::stepCancel()
+{
+    m_cursor -= m_lastStep;
     updateBuffer();
 }
 
@@ -236,7 +244,7 @@ void Drawable3DGrid_Class::updateBuffer()
     }
 }
 
-bool Drawable3DGrid_Class::canStepUp() const
+/*bool Drawable3DGrid_Class::canStepUp() const
 {
     int32_t height = (*m_grid)[0].size();
     return m_cursor.y < height - GRID_HEIGHT;
@@ -245,7 +253,7 @@ bool Drawable3DGrid_Class::canStepUp() const
 bool Drawable3DGrid_Class::canStepDown() const
 {
     return m_cursor.y > 0;
-}
+}*/
 
 bool Drawable3DGrid_Class::canStepLeft() const
 {
@@ -276,17 +284,20 @@ const glm::vec2& Drawable3DGrid_Class::getTileSize() const
     return size;
 }
 
-TileType Drawable3DGrid_Class::getTileType(const glm::vec2& vec) const
+TileType
+Drawable3DGrid_Class::getTileType(const glm::vec2& vec, bool offsetHack) const
 {
-    return getTileType(vec.x, vec.y);
+    return getTileType(vec.x, vec.y, offsetHack);
 }
 
-TileType Drawable3DGrid_Class::getTileType(const glm::vec3& vec) const
+TileType
+Drawable3DGrid_Class::getTileType(const glm::vec3& vec, bool offsetHack) const
 {
-    return getTileType(vec.x, vec.y);
+    return getTileType(vec.x, vec.y, offsetHack);
 }
 
-TileType Drawable3DGrid_Class::getTileType(float x, float y) const
+TileType
+Drawable3DGrid_Class::getTileType(float x, float y, bool offsetHack) const
 {
     if (x < m_pos.x || x > m_pos.x + m_size.x ||
         y < m_pos.x || y > m_pos.y + m_size.y)
@@ -295,7 +306,7 @@ TileType Drawable3DGrid_Class::getTileType(float x, float y) const
         return Empty;
     }
 
-    glm::ivec2 cursor = coordsToIndexes(x, y);
+    glm::ivec2 cursor = coordsToIndexes(x, y, offsetHack);
     return m_gridBuffer[cursor.x][cursor.y];
 }
 

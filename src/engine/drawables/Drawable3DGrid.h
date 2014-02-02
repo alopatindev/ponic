@@ -20,6 +20,7 @@ class Drawable3DGrid_Class : public Drawable3D
     glm::vec3 m_tryPos;
     //bool m_canMove;
     bool m_onSlope;
+    glm::ivec2 m_lastStep;
 
 public:
     Drawable3DGrid_Class();
@@ -29,11 +30,12 @@ public:
     virtual void fixedUpdate(int dt);
     void setGrid(const std::string& grid);
 
-    //void step(const glm::ivec2& vec);
+    void step(const glm::ivec2& vec);
     void stepUp();
     void stepDown();
     void stepLeft();
     void stepRight();
+    void stepCancel();
 
     void trySetPosition(const glm::vec3& vec);
     /*bool didMove()
@@ -45,9 +47,9 @@ public:
     float getTileHeight() const;
     const glm::vec2& getTileSize() const;
 
-    TileType getTileType(const glm::vec2& vec) const;
-    TileType getTileType(const glm::vec3& vec) const;
-    TileType getTileType(float x, float y) const;
+    TileType getTileType(const glm::vec2& vec, bool offsetHack = false) const;
+    TileType getTileType(const glm::vec3& vec, bool offsetHack = false) const;
+    TileType getTileType(float x, float y, bool offsetHack = false) const;
 
     const glm::ivec2& getCursor() const
     {
@@ -71,8 +73,8 @@ private:
     void repairBuffer();
     void updateBuffer();
 
-    bool canStepUp() const;
-    bool canStepDown() const;
+    /*bool canStepUp() const;
+    bool canStepDown() const;*/
     bool canStepLeft() const;
     bool canStepRight() const;
 

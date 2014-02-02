@@ -40,7 +40,7 @@ void Background3D::update(int dt)
 
     setPosition(
         -curX * grid.getTileWidth() + grid.getPosition().x,
-        grid.getPosition().y,
+        grid.getPosition().y - 0.09f,
         -0.7f);
 
     for (int i = 0; i < IMAGES_NUMBER; ++i)

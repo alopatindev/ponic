@@ -39,7 +39,7 @@ public:
     void collisionGameObjectsUpdate();
 
     //bool collidesEnemy() const; // TODO
-    void anticollisionUpdate();
+    void anticollisionUpdate(bool& stopMovement);
     void gravityUpdate();
     void jumpUpdate();
 

@@ -206,8 +206,9 @@ bool Player_Class::collidesSurface() const
     return m_collision == Surface;
 }
 
-void Player_Class::anticollisionUpdate()
+void Player_Class::anticollisionUpdate(bool& stopMovement)
 {
+    stopMovement = false;
     float tileWidth = m_grid->getTileWidth();
     float tileHeight = m_grid->getTileHeight();
     // find empty at top
@@ -215,22 +216,21 @@ void Player_Class::anticollisionUpdate()
     glm::vec3 cursor;
     cursor = m_pos;
     cursor.y += tileHeight;
-    /*for (;
-         collision == Surface && cursor.y < m_grid->getSize().y;
-         cursor.y += tileHeight)
+
+    // anti run-into-the-wall algorithm
+    glm::vec3 cursor2 = cursor;
+    for (int i = -1; i < int(m_gridSize.x); ++i)
     {
-        collision = m_grid->getTileType(cursor);
-    }*/
-    if (m_grid->getTileType(cursor.x + tileWidth, cursor.y) == Surface)
-    {
-        cursor.x -= tileWidth * 0.5f;
-        cursor.y -= tileHeight;
+        if (m_grid->getTileType(cursor2) == Surface)
+        {
+            m_grid->stepCancel();
+            stopMovement = true;
+            return;
+        }
+        else
+            cursor2.x += tileWidth;
     }
-    else if (m_grid->getTileType(cursor.x - tileWidth, cursor.y) == Surface)
-    {
-        cursor.x += tileWidth * 0.5f;
-        cursor.y -= tileHeight;
-    }
+
     setPosition(cursor);
 }
 

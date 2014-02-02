@@ -85,7 +85,14 @@ void Scene::fixedUpdate(int dt)
     if (Player::get().collidesSurface())
     {
         m_speed.x *= HILL_RESISTANCE;
-        Player::get().anticollisionUpdate();
+
+        bool stopMovement;
+        Player::get().anticollisionUpdate(stopMovement);
+        if (stopMovement)
+        {
+            m_pressedLeft = false;
+            m_pressedRight = false;
+        }
     }
 
     // update gravity
