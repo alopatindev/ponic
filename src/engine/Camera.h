@@ -37,7 +37,9 @@ public:
     void smoothZoom(float zoom = 0.0f);
 
     void update(int dt);
-    //bool isVisible(float x, float y, float width, float height)
+
+    bool isVisible(float x, float y, float width, float height) const;
+    bool isVisible(const glm::vec3& pos, const glm::vec2& size) const;
 };
 
 typedef Singleton<Camera_Class> Camera;

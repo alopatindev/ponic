@@ -37,6 +37,7 @@ void Scene::update(int dt)
     auto& grid = Drawable3DGrid::get();
     grid.update(dt);
     Player::get().update(dt);
+    m_background.updateSpeed(m_speed);
     m_background.update(dt);
 }
 

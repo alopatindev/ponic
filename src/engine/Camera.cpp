@@ -117,7 +117,7 @@ void Camera_Class::update(int dt)
     }
 }
 
-/*bool Camera_Class::isVisible(float x, float y, float width, float height) const
+bool Camera_Class::isVisible(float x, float y, float width, float height) const
 {
     float wfar = GRAPHICS.getWfar();
     float hfar = GRAPHICS.getHfar();
@@ -129,4 +129,9 @@ void Camera_Class::update(int dt)
         return true;
 
     return false;
-}*/
+}
+
+bool Camera_Class::isVisible(const glm::vec3& pos, const glm::vec2& size) const
+{
+    return isVisible(pos.x, pos.y, size.x, size.y);
+}
