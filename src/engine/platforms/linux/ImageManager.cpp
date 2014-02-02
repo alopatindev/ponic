@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <GL/glu.h>
 
-void ImageManager_Class::loadGroup(const std::string& group)
+void ImageManager_Class::loadGroup(const std::string& group, bool filtered)
 {
     LOGI("loading group '%s'", group.c_str());
 
@@ -20,11 +20,16 @@ void ImageManager_Class::loadGroup(const std::string& group)
 
     glBindTexture(GL_TEXTURE_2D, textureId);
 
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    if (filtered)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+    else
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
 
     m_bindedTextureId = textureId;
 

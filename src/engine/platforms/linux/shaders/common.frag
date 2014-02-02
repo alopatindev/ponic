@@ -11,8 +11,7 @@ void main() {
     if (withTexture)
     {
         pixelColor = texture2D(tex, gl_TexCoord[0].st);
-        if (pixelColor.a > 0.01)
-            pixelColor.a = opacity;
+        pixelColor *= opacity;
     }
     else
     {

@@ -21,6 +21,7 @@ void MyApp::init()
     //GRAPHICS.init();
     ImageManager::get().parseAtlasXML("atlases/atlasDictionary.xml");
     ImageManager::get().loadGroup("game_common");
+    ImageManager::get().loadGroup("game_unfiltered", false);
     FontManager::get().loadFont("font.ttf", 16, 24, 38, 0);
     GridManager::get().loadGrid("level1");
     CAMERA.zoom(CAMERA_DEFAULT_ZOOM);

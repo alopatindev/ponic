@@ -6,7 +6,7 @@ Background3D::Background3D()
 {
     m_sky.setPosition(-0.5f, -0.59f, -0.7);
     m_sky.setSize(1.3f, 1.0f);
-    m_sky.setImage("game_common", "background");
+    m_sky.setImage("game_unfiltered", "background");
     for (int i = 0; i < IMAGES_NUMBER; ++i)
     {
         m_layer0[i].setImage("game_common", "background_trees");
@@ -55,13 +55,13 @@ void Background3D::update(int dt)
         m_layer0[i].setPosition(
             m_pos.x + size * float(i + frame),
             m_pos.y,
-            m_pos.z
+            m_pos.z + 0.01f
         );
 
         m_layer1[i].setPosition(
             (m_pos.x + size * float(i + frame)) * 1.08f,
             m_pos.y,
-            m_pos.z
+            m_pos.z + 0.02f
         );
     }
 }

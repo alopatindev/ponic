@@ -48,7 +48,7 @@ public:
 
     void parseAtlasXML(const std::string& filename);
     
-    void loadGroup(const std::string& group);
+    void loadGroup(const std::string& group, bool filtered = true);
     void freeGroup(const std::string& group);
     void freeAllGroups();
 

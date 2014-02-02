@@ -57,15 +57,15 @@ void Graphics_Class::init()
     initShaders();
 
     glEnable(GL_TEXTURE_2D);
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
 
     glClearDepth(1.0);
     glDepthFunc(GL_NICEST);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    glAlphaFunc(GL_GREATER, 0.01);
-    glEnable(GL_ALPHA_TEST);
+    //glAlphaFunc(GL_GREATER, 0.01);
+    //glEnable(GL_ALPHA_TEST);
 
     glClearColor(0.0f, 0.3f, 0.2f, 1.0f);
 }
