@@ -5,15 +5,13 @@
 Background3D::Background3D()
 {
     m_sky.setPosition(-0.5f, -0.59f, -0.7);
+    m_sky.setSize(1.3f, 1.0f);
     m_sky.setImage("game_common", "background");
     for (int i = 0; i < IMAGES_NUMBER; ++i)
     {
         m_layer0[i].setImage("game_common", "background_trees");
         m_layer1[i].setImage("game_common", "background_trees2");
-        m_layer1[i].setSize(
-            m_layer1[i].getSize().x * 0.5f,
-            m_layer1[i].getSize().y
-        );
+        m_layer1[i].setSize(0.5f, 1.0f);
     }
 }
 
