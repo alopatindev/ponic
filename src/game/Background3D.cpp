@@ -4,9 +4,16 @@
 
 Background3D::Background3D()
 {
+    m_sky.setPosition(-0.5f, -0.59f, -0.7);
+    m_sky.setImage("game_common", "background");
     for (int i = 0; i < IMAGES_NUMBER; ++i)
     {
-        m_images[i].setImage("game_common", "background");
+        m_layer0[i].setImage("game_common", "background_trees");
+        m_layer1[i].setImage("game_common", "background_trees2");
+        m_layer1[i].setSize(
+            m_layer1[i].getSize().x * 0.5f,
+            m_layer1[i].getSize().y
+        );
     }
 }
 
@@ -18,8 +25,10 @@ void Background3D::render() const
 {
     for (int i = 0; i < IMAGES_NUMBER; ++i)
     {
-        m_images[i].render();
+        m_layer1[i].render();
+        m_layer0[i].render();
     }
+    m_sky.render();
 }
 
 void Background3D::update(int dt)
@@ -29,7 +38,7 @@ void Background3D::update(int dt)
     int frame = 0;
     frame = curX / (GRID_WIDTH / 1.3f);
 
-    float size = m_images[0].getSize().x;
+    float size = m_layer0[0].getSize().x;
     float x = m_pos.x + size * float(IMAGES_NUMBER-1 + frame);
     if (x < -2.5f)
         frame += 3;
@@ -45,8 +54,14 @@ void Background3D::update(int dt)
 
     for (int i = 0; i < IMAGES_NUMBER; ++i)
     {
-        m_images[i].setPosition(
+        m_layer0[i].setPosition(
             m_pos.x + size * float(i + frame),
+            m_pos.y,
+            m_pos.z
+        );
+
+        m_layer1[i].setPosition(
+            (m_pos.x + size * float(i + frame)) * 1.08f,
             m_pos.y,
             m_pos.z
         );
