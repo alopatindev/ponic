@@ -3,6 +3,7 @@
 
 Drawable3DImage::Drawable3DImage()
     : m_horizMirrored(false)
+    , m_ignoreCamera(false)
 {
 }
 
@@ -24,7 +25,8 @@ void Drawable3DImage::render() const
         m_center.x, m_center.y,
         m_scaleFactor,
         m_opacity,
-        m_horizMirrored
+        m_horizMirrored,
+        m_ignoreCamera
     );
 }
 

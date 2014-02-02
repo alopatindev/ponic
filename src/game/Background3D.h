@@ -4,7 +4,7 @@
 
 class Background3D : public Drawable3D
 {
-    static const int IMAGES_NUMBER = 3;
+    static const int IMAGES_NUMBER = 4;
     Drawable3DImage m_layer0[IMAGES_NUMBER];
     Drawable3DImage m_layer1[IMAGES_NUMBER];
     Drawable3DImage m_sky;
@@ -21,5 +21,5 @@ public:
 
     virtual void render() const;
     virtual void update(int dt);
-    virtual void fixedUpdate(int dt) {};
+    virtual void fixedUpdate(int dt);
 };

@@ -11,8 +11,8 @@ Drawable3DGrid_Class::Drawable3DGrid_Class()
     , m_lastStep(glm::ivec2(0, 0))
 {
     std::memset(m_gridBuffer, Empty, 1);
-    //setSize(GRAPHICS.getAspect(), 1.0f * ASPECT_ADDITION);
-    setSize(GRAPHICS.getAspect() * ASPECT_ADDITION, 1.0f);
+    //setSize(GRAPHICS.getAspect() * ASPECT_ADDITION, 1.0f);
+    setSize(1.3f * ASPECT_ADDITION, 1.0f);
     m_startPos = glm::vec3(-0.7f, -0.5f, -0.6f);
     m_tryPos = m_pos;
     setPosition(m_startPos);

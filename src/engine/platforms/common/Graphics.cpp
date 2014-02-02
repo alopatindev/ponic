@@ -95,6 +95,7 @@ void Graphics_Class::drawRectangle2D(float x, float y,
     c->color[2] = b;
     c->opacity = opacity;
     c->horizMirrored = false;
+    c->ignoreCamera = false;
     c->depth = !onTop;
 
     if (opacity != 1.0f)
@@ -136,6 +137,7 @@ void Graphics_Class::drawImage2D(
     c->color[2] = 0.0f;
     c->opacity = opacity;
     c->horizMirrored = false;
+    c->ignoreCamera = false;
     c->depth = !onTop;
 
     if (opacity != 1.0f)
@@ -172,6 +174,7 @@ void Graphics_Class::drawRectangle3D(
     c->color[2] = b;
     c->opacity = opacity;
     c->horizMirrored = false;
+    c->ignoreCamera = false;
     c->depth = true;
 
     if (opacity != 1.0f)
@@ -188,7 +191,8 @@ void Graphics_Class::drawImage3D(
     float centerX, float centerY,
     float scaleFactor,
     float opacity,
-    bool horizMirrored
+    bool horizMirrored,
+    bool ignoreCamera
 )
 {
     //if (!CAMERA.isVisible(x, y, width, height))
@@ -216,6 +220,7 @@ void Graphics_Class::drawImage3D(
     c->color[2] = 0.0f;
     c->opacity = opacity;
     c->horizMirrored = horizMirrored;
+    c->ignoreCamera = ignoreCamera;
     c->depth = true;
 
     if (opacity != 1.0f)

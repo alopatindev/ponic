@@ -35,6 +35,7 @@ class Graphics_Class
         float color[3];
         float opacity;
         bool horizMirrored;
+        bool ignoreCamera;
         bool depth;
     };
 
@@ -101,7 +102,8 @@ public:
         float centerX = 0.5f, float centerY = 0.5f,
         float scaleFactor = 1.0f,
         float opacity = 1.0f,
-        bool horizMirrored = false
+        bool horizMirrored = false,
+        bool ignoreCamera = false
     );
 
 private:

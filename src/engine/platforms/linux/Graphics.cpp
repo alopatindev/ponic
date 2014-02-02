@@ -10,14 +10,11 @@
 #include "Assert.h"
 #include "Application.h"
 
-static const int SCREEN_WIDTH = 800;
-static const int SCREEN_HEIGHT = 600;
-
-//static const int SCREEN_WIDTH = 960;
-//static const int SCREEN_HEIGHT = 540;
-
-//static const int SCREEN_WIDTH = 860;
+//static const int SCREEN_WIDTH = 800;
 //static const int SCREEN_HEIGHT = 600;
+
+static const int SCREEN_WIDTH = 960;
+static const int SCREEN_HEIGHT = 540;
 
 static const char WINDOW_TITLE[] = "Ponic";
 
@@ -328,10 +325,20 @@ void Graphics_Class::flushImage3D(const Command* c)
 
     glUniform1fARB(uniformOrtho, false);
 
+    float camX = 0.0f;
+    float camY = 0.0f;
+    float camZoom = 0.0f;
+    if (!c->ignoreCamera)
+    {
+        camX = CAMERA.getX();
+        camY = CAMERA.getY();
+        camZoom = CAMERA.getZoom();
+    }
+
     float position[4];
-    position[0] = c->x - xOffset - CAMERA.getX();
-    position[1] = c->y - yOffset - CAMERA.getY();
-    position[2] = CAMERA.getZoom();
+    position[0] = c->x - xOffset - camX;
+    position[1] = c->y - yOffset - camY;
+    position[2] = camZoom;
     position[3] = 0.0f;
     glUniform4fvARB(uniformPosition, 1, position);
 
