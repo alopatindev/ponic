@@ -10,9 +10,16 @@
 #include "Assert.h"
 #include "Application.h"
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-const char WINDOW_TITLE[] = "Ponic";
+static const int SCREEN_WIDTH = 800;
+static const int SCREEN_HEIGHT = 600;
+
+//static const int SCREEN_WIDTH = 960;
+//static const int SCREEN_HEIGHT = 540;
+
+//static const int SCREEN_WIDTH = 860;
+//static const int SCREEN_HEIGHT = 600;
+
+static const char WINDOW_TITLE[] = "Ponic";
 
 GLhandleARB shaderVertex,
             shaderFragment,
