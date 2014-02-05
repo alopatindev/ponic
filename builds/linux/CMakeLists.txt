@@ -52,6 +52,7 @@ add_executable(bin/${APP_NAME}
 
 target_link_libraries(bin/${APP_NAME}
 #    -lglut -lGLESv2 -lGLU
-    -lglut -lGLU -lGLEW
+#    -lglut -lGLU -lGLEW
+    -lGLEW -lglut
     ${FREETYPE2_LIBRARIES}
 )
