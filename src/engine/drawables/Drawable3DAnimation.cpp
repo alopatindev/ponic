@@ -1,5 +1,6 @@
 #include "Drawable3DAnimation.h"
 #include <engine/Assert.h>
+#include <engine/AnimationManager.h>
 
 Drawable3DAnimation::Drawable3DAnimation()
     : m_currentFrame(0)
@@ -14,26 +15,24 @@ Drawable3DAnimation::~Drawable3DAnimation()
 }
 
 void Drawable3DAnimation::setAnimation(const std::string& group,
-                                       const std::string& name,
-                                       int framesNumber,
-                                       int fps)
+                                       const std::string& name)
 {
     LOGI("setAnimation group='%s' name='%s'", group.c_str(), name.c_str());
 
+    AnimationManager::get().getData(group, name, m_framesNumber, m_fps);
+
     m_currentFrame = 0;
-    m_fps = fps;
-    m_framesNumber = framesNumber;
     m_timer = 0;
 
     ASSERT(m_framesNumber > 0, "framesNumber should be > 0");
     ASSERT(m_fps > 0, "fps should be > 0");
 
     m_frames.clear();
-    m_frames.resize(framesNumber);
+    m_frames.resize(m_framesNumber);
 
     static const size_t digitsNumber = 2;
     char buf[digitsNumber + 1];
-    for (int i = 0; i < framesNumber; ++i)
+    for (int i = 0; i < m_framesNumber; ++i)
     {
         if (std::snprintf(buf, digitsNumber + 1, "%02d", i) > 0)
         {

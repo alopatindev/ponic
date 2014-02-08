@@ -64,8 +64,6 @@ void GridManager_Class::loadGrid(const std::string& grid)
             collectGameObjects(grid, glm::ivec2(x, y));
         }
     }
-
-    file.close();
 }
 
 void GridManager_Class::collectGameObjects(const std::string& grid,

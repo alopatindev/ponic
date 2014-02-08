@@ -15,9 +15,6 @@ public:
     Drawable3DAnimation();
     virtual ~Drawable3DAnimation();
 
-    void setAnimation(const std::string& group,
-                      const std::string& name,
-                      int framesNumber,
-                      int fps);
+    void setAnimation(const std::string& group, const std::string& name);
     virtual void update(int dt);
 };

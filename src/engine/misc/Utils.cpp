@@ -10,7 +10,6 @@ namespace Utils
         std::ifstream file(SYSTEM.getResourcesPath() + filename);
         std::string str((std::istreambuf_iterator<char>(file)),
                          std::istreambuf_iterator<char>());
-        file.close();
         return str;
     }
 }

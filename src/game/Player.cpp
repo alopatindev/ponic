@@ -17,8 +17,9 @@ Player_Class::Player_Class()
     m_grid = &Drawable3DGrid::get();
     setSize(m_grid->getTileSize() * m_gridSize);
 
-    //m_animations[Stand].setAnimation("game_common", "horse_stands", 1, 1);
-    m_animations[Run].setAnimation("game_common", "horse_runs", 3, 6);
+    //m_animations[Stand].setAnimation("game_common", "horse_stands");
+    m_animations[Run].setAnimation("game_common", "horse_runs");
+    //m_animations[Jump].setAnimation("game_common", "horse_stands");
     for (auto i = AnimationStates::Start; i <= AnimationStates::End; ++i)
     {
         m_animations[i].setSize(getSize() * 1.4f);

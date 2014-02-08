@@ -60,6 +60,7 @@ for i in grids/*.txt; do
     ../../../tools/fix_grid.py "$i"
 done
 
+rm -vf animations.txt
 cp -vf ../../../resources/animations.txt .
 ../../../tools/fix_animations.py animations.txt ../../../resources/textures/
 

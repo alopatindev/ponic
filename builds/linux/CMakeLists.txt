@@ -30,6 +30,7 @@ add_executable(bin/${APP_NAME}
 ../../src/game/Player.cpp
 ../../src/game/Scene.cpp
 ../../src/game/GameObjects/Platform.cpp
+../../src/engine/AnimationManager.cpp
 ../../src/engine/Camera.cpp
 ../../src/engine/drawables/Drawable3D.cpp
 ../../src/engine/drawables/Drawable3DAnimation.cpp
