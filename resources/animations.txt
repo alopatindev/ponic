@@ -1,0 +1,4 @@
+game_common horse_runs 6
+game_common horse_stands 1
+game_common horse_jumps 1
+game_common horse_freezes 1

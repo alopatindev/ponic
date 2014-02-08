@@ -6,6 +6,9 @@ USE_CLANG=1
 DEBUG=1
 #DEBUG=0
 
+
+# 1. setting up environment
+
 if [[ "${DEBUG}" -eq 1 ]]; then
     CFLAGS="${CFLAGS} -O0 -g -rdynamic -D_DEBUG"
     CXXFLAGS="${CXXFLAGS} -O0 -g -rdynamic -D_DEBUG"
@@ -24,14 +27,24 @@ else
 fi
 
 BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
+
+echo "CFLAGS=${CFLAGS}"
+echo "CXXFLAGS=${CXXFLAGS}"
+echo "USE_CLANG=${USE_CLANG}"
+
 cd "${BUILD_DIR}/../../src"
 ctags -R .
 cd "${BUILD_DIR}"
 
+
+# 2. running cmake and make
 mkdir -p bin
 cmake CMakeLists.txt
 #make -j8 VERBOSE=1
 make -j8
+
+
+# 3. building assets
 
 cd bin
 ln -sf ../../../src/engine/platforms/linux/shaders
@@ -47,8 +60,12 @@ for i in grids/*.txt; do
     ../../../tools/fix_grid.py "$i"
 done
 
-#valgrind --leak-check=full ./ponic
+cp -vf ../../../resources/animations.txt .
+../../../tools/fix_animations.py animations.txt ../../../resources/textures/
 
+# 4. running program
+
+#valgrind --leak-check=full ./ponic
 gdb ./ponic
 #gdb --tui ./ponic
 #cgdb ./ponic
