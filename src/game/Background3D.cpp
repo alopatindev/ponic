@@ -37,7 +37,6 @@ void Background3D::render() const
 void Background3D::update(int dt)
 {
     auto& grid = Drawable3DGrid::get();
-    int curX = grid.getCursor().x;
     int frame0 = 0;
     int frame1 = 0;
 
@@ -50,6 +49,8 @@ void Background3D::update(int dt)
     static const float speed1 = 1.08f;
     frame0 = int(-((m_pos.x-grid.getPosition().x) / imageSize0) * speed0);
     frame1 = int(-((m_pos.x-grid.getPosition().x) / imageSize1) * speed1);
+    //frame0 = glm::round(-(((m_pos.x-grid.getPosition().x) * speed0) / imageSize0));
+    //frame1 = glm::round(-(((m_pos.x-grid.getPosition().x) * speed1) / imageSize1));
 
     for (int i = 0; i < IMAGES_NUMBER; ++i)
     {

@@ -57,7 +57,7 @@ void Player_Class::fixedUpdate(int dt)
     }
 
     m_image.setHorizMirrored(m_leftDirection);
-    m_image.setPosition(m_pos);
+    m_image.setPosition(m_pos - glm::vec3(0.0f, tileHeight * 0.4f, 0.0f));
 
     //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
     //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);
