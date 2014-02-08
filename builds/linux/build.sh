@@ -48,4 +48,7 @@ for i in grids/*.txt; do
 done
 
 #valgrind --leak-check=full ./ponic
+
 gdb ./ponic
+#gdb --tui ./ponic
+#cgdb ./ponic

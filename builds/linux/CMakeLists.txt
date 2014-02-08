@@ -20,7 +20,7 @@ include_directories(
 )
 
 add_definitions(
-    -fno-exceptions -Wall -DPUGIXML_NO_EXCEPTIONS
+    -fno-exceptions -Wall -DPUGIXML_NO_EXCEPTIONS -DSIGSLOT_PURE_ISO
 )
 
 add_executable(bin/${APP_NAME}
@@ -32,6 +32,7 @@ add_executable(bin/${APP_NAME}
 ../../src/game/GameObjects/Platform.cpp
 ../../src/engine/Camera.cpp
 ../../src/engine/drawables/Drawable3D.cpp
+../../src/engine/drawables/Drawable3DAnimation.cpp
 ../../src/engine/drawables/Drawable3DGrid.cpp
 ../../src/engine/drawables/Drawable3DImage.cpp
 ../../src/engine/GridManager.cpp

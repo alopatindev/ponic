@@ -1,6 +1,6 @@
 #pragma once
 
-#include <engine/drawables/Drawable3DImage.h>
+#include <engine/drawables/Drawable3DAnimation.h>
 #include <engine/drawables/Drawable3D.h>
 #include <engine/drawables/Drawable3DGrid.h>
 #include <engine/GridManager.h>
@@ -21,7 +21,16 @@ class Player_Class : public Drawable3D
     bool m_initializePos;
     bool m_leftDirection;
 
-    Drawable3DImage m_image;
+    enum AnimationStates
+    {
+        //Stand,
+        Run,
+        Start = Run,
+
+        End = Run
+    } m_animationState;
+
+    Drawable3DAnimation m_animations[AnimationStates::End + 1];
 
 public:
     Player_Class();
@@ -55,6 +64,17 @@ public:
     void setLeftDirection(bool leftDirection)
     {
         m_leftDirection = leftDirection;
+    }
+
+private:
+    Drawable3DAnimation& getCurrentAnimation()
+    {
+        return m_animations[m_animationState];
+    }
+
+    const Drawable3DAnimation& getCurrentAnimation() const
+    {
+        return m_animations[m_animationState];
     }
 };
 

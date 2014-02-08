@@ -19,6 +19,8 @@ public:
     virtual void update(int dt) {};
 
     void setImage(const std::string& group, const std::string& name);
+    void setImage(const std::string& name);
+
     void setHorizMirrored(bool mirrored)
     {
         m_horizMirrored = mirrored;

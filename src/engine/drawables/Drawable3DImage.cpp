@@ -35,3 +35,9 @@ void Drawable3DImage::setImage(const std::string& group, const std::string& name
     m_group = group;
     m_name = name;
 }
+
+void Drawable3DImage::setImage(const std::string& name)
+{
+    ASSERT(!m_group.empty(), "m_group must not be empty");
+    m_name = name;
+}
