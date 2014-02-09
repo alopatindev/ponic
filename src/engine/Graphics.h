@@ -20,7 +20,7 @@ class Graphics_Class
 
     struct Command
     {
-        enum {Rectangle2D, Image2D, Rectangle3D, Image3D} type;
+        enum CommandType {Rectangle2D, Image2D, Rectangle3D, Image3D} type;
         std::string group;
         std::string name;
         float x;

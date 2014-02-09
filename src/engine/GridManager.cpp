@@ -73,10 +73,10 @@ void GridManager_Class::collectGameObjects(const std::string& grid,
     TileType type = g[vec.x][vec.y];
     switch (type)
     {
-    case Platformv:
-    case Platformh:
-    case PlatformV:
-    case PlatformH:
+    case TileType::Platformv:
+    case TileType::Platformh:
+    case TileType::PlatformV:
+    case TileType::PlatformH:
         {
             int i;
             for (i = 0;
@@ -89,7 +89,7 @@ void GridManager_Class::collectGameObjects(const std::string& grid,
             m_gameObjects[grid].push_back(obj);
         }
         break;
-    case Ponic:
+    case TileType::Ponic:
         g[vec.x][vec.y] = Empty;
         PLAYER.initPosition(vec);
         break;

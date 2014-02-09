@@ -139,6 +139,10 @@ void Scene::fixedUpdate(int dt)
         if (PLAYER.collidesGameObjects())
         {
             PLAYER.collisionGameObjectsUpdate();
+            if (m_pressedLeft || m_pressedRight)
+            {
+                PLAYER.setAnimationState(Player_Class::AnimationStates::Run);
+            }
         }
     }
 }

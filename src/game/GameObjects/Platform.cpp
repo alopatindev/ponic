@@ -12,25 +12,25 @@ Platform::Platform(const glm::ivec2& pos, TileType type,
 {
     switch (type)
     {
-    case Platformv:
+    case TileType::Platformv:
         m_speed = 0.005f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(0, 5);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         m_vertical = true;
         break;
-    case PlatformV:
+    case TileType::PlatformV:
         m_speed = 0.01f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(0, 8);
         m_direction = glm::vec3(0.0f, 1.0f, 0.0f);
         m_vertical = true;
         break;
-    case Platformh:
+    case TileType::Platformh:
         m_speed = 0.005f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(5, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);
         m_vertical = false;
         break;
-    case PlatformH:
+    case TileType::PlatformH:
         m_speed = 0.01f * GLOBAL_SPEED;
         m_endPos = glm::ivec2(8, 0);
         m_direction = glm::vec3(1.0f, 0.0f, 0.0f);

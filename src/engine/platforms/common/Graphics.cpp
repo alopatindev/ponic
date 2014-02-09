@@ -30,16 +30,16 @@ void Graphics_Class::flushGeomerty(BufferType & buffer)
 
             switch (c->type)
             {
-            case Command::Rectangle2D:
+            case Command::CommandType::Rectangle2D:
                 flushRectangle2D(c);
                 break;
-            case Command::Image2D:
+            case Command::CommandType::Image2D:
                 flushImage2D(c);
                 break;
-            case Command::Rectangle3D:
+            case Command::CommandType::Rectangle3D:
                 flushRectangle3D(c);
                 break;
-            case Command::Image3D:
+            case Command::CommandType::Image3D:
                 flushImage3D(c);
                 break;
             default:
@@ -78,7 +78,7 @@ void Graphics_Class::drawRectangle2D(float x, float y,
     float z = 0.0f;
     Command* c = new Command;
 
-    c->type = Command::Rectangle2D;
+    c->type = Command::CommandType::Rectangle2D;
     //c->group = "";
     //c->name = "";
     c->x = x;
@@ -120,7 +120,7 @@ void Graphics_Class::drawImage2D(
     float z = 0.0f;
     Command* c = new Command;
 
-    c->type = Command::Image2D;
+    c->type = Command::CommandType::Image2D;
     c->group = group;
     c->name = name;
     c->x = x;
@@ -157,7 +157,7 @@ void Graphics_Class::drawRectangle3D(
 
     Command* c = new Command;
 
-    c->type = Command::Rectangle3D;
+    c->type = Command::CommandType::Rectangle3D;
     //c->group = "";
     //c->name = "";
     c->x = x;
@@ -205,7 +205,7 @@ void Graphics_Class::drawImage3D(
 
     Command* c = new Command;
 
-    c->type = Command::Image3D;
+    c->type = Command::CommandType::Image3D;
     c->group = group;
     c->name = name;
     c->x = x;
