@@ -22,10 +22,9 @@ Player_Class::Player_Class()
     m_animations[Stand].setAnimation("game_common", "horse_stands");
     m_animations[Run].setAnimation("game_common", "horse_runs");
     m_animations[Jump].setAnimation("game_common", "horse_jumps");
-
     for (auto i = AnimationStates::Start_; i <= AnimationStates::End_; ++i)
     {
-        m_animations[i].setSize(getSize() * 1.4f);
+        m_animations[i].setSize(getSize() * 1.82f);
     }
 }
 
@@ -77,6 +76,13 @@ void Player_Class::fixedUpdate(int dt)
     Drawable3DAnimation& animation = getCurrentAnimation();
     animation.setHorizMirrored(m_leftDirection);
     animation.setPosition(m_pos - glm::vec3(0.0f, tileHeight * 0.4f, 0.0f));
+    if (m_leftDirection)
+    {
+        animation.setPosition(
+            animation.getPosition() -
+            glm::vec3(getSize().x * 0.8f, 0.0f, 0.0f)
+        );
+    }
 
     //LOGI("jump=%f gravity=%f m_pos=(%f %f)",
     //     m_jumpAcceleration, m_gravityAcceleration, m_pos.x, m_pos.y);

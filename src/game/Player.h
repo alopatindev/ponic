@@ -29,8 +29,9 @@ public:
         Start_,
         Stand = Start_,
         Run,
+        //Attack,
         //Freeze,
-        //Attack
+        //Slip,
         End_,
         Jump = End_
     };
