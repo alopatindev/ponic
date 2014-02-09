@@ -21,6 +21,8 @@ class Player_Class : public Drawable3D
     bool m_initializePos;
     bool m_leftDirection;
 
+    bool m_frozen;
+
 public:
     enum AnimationStates
     {
@@ -28,6 +30,7 @@ public:
         Stand = Start_,
         Run,
         //Freeze,
+        //Attack
         End_,
         Jump = End_
     };
@@ -52,6 +55,16 @@ public:
     void setAnimationState(AnimationStates state)
     {
         m_nextAnimationState = state;
+    }
+
+    void setFrozen(bool frozen)
+    {
+        m_frozen = frozen;
+    }
+
+    bool isFrozen() const
+    {
+        return m_frozen;
     }
 
     const std::vector<GameObject*>& getGameObjects();

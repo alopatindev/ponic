@@ -103,7 +103,10 @@ void Drawable3DGrid_Class::fixedUpdate(int dt)
 {
     bool canMove = true;
     float tileWidth = getTileWidth();
-    if (!canStepLeft() && m_tryPos.x > m_startPos.x)
+
+    if (PLAYER.isFrozen())
+        canMove = false;
+    if (canMove && !canStepLeft() && m_tryPos.x > m_startPos.x)
         canMove = false;
     if (canMove && !canStepRight() && m_tryPos.x < m_startPos.x - tileWidth)
         canMove = false;

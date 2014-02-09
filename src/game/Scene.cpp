@@ -37,8 +37,11 @@ void Scene::update(int dt)
     auto& grid = Drawable3DGrid::get();
     grid.update(dt);
     PLAYER.update(dt);
-    m_background.updateSpeed(m_speed);
-    m_background.update(dt);
+    if (!PLAYER.isFrozen())
+    {
+        m_background.updateSpeed(m_speed);
+        m_background.update(dt);
+    }
 }
 
 void Scene::fixedUpdate(int dt)
@@ -88,8 +91,11 @@ void Scene::fixedUpdate(int dt)
         }
     }
 
-    glm::vec3 newPos = grid.getPosition() + m_speed;
-    grid.trySetPosition(newPos);
+    if (!PLAYER.isFrozen())
+    {
+        glm::vec3 newPos = grid.getPosition() + m_speed;
+        grid.trySetPosition(newPos);
+    }
     grid.fixedUpdate(dt);
 
     /*if (!grid.didMove())
@@ -151,16 +157,22 @@ void Scene::onPress(Input_Class::Key key)
 {
     switch (key)
     {
-    case Input_Class::Left:
+    case Input_Class::Key::Left:
         m_pressedLeft = true;
         break;
-    case Input_Class::Right:
+    case Input_Class::Key::Right:
         m_pressedRight = true;
         break;
-    case Input_Class::Jump:
+    case Input_Class::Key::Jump:
         if (!PLAYER.isFalling())
         {
             m_pressedJump = true;
+        }
+        break;
+    case Input_Class::Key::Freeze:
+        if (PLAYER.isFalling())
+        {
+            PLAYER.setFrozen(true);
         }
         break;
     }
@@ -170,14 +182,17 @@ void Scene::onRelease(Input_Class::Key key)
 {
     switch (key)
     {
-    case Input_Class::Left:
+    case Input_Class::Key::Left:
         m_pressedLeft = false;
         break;
-    case Input_Class::Right:
+    case Input_Class::Key::Right:
         m_pressedRight = false;
         break;
-    case Input_Class::Jump:
+    case Input_Class::Key::Jump:
         m_pressedJump = false;
+        break;
+    case Input_Class::Key::Freeze:
+        PLAYER.setFrozen(false);
         break;
     }
 }

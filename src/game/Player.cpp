@@ -14,6 +14,7 @@ Player_Class::Player_Class()
     , m_leftDirection(false)
     , m_animationState(AnimationStates::Stand)
     , m_nextAnimationState(AnimationStates::Stand)
+    , m_frozen(false)
 {
     m_grid = &Drawable3DGrid::get();
     setSize(m_grid->getTileSize() * m_gridSize);
@@ -48,6 +49,11 @@ void Player_Class::fixedUpdate(int dt)
 {
     float tileWidth = m_grid->getTileWidth();
     float tileHeight = m_grid->getTileHeight();
+
+    if (m_frozen)
+    {
+        return;
+    }
 
     m_animationState = m_nextAnimationState;
 
@@ -254,10 +260,17 @@ void Player_Class::anticollisionUpdate(bool& stopMovement)
 
 void Player_Class::gravityUpdate()
 {
+    if (m_frozen)
+    {
+        return;
+    }
+
     m_jumpAcceleration = 0.0f;
 
     if (m_gravityAcceleration <= 0.3f)
+    {
         m_gravityAcceleration += 0.01f * GLOBAL_SPEED;
+    }
 
     glm::vec3 cursor;
     cursor = m_pos;
@@ -270,9 +283,13 @@ void Player_Class::gravityUpdate()
 void Player_Class::jumpUpdate()
 {
     if (m_jumpAcceleration < 0.1f)
+    {
         m_jumpAcceleration += 0.013f * GLOBAL_SPEED;
+    }
     else
+    {
         m_jumpAcceleration = 0.0f;
+    }
     glm::vec3 cursor = m_pos;
     cursor.y += m_jumpAcceleration;
     setPosition(cursor);

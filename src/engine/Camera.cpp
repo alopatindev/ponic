@@ -69,6 +69,11 @@ void Camera_Class::update(int dt)
 {
     if (m_lookAtPlayer)
     {
+        if (PLAYER.isFrozen())
+        {
+            return;
+        }
+
         glm::vec3 dpos = PLAYER.getPosition() - m_pos;
         glm::vec2 dPlayerPos = glm::vec2(dpos.x, dpos.y);
         glm::vec2 playerOffset = PLAYER.getSize();
