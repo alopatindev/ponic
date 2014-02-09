@@ -119,7 +119,7 @@ bool Platform::collides(const glm::vec3& playerPos, const glm::vec2& gridSize)
 
     float y = playerPos.y - tileHeight;
     bool yCollision = y >= m_pos.y - tileHeight;
-    if (!Player::get().isFalling())
+    if (!PLAYER.isFalling())
     {
         yCollision &= y <= m_pos.y + /*2.0f **/ tileHeight;
     }

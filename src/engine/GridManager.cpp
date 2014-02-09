@@ -91,7 +91,7 @@ void GridManager_Class::collectGameObjects(const std::string& grid,
         break;
     case Ponic:
         g[vec.x][vec.y] = Empty;
-        Player::get().initPosition(vec);
+        PLAYER.initPosition(vec);
         break;
     //case EnemyWalker:
     //case EnemyDropper:

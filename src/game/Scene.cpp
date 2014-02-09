@@ -28,7 +28,7 @@ void Scene::render() const
 {
     auto& grid = Drawable3DGrid::get();
     grid.render();
-    Player::get().render();
+    PLAYER.render();
     m_background.render();
 }
 
@@ -36,7 +36,7 @@ void Scene::update(int dt)
 {
     auto& grid = Drawable3DGrid::get();
     grid.update(dt);
-    Player::get().update(dt);
+    PLAYER.update(dt);
     m_background.updateSpeed(m_speed);
     m_background.update(dt);
 }
@@ -56,7 +56,11 @@ void Scene::fixedUpdate(int dt)
         m_pressDirectionTimer = 0;
         if (m_pressedLeft)
         {
-            Player::get().setLeftDirection(true);
+            if (!PLAYER.isFalling())
+            {
+                PLAYER.setAnimationState(Player_Class::AnimationStates::Run);
+            }
+            PLAYER.setLeftDirection(true);
             if (m_speed.x < 0.0f)
                 m_speed.x = 0.0f;
             if (m_speed.x < MAX_SPEED)
@@ -64,14 +68,24 @@ void Scene::fixedUpdate(int dt)
         }
         else if (m_pressedRight)
         {
-            Player::get().setLeftDirection(false);
+            if (!PLAYER.isFalling())
+            {
+                PLAYER.setAnimationState(Player_Class::AnimationStates::Run);
+            }
+            PLAYER.setLeftDirection(false);
             if (m_speed.x > 0.0f)
                 m_speed.x = 0.0f;
             if (m_speed.x > -MAX_SPEED)
                 m_speed += glm::vec3(-SPEED_STEP, 0.0f, 0.0f);
         }
         else
+        {
+            if (!PLAYER.isFalling())
+            {
+                PLAYER.setAnimationState(Player_Class::AnimationStates::Stand);
+            }
             m_speed = glm::vec3(0.0f, 0.0f, 0.0f);
+        }
     }
 
     glm::vec3 newPos = grid.getPosition() + m_speed;
@@ -80,17 +94,17 @@ void Scene::fixedUpdate(int dt)
 
     /*if (!grid.didMove())
     {
-        Player::get().setPosition(Player::get().getPosition() - m_speed);
+        PLAYER.setPosition(PLAYER.getPosition() - m_speed);
     }*/
 
     // update collisions
-    Player::get().fixedUpdate(dt);
-    if (Player::get().collidesSurface())
+    PLAYER.fixedUpdate(dt);
+    if (PLAYER.collidesSurface())
     {
         m_speed.x *= HILL_RESISTANCE;
 
         bool stopMovement;
-        Player::get().anticollisionUpdate(stopMovement);
+        PLAYER.anticollisionUpdate(stopMovement);
         if (stopMovement)
         {
             m_pressedLeft = false;
@@ -107,19 +121,24 @@ void Scene::fixedUpdate(int dt)
             m_pressJumpTimer = 0;
             m_pressedJump = false;
         }
-        Player::get().jumpUpdate();
+        else
+        {
+            PLAYER.setAnimationState(Player_Class::AnimationStates::Jump);
+        }
+        PLAYER.jumpUpdate();
     }
     else
     {
         m_pressJumpTimer = 0;
-        if (Player::get().isFalling())
+        if (PLAYER.isFalling())
         {
-            Player::get().gravityUpdate();
+            PLAYER.setAnimationState(Player_Class::AnimationStates::Jump);
+            PLAYER.gravityUpdate();
         }
 
-        if (Player::get().collidesGameObjects())
+        if (PLAYER.collidesGameObjects())
         {
-            Player::get().collisionGameObjectsUpdate();
+            PLAYER.collisionGameObjectsUpdate();
         }
     }
 }
@@ -135,7 +154,7 @@ void Scene::onPress(Input_Class::Key key)
         m_pressedRight = true;
         break;
     case Input_Class::Jump:
-        if (!Player::get().isFalling())
+        if (!PLAYER.isFalling())
         {
             m_pressedJump = true;
         }

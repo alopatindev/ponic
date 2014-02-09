@@ -201,6 +201,8 @@ void Graphics_Class::drawImage3D(
     if (opacity == 0.0f)
         return;
 
+    ASSERT(!group.empty() && !name.empty(), "invalid group or name")
+
     Command* c = new Command;
 
     c->type = Command::Image3D;

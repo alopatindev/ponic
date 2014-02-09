@@ -69,9 +69,9 @@ void Camera_Class::update(int dt)
 {
     if (m_lookAtPlayer)
     {
-        glm::vec3 dpos = Player::get().getPosition() - m_pos;
+        glm::vec3 dpos = PLAYER.getPosition() - m_pos;
         glm::vec2 dPlayerPos = glm::vec2(dpos.x, dpos.y);
-        glm::vec2 playerOffset = Player::get().getSize();
+        glm::vec2 playerOffset = PLAYER.getSize();
         dPlayerPos += playerOffset;
 
         // smooth update

@@ -20,7 +20,6 @@ void Drawable3DAnimation::setAnimation(const std::string& group,
     LOGI("setAnimation group='%s' name='%s'", group.c_str(), name.c_str());
 
     AnimationManager::get().getData(group, name, m_framesNumber, m_fps);
-
     m_currentFrame = 0;
     m_timer = 0;
 
@@ -45,6 +44,9 @@ void Drawable3DAnimation::setAnimation(const std::string& group,
 
 void Drawable3DAnimation::update(int dt)
 {
+    if (m_fps <= 0)
+        return;
+
     m_timer += dt;
     if (m_timer >= 1000 / m_fps)
     {

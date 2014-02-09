@@ -6,7 +6,7 @@
 #include <game/Player.h>
 
 static const float CAMERA_MIN_ZOOM = 0.4f;
-static const float CAMERA_DEFAULT_ZOOM = 0.43f;
+static const float CAMERA_DEFAULT_ZOOM = 0.44f;
 
 //static const float CAMERA_MIN_ZOOM = 0.01f;
 //static const float CAMERA_DEFAULT_ZOOM = 0.f;

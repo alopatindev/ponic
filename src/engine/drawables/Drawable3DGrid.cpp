@@ -194,17 +194,17 @@ void Drawable3DGrid_Class::repairBuffer()
     float tileWidth = getTileWidth();
     float tileHeight = getTileHeight();
 
-    glm::vec3 playerPos = Player::get().getPosition();
+    glm::vec3 playerPos = PLAYER.getPosition();
     int playerPosX = coordsToIndexes(playerPos).x;
     //LOGI("playerPosX=%d", playerPosX);
-    int goodPlayerPos = GRID_WIDTH / 2 + int(Player::get().getGridSize().x) / 2;
+    int goodPlayerPos = GRID_WIDTH / 2 + int(PLAYER.getGridSize().x) / 2;
     if (glm::abs(playerPosX - goodPlayerPos) > 2)
     //if (playerPosX != goodPlayerPos)
     {
         //LOGI("fixing");
         if (playerPosX > goodPlayerPos)
         {
-            Player::get().setPosition(playerPos.x - tileWidth,
+            PLAYER.setPosition(playerPos.x - tileWidth,
                                       playerPos.y,
                                       playerPos.z);
             m_cursor.x++;
@@ -213,7 +213,7 @@ void Drawable3DGrid_Class::repairBuffer()
         }
         else
         {
-            Player::get().setPosition(playerPos.x + tileWidth,
+            PLAYER.setPosition(playerPos.x + tileWidth,
                                       playerPos.y,
                                       playerPos.z);
             CAMERA.lookAt(CAMERA.getPosition().x + tileWidth,
@@ -355,14 +355,13 @@ glm::vec3& Drawable3DGrid_Class::indexesToCoords(const glm::ivec2& vec) const
 /*void Drawable3DGrid_Class::calculateSlopeVertexes(
     const glm::vec3& pos, glm::ivec2& leftVertex, glm::ivec2& rightVertex) const
 {
-    auto player = Player::get();
     glm::ivec2 ipos = coordsToIndexes(pos);
     leftVertex = glm::ivec2(-1, -1);
     rightVertex = glm::ivec2(-1, -1);
 
     //  /
     // /  slope searching
-    int i = ipos.x + int(player.getGridSize().x);
+    int i = ipos.x + int(PLAYER.getGridSize().x);
     if (ipos.y - 1 < 0)
         return;
     while (i > 0)
@@ -441,8 +440,7 @@ Drawable3DGrid_Class::getNextSlopeOffset(const glm::vec3& pos, float& yOut) cons
     //m_rightVertexCoords = rightVertexCoords;
 
 #if _DEBUG
-    auto player = Player::get();
-    glm::vec2 playerSize = player.getSize();
+    glm::vec2 playerSize = PLAYER.getSize();
     GRAPHICS.drawRectangle3D(
         leftVertexCoords.x, leftVertexCoords.y, leftVertexCoords.z + 0.001f,
         playerSize.x * 0.1f, playerSize.y * 0.1f,

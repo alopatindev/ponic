@@ -21,16 +21,21 @@ class Player_Class : public Drawable3D
     bool m_initializePos;
     bool m_leftDirection;
 
+public:
     enum AnimationStates
     {
-        //Stand,
+        Start_,
+        Stand = Start_,
         Run,
-        Start = Run,
+        //Freeze,
+        End_,
+        Jump = End_
+    };
 
-        End = Run
-    } m_animationState;
-
-    Drawable3DAnimation m_animations[AnimationStates::End + 1];
+private:
+    AnimationStates m_animationState;
+    AnimationStates m_nextAnimationState;
+    Drawable3DAnimation m_animations[AnimationStates::End_ + 1];
 
 public:
     Player_Class();
@@ -43,6 +48,11 @@ public:
     virtual void update(int dt);
     virtual void fixedUpdate(int dt);
     virtual void render() const;
+
+    void setAnimationState(AnimationStates state)
+    {
+        m_nextAnimationState = state;
+    }
 
     const std::vector<GameObject*>& getGameObjects();
     bool collidesSurface() const;
@@ -79,3 +89,5 @@ private:
 };
 
 typedef Singleton<Player_Class> Player;
+
+#define PLAYER (Player::get())

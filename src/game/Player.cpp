@@ -12,15 +12,17 @@ Player_Class::Player_Class()
     , m_jumpAcceleration(0.0f)
     , m_initializePos(false)
     , m_leftDirection(false)
+    , m_animationState(AnimationStates::Stand)
+    , m_nextAnimationState(AnimationStates::Stand)
 {
-    //setCenter(0.5f, 0.5f);
     m_grid = &Drawable3DGrid::get();
     setSize(m_grid->getTileSize() * m_gridSize);
 
-    //m_animations[Stand].setAnimation("game_common", "horse_stands");
+    m_animations[Stand].setAnimation("game_common", "horse_stands");
     m_animations[Run].setAnimation("game_common", "horse_runs");
-    //m_animations[Jump].setAnimation("game_common", "horse_stands");
-    for (auto i = AnimationStates::Start; i <= AnimationStates::End; ++i)
+    m_animations[Jump].setAnimation("game_common", "horse_jumps");
+
+    for (auto i = AnimationStates::Start_; i <= AnimationStates::End_; ++i)
     {
         m_animations[i].setSize(getSize() * 1.4f);
     }
@@ -46,6 +48,9 @@ void Player_Class::fixedUpdate(int dt)
 {
     float tileWidth = m_grid->getTileWidth();
     float tileHeight = m_grid->getTileHeight();
+
+    m_animationState = m_nextAnimationState;
+
     if (m_initializePos)
     {
         m_initializePos = false;
@@ -171,6 +176,7 @@ void Player_Class::collisionGameObjectsUpdate()
             {
                 m_groundCollision = true;
                 setPosition(m_pos.x, it->getPosition().y + tileHeight, m_pos.z);
+                m_nextAnimationState = AnimationStates::Stand;
                 break;
             }
         case Platformh:
@@ -182,6 +188,7 @@ void Player_Class::collisionGameObjectsUpdate()
                     it->getPosition().y + tileHeight,
                     m_pos.z
                 );
+                m_nextAnimationState = AnimationStates::Stand;
                 break;
             }
         // TODO
