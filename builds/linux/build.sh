@@ -26,7 +26,7 @@ else
     CXXFLAGS="${CXXFLAGS} -std=c++0x"
 fi
 
-BUILD_DIR=$(dirname ${BASH_SOURCE[0]})
+BUILD_DIR=$(dirname `readlink -f ${BASH_SOURCE[0]}`)
 
 echo "CFLAGS=${CFLAGS}"
 echo "CXXFLAGS=${CXXFLAGS}"

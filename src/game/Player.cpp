@@ -22,7 +22,7 @@ Player_Class::Player_Class()
     m_animations[Stand].setAnimation("game_common", "horse_stands");
     m_animations[Run].setAnimation("game_common", "horse_runs");
     m_animations[Jump].setAnimation("game_common", "horse_jumps");
-    for (auto i = AnimationStates::Start_; i <= AnimationStates::End_; ++i)
+    for (int i = AnimationStates::Start_; i <= AnimationStates::End_; ++i)
     {
         m_animations[i].setSize(getSize() * 1.82f);
     }
