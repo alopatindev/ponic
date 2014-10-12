@@ -18,8 +18,8 @@ else
 fi
 
 if [[ "${USE_CLANG}" -eq 1 ]]; then
-    export CC=/usr/bin/clang
-    export CXX=/usr/bin/clang++
+    export CC=clang
+    export CXX=clang++
     CFLAGS="${CFLAGS} -Qunused-arguments"
     CXXFLAGS="${CXXFLAGS} -std=c++11 -Qunused-arguments"
 else
@@ -39,7 +39,7 @@ cd "${BUILD_DIR}"
 
 # 2. running cmake and make
 mkdir -p bin
-cmake CMakeLists.txt
+cmake CMakeLists.txt -DCMAKE_C_COMPILER=${CC} -DCMAKE_CXX_COMPILER=${CXX}
 #make -j8 VERBOSE=1
 make -j8
 
